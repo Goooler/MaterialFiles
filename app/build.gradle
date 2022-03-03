@@ -127,7 +127,7 @@ dependencies {
     debugImplementation 'com.facebook.stetho:stetho:1.6.0'
     // If added along with okhttp3, remove the related dontwarn from proguard-rules.pro.
     //debugImplementation 'com.facebook.stetho:stetho-okhttp3:1.6.0'
-    implementation 'com.github.junrar:junrar:7.4.0'
+    implementation 'com.github.junrar:junrar:7.4.1'
     implementation 'com.h6ah4i.android.materialshadowninepatch:materialshadowninepatch:1.0.0'
     implementation 'com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:1.0.0'
     implementation ('com.hierynomus:smbj:0.11.5') {
