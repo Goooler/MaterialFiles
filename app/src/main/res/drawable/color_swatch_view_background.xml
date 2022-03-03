@@ -9,7 +9,9 @@
 
     <item>
         <shape android:shape="oval">
-            <size android:width="48dp" android:height="48dp" />
+            <size
+                android:width="48dp"
+                android:height="48dp" />
             <solid android:color="@android:color/white" />
         </shape>
     </item>
@@ -27,10 +29,14 @@
         <animated-selector
             android:enterFadeDuration="@android:integer/config_shortAnimTime"
             android:exitFadeDuration="@android:integer/config_shortAnimTime">
-            <item android:state_checked="true" android:drawable="@drawable/check_icon_on_primary_36dp" />
+            <item
+                android:drawable="@drawable/check_icon_on_primary_36dp"
+                android:state_checked="true" />
             <item>
                 <shape android:shape="oval">
-                    <size android:width="36dp" android:height="36dp" />
+                    <size
+                        android:width="36dp"
+                        android:height="36dp" />
                 </shape>
             </item>
         </animated-selector>

@@ -5,8 +5,7 @@
   ~ All Rights Reserved.
   -->
 
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -43,11 +42,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingTop="12dp"
-            android:paddingBottom="32dp"
             android:drawableTop="@drawable/error_icon_240dp"
             android:drawablePadding="8dp"
             android:gravity="center_horizontal"
+            android:paddingTop="12dp"
+            android:paddingBottom="32dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:visibility="gone" />
 
@@ -63,12 +62,13 @@
                 android:id="@+id/textEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/screen_edge_margin"
                 android:background="@null"
                 android:gravity="top"
                 android:importantForAutofill="no"
                 android:inputType="textMultiLine"
+                android:padding="@dimen/screen_edge_margin"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1">
+
                 <requestFocus />
             </me.zhanghai.android.files.ui.ScrollingChildEditText>
         </me.zhanghai.android.fastscroll.FastScrollNestedScrollView>
