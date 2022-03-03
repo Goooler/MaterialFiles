@@ -146,7 +146,7 @@ dependencies {
     // Run `git revert fb1628e` if we ever created a fork that supports Android 5.0, or we raised
     // minimum SDK version to Android 8.0.
     //noinspection GradleDependency
-    implementation 'org.apache.commons:commons-compress:1.20'
+    implementation 'org.apache.commons:commons-compress:1.21'
     // Optional dependency of Commons Compress for 7Z LZMA.
     implementation 'org.tukaani:xz:1.9'
     implementation 'org.apache.ftpserver:ftpserver-core:1.1.1'
