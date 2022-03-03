@@ -5,8 +5,7 @@
   ~ All Rights Reserved.
   -->
 
-<me.zhanghai.android.files.navigation.NavigationRecyclerView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<me.zhanghai.android.files.navigation.NavigationRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/recyclerView"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
