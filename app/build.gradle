@@ -123,7 +123,7 @@ dependencies {
     // LicensesDialog 2.2.0 pulls in androidx.webkit and uses setForceDark() instead of correctly
     // setting colors.
     //noinspection GradleDependency
-    implementation 'de.psdev.licensesdialog:licensesdialog:2.1.0'
+    implementation 'de.psdev.licensesdialog:licensesdialog:2.2.0'
     // dev.chrisbanesinsetter:insetter:0.6.0 makes inset unstable when entering immersive.
     implementation 'dev.chrisbanes:insetter-ktx:0.3.1'
     implementation 'dev.rikka.rikkax.preference:simplemenu-preference:1.0.3'
