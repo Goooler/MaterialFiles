@@ -18,6 +18,7 @@ import me.zhanghai.android.files.file.DocumentTreeUri
 import me.zhanghai.android.files.file.asDocumentTreeUri
 import me.zhanghai.android.files.file.releasePersistablePermission
 import me.zhanghai.android.files.provider.document.documentTreeUri
+import me.zhanghai.android.files.provider.document.isDocumentPath
 import me.zhanghai.android.files.storage.AddStorageDialogActivity
 import me.zhanghai.android.files.storage.Storage
 import me.zhanghai.android.files.util.createIntent
