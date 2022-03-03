@@ -6,12 +6,12 @@
 package me.zhanghai.android.files.provider.linux.mediastore
 
 import android.media.MediaScannerConnection
+import java.io.File
+import java.io.IOException
 import java8.nio.channels.FileChannel
 import me.zhanghai.android.files.app.application
 import me.zhanghai.android.files.provider.common.DelegateFileChannel
 import me.zhanghai.android.files.provider.root.isRunningAsRoot
-import java.io.File
-import java.io.IOException
 
 /*
  * @see com.android.internal.content.FileSystemProvider

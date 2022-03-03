@@ -6,6 +6,7 @@
 package me.zhanghai.android.files.provider.root
 
 import android.os.Parcelable
+import java.io.IOException
 import java8.nio.file.FileStore
 import java8.nio.file.FileSystem
 import java8.nio.file.Path
@@ -14,7 +15,6 @@ import java8.nio.file.WatchService
 import java8.nio.file.attribute.UserPrincipalLookupService
 import java8.nio.file.spi.FileSystemProvider
 import me.zhanghai.android.files.provider.remote.RemoteFileSystemException
-import java.io.IOException
 
 abstract class RootableFileSystem(
     localFileSystemCreator: (FileSystem) -> FileSystem,

@@ -6,10 +6,10 @@
 package me.zhanghai.android.files.filelist
 
 import android.os.Parcelable
+import java.util.Comparator
 import kotlinx.parcelize.Parcelize
 import me.zhanghai.android.files.compat.reversedCompat
 import me.zhanghai.android.files.file.FileItem
-import java.util.Comparator
 
 @Parcelize
 data class FileSortOptions(

@@ -79,7 +79,7 @@ abstract class AbstractLocalCursor : Cursor {
         getColumnIndex(columnName).also {
             require(it != -1) {
                 "Column '$columnName' does not exist, available columns: ${
-                    columnNames.contentToString()}"
+                columnNames.contentToString()}"
             }
         }
 

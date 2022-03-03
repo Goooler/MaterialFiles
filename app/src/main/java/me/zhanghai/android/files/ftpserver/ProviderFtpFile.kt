@@ -5,6 +5,10 @@
 
 package me.zhanghai.android.files.ftpserver
 
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
+import java.nio.ByteBuffer
 import java8.nio.file.Path
 import java8.nio.file.StandardOpenOption
 import java8.nio.file.attribute.FileTime
@@ -29,10 +33,6 @@ import me.zhanghai.android.files.provider.common.size
 import org.apache.ftpserver.ftplet.FtpFile
 import org.apache.ftpserver.ftplet.User
 import org.apache.ftpserver.usermanager.impl.WriteRequest
-import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
-import java.nio.ByteBuffer
 
 class ProviderFtpFile(
     private val path: Path,

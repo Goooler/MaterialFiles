@@ -6,9 +6,9 @@
 package me.zhanghai.android.files.provider.archive.archiver
 
 import com.github.junrar.rarfile.FileHeader
+import java.util.Date
 import org.apache.commons.compress.archivers.ArchiveEntry
 import org.apache.commons.compress.archivers.zip.ZipEncoding
-import java.util.Date
 
 internal class RarArchiveEntry(val header: FileHeader, zipEncoding: ZipEncoding) : ArchiveEntry {
     private val name: String

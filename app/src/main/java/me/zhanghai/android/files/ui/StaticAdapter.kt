@@ -45,7 +45,7 @@ class StaticAdapter(
         if (listener != null) {
             // TODO: kotlinc: Reference has a nullable type '((Int) -> Unit)?', use explicit
             //  '?.invoke()' to make a function-like call instead
-            //holder.itemView.setOnClickListener { listener(position) }
+            // holder.itemView.setOnClickListener { listener(position) }
             holder.itemView.setOnClickListener { listener.invoke(position) }
         }
     }

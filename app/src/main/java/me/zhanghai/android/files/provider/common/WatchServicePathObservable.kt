@@ -5,12 +5,12 @@
 
 package me.zhanghai.android.files.provider.common
 
+import java.io.IOException
+import java.util.concurrent.atomic.AtomicInteger
 import java8.nio.file.ClosedWatchServiceException
 import java8.nio.file.Path
 import java8.nio.file.StandardWatchEventKinds
 import java8.nio.file.WatchService
-import java.io.IOException
-import java.util.concurrent.atomic.AtomicInteger
 
 class WatchServicePathObservable(path: Path, intervalMillis: Long) : AbstractPathObservable(
     intervalMillis

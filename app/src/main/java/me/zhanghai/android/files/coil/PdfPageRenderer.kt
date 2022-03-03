@@ -89,8 +89,8 @@ abstract class PdfPageFetcher<T : Any>(private val context: Context) : Fetcher<T
                 val backgroundColor = options.parameters.pdfBackgroundColor() ?: Color.WHITE
                 bitmap.eraseColor(backgroundColor)
                 page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
-                val isSampled = dstSize is PixelSize
-                    && (dstSize.width < srcWidth || dstSize.height < srcHeight)
+                val isSampled = dstSize is PixelSize &&
+                    (dstSize.width < srcWidth || dstSize.height < srcHeight)
                 return DrawableResult(
                     drawable = bitmap.toDrawable(context.resources),
                     isSampled = isSampled,

@@ -13,7 +13,6 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.ColorUtils
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.elevation.ElevationOverlayProvider
-import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.MaterialShapeDrawableAccessor
 import me.zhanghai.android.files.R
 import me.zhanghai.android.files.util.getColorByAttr
@@ -23,9 +22,10 @@ import me.zhanghai.android.files.util.getResourceIdByAttr
 fun View.maybeUseMd3AppBarElevationOverlay() {
     val background = background
     val context = context
-    if (background is MaterialShapeDrawable
-        && context.getResourceIdByAttr(R.attr.colorLiftedAppBarSurface)
-        != ResourcesCompat.ID_NULL) {
+    if (background is MaterialShapeDrawable &&
+        context.getResourceIdByAttr(R.attr.colorLiftedAppBarSurface)
+        != ResourcesCompat.ID_NULL
+    ) {
         stateListAnimator = null
         MaterialShapeDrawableAccessor.setElevationOverlayProvider(
             background, Md3AppBarElevationOverlayProvider(context)

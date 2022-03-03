@@ -10,6 +10,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import androidx.annotation.MainThread
+import java.util.concurrent.Executors
+import java.util.concurrent.Future
 import java8.nio.file.Path
 import me.zhanghai.android.files.file.MimeType
 import me.zhanghai.android.files.provider.common.PosixFileModeBit
@@ -17,8 +19,6 @@ import me.zhanghai.android.files.provider.common.PosixGroup
 import me.zhanghai.android.files.provider.common.PosixUser
 import me.zhanghai.android.files.util.ForegroundNotificationManager
 import me.zhanghai.android.files.util.removeFirst
-import java.util.concurrent.Executors
-import java.util.concurrent.Future
 
 class FileJobService : Service() {
     internal lateinit var notificationManager: ForegroundNotificationManager

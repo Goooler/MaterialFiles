@@ -11,6 +11,10 @@ import com.hierynomus.mssmb2.SMB2CompletionFilter
 import com.hierynomus.mssmb2.SMBApiException
 import com.hierynomus.mssmb2.messages.SMB2ChangeNotifyResponse
 import com.hierynomus.smbj.share.Directory
+import java.io.IOException
+import java.io.InterruptedIOException
+import java.util.concurrent.Future
+import java.util.concurrent.atomic.AtomicInteger
 import java8.nio.file.Path
 import java8.nio.file.StandardWatchEventKinds
 import java8.nio.file.WatchEvent
@@ -19,10 +23,6 @@ import me.zhanghai.android.files.provider.common.AbstractWatchService
 import me.zhanghai.android.files.provider.smb.client.Client
 import me.zhanghai.android.files.provider.smb.client.ClientException
 import me.zhanghai.android.files.util.closeSafe
-import java.io.IOException
-import java.io.InterruptedIOException
-import java.util.concurrent.Future
-import java.util.concurrent.atomic.AtomicInteger
 
 // @see https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-smb2/05869c32-39f0-4726-afc9-671b76ae5ca7
 internal class SmbWatchService : AbstractWatchService<SmbWatchKey>() {
@@ -161,7 +161,7 @@ internal class SmbWatchService : AbstractWatchService<SmbWatchKey>() {
                 // https://github.com/hierynomus/smbj/issues/572
                 // com.hierynomus.smbj.common.SMBRuntimeException:
                 // Unknown SMB2 Message Command type: SMB2_CANCEL
-                //future.cancel(true)
+                // future.cancel(true)
                 directory.closeSafe()
             }
         }
@@ -185,7 +185,7 @@ internal class SmbWatchService : AbstractWatchService<SmbWatchKey>() {
                 SMB2CompletionFilter.FILE_NOTIFY_CHANGE_SIZE,
                 SMB2CompletionFilter.FILE_NOTIFY_CHANGE_LAST_WRITE,
                 // We don't care about last access time and it might change too frequently.
-                //SMB2CompletionFilter.FILE_NOTIFY_CHANGE_LAST_ACCESS,
+                // SMB2CompletionFilter.FILE_NOTIFY_CHANGE_LAST_ACCESS,
                 SMB2CompletionFilter.FILE_NOTIFY_CHANGE_CREATION,
                 SMB2CompletionFilter.FILE_NOTIFY_CHANGE_EA,
                 SMB2CompletionFilter.FILE_NOTIFY_CHANGE_SECURITY

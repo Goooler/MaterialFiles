@@ -10,7 +10,6 @@ import android.database.MergeCursor
 import android.net.Uri
 import android.provider.DocumentsContract
 import me.zhanghai.android.files.compat.DocumentsContractCompat
-import me.zhanghai.android.files.file.asDocumentTreeUri
 import me.zhanghai.android.files.provider.content.resolver.requireString
 
 // On Android 11, ExternalStorageProvider no longer returns Android/data and Android/obb as children
@@ -33,9 +32,10 @@ object ExternalStorageProviderHacks {
     )
 
     fun transformQueryResult(uri: Uri, cursor: Cursor): Cursor {
-        if (uri.authority == DocumentsContractCompat.EXTERNAL_STORAGE_PROVIDER_AUTHORITY
-            && DocumentsContractCompat.isChildDocumentsUri(uri)
-            && DocumentsContract.getDocumentId(uri) == DOCUMENT_ID_PRIMARY_ANDROID) {
+        if (uri.authority == DocumentsContractCompat.EXTERNAL_STORAGE_PROVIDER_AUTHORITY &&
+            DocumentsContractCompat.isChildDocumentsUri(uri) &&
+            DocumentsContract.getDocumentId(uri) == DOCUMENT_ID_PRIMARY_ANDROID
+        ) {
             var hasDataRow = false
             var hasObbRow = false
             try {

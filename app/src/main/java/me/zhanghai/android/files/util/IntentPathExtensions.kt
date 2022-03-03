@@ -8,13 +8,13 @@ package me.zhanghai.android.files.util
 import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
+import java.io.Serializable
+import java.net.URI
+import java.net.URISyntaxException
 import java8.nio.file.Path
 import java8.nio.file.Paths
 import me.zhanghai.android.files.BuildConfig
 import me.zhanghai.android.files.compat.DocumentsContractCompat
-import java.io.Serializable
-import java.net.URI
-import java.net.URISyntaxException
 
 private const val EXTRA_PATH_URI = "${BuildConfig.APPLICATION_ID}.extra.PATH_URI"
 

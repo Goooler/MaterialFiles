@@ -6,6 +6,12 @@
 package me.zhanghai.android.files.storage
 
 import android.os.AsyncTask
+import java.net.Inet4Address
+import java.net.InetAddress
+import java.net.UnknownHostException
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
+import java.util.concurrent.Future
 import jcifs.context.SingletonContext
 import jcifs.smb.SmbException
 import jcifs.smb.SmbFile
@@ -24,12 +30,6 @@ import me.zhanghai.android.files.util.Success
 import me.zhanghai.android.files.util.getLocalAddress
 import me.zhanghai.android.files.util.toLinkedSet
 import me.zhanghai.android.files.util.valueCompat
-import java.net.Inet4Address
-import java.net.InetAddress
-import java.net.UnknownHostException
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
-import java.util.concurrent.Future
 
 class LanSmbServerListLiveData : CloseableLiveData<Stateful<List<LanSmbServer>>>() {
     private var loadFuture: Future<*>? = null
@@ -80,8 +80,7 @@ class LanSmbServerListLiveData : CloseableLiveData<Stateful<List<LanSmbServer>>>
     // it doesn't have a good standalone Java implementation and Samba doesn't support it.
     // https://social.technet.microsoft.com/Forums/en-US/bd0af6aa-51ec-477a-8c81-888a4e60bd94/master-browser-service-broken-after-creator-update#2c6b9e65-da8a-4e41-a2cb-db086443ef87
     // https://docs.microsoft.com/en-nz/windows-server/storage/file-server/troubleshoot/smbv1-not-installed-by-default-in-windows
-    private fun CoroutineScope.getServersByComputerBrowserService(
-    ): ReceiveChannel<LanSmbServer> =
+    private fun CoroutineScope.getServersByComputerBrowserService(): ReceiveChannel<LanSmbServer> =
         produce {
             launch {
                 @Suppress("DEPRECATION")

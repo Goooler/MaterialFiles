@@ -5,6 +5,14 @@
 
 package me.zhanghai.android.files.provider.sftp.client
 
+import java.io.IOException
+import java.io.InterruptedIOException
+import java.nio.ByteBuffer
+import java.nio.channels.AsynchronousCloseException
+import java.nio.channels.ClosedByInterruptException
+import java.nio.channels.ClosedChannelException
+import java.nio.channels.NonReadableChannelException
+import java.util.concurrent.TimeUnit
 import java8.nio.channels.SeekableByteChannel
 import me.zhanghai.android.files.provider.common.ForceableChannel
 import me.zhanghai.android.files.util.closeSafe
@@ -14,14 +22,6 @@ import net.schmizz.sshj.sftp.RemoteFile
 import net.schmizz.sshj.sftp.RemoteFileAccessor
 import net.schmizz.sshj.sftp.Response
 import net.schmizz.sshj.sftp.SFTPException
-import java.io.IOException
-import java.io.InterruptedIOException
-import java.nio.ByteBuffer
-import java.nio.channels.AsynchronousCloseException
-import java.nio.channels.ClosedByInterruptException
-import java.nio.channels.ClosedChannelException
-import java.nio.channels.NonReadableChannelException
-import java.util.concurrent.TimeUnit
 
 class FileByteChannel(
     private val file: RemoteFile,
@@ -128,7 +128,7 @@ class FileByteChannel(
 
     @Throws(IOException::class)
     private fun getSize(): Long =
-        try{
+        try {
             file.length()
         } catch (e: IOException) {
             throw e.maybeToSpecificException()

@@ -7,6 +7,8 @@ package me.zhanghai.android.files.provider.common
 
 import android.os.Parcel
 import android.os.Parcelable
+import java.io.File
+import java.net.URI
 import java8.nio.file.FileSystem
 import java8.nio.file.LinkOption
 import java8.nio.file.Path
@@ -14,8 +16,6 @@ import java8.nio.file.WatchEvent
 import java8.nio.file.WatchKey
 import java8.nio.file.WatchService
 import me.zhanghai.android.files.util.readParcelable
-import java.io.File
-import java.net.URI
 
 class ByteStringPath(private val byteString: ByteString) : Parcelable, Path {
     fun toByteString(): ByteString = byteString

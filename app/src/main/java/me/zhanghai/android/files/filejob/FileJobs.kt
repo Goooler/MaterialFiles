@@ -3,7 +3,7 @@
  * All Rights Reserved.
  */
 
-package me.zhanghai.android.files.filejob;
+package me.zhanghai.android.files.filejob
 
 import android.app.PendingIntent
 import android.content.Intent
@@ -13,6 +13,10 @@ import android.os.Environment
 import androidx.annotation.AnyRes
 import androidx.annotation.PluralsRes
 import androidx.annotation.StringRes
+import java.io.ByteArrayInputStream
+import java.io.File
+import java.io.IOException
+import java.io.InterruptedIOException
 import java8.nio.file.CopyOption
 import java8.nio.file.DirectoryIteratorException
 import java8.nio.file.FileAlreadyExistsException
@@ -26,6 +30,8 @@ import java8.nio.file.SimpleFileVisitor
 import java8.nio.file.StandardCopyOption
 import java8.nio.file.StandardOpenOption
 import java8.nio.file.attribute.BasicFileAttributes
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 import kotlinx.coroutines.runBlocking
 import me.zhanghai.android.files.R
 import me.zhanghai.android.files.app.BackgroundActivityStarter
@@ -86,12 +92,6 @@ import me.zhanghai.android.files.util.getQuantityString
 import me.zhanghai.android.files.util.putArgs
 import me.zhanghai.android.files.util.toEnumSet
 import me.zhanghai.android.files.util.withChooser
-import java.io.ByteArrayInputStream
-import java.io.File
-import java.io.IOException
-import java.io.InterruptedIOException
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 fun FileJob.getString(@StringRes stringRes: Int): String {
     return service.getString(stringRes)
@@ -130,7 +130,7 @@ private fun FileJob.postNotification(
         setContentInfo(info)
         setProgress(max, progress, indeterminate)
         // TODO
-        //setContentIntent()
+        // setContentIntent()
         if (showCancel) {
             val intent = FileJobReceiver.createIntent(id)
             var pendingIntentFlags = PendingIntent.FLAG_UPDATE_CURRENT
@@ -224,30 +224,33 @@ private fun FileJob.throwIfInterrupted() {
 private fun FileJob.scan(sources: List<Path?>, @PluralsRes notificationTitleRes: Int): ScanInfo {
     val scanInfo = ScanInfo()
     for (source in sources) {
-        Files.walkFileTree(source, object : SimpleFileVisitor<Path>() {
-            @Throws(IOException::class)
-            override fun preVisitDirectory(
-                directory: Path,
-                attributes: BasicFileAttributes
-            ): FileVisitResult {
-                scanPath(attributes, scanInfo, notificationTitleRes)
-                throwIfInterrupted()
-                return FileVisitResult.CONTINUE
-            }
+        Files.walkFileTree(
+            source,
+            object : SimpleFileVisitor<Path>() {
+                @Throws(IOException::class)
+                override fun preVisitDirectory(
+                    directory: Path,
+                    attributes: BasicFileAttributes
+                ): FileVisitResult {
+                    scanPath(attributes, scanInfo, notificationTitleRes)
+                    throwIfInterrupted()
+                    return FileVisitResult.CONTINUE
+                }
 
-            @Throws(IOException::class)
-            override fun visitFile(file: Path, attributes: BasicFileAttributes): FileVisitResult {
-                scanPath(attributes, scanInfo, notificationTitleRes)
-                throwIfInterrupted()
-                return FileVisitResult.CONTINUE
-            }
+                @Throws(IOException::class)
+                override fun visitFile(file: Path, attributes: BasicFileAttributes): FileVisitResult {
+                    scanPath(attributes, scanInfo, notificationTitleRes)
+                    throwIfInterrupted()
+                    return FileVisitResult.CONTINUE
+                }
 
-            @Throws(IOException::class)
-            override fun visitFileFailed(file: Path, exception: IOException): FileVisitResult {
-                // TODO: Prompt retry, skip, skip-all or abort.
-                return super.visitFileFailed(file, exception)
+                @Throws(IOException::class)
+                override fun visitFileFailed(file: Path, exception: IOException): FileVisitResult {
+                    // TODO: Prompt retry, skip, skip-all or abort.
+                    return super.visitFileFailed(file, exception)
+                }
             }
-        })
+        )
     }
     postScanNotification(scanInfo, notificationTitleRes)
     return scanInfo
@@ -314,8 +317,9 @@ private class ScanInfo {
 
     fun shouldPostNotification(): Boolean {
         val currentTimeMillis = System.currentTimeMillis()
-        return if (fileCount % 100 == 0
-            || lastNotificationTimeMillis + NOTIFICATION_INTERVAL_MILLIS < currentTimeMillis) {
+        return if (fileCount % 100 == 0 ||
+            lastNotificationTimeMillis + NOTIFICATION_INTERVAL_MILLIS < currentTimeMillis
+        ) {
             lastNotificationTimeMillis = currentTimeMillis
             true
         } else {
@@ -488,7 +492,8 @@ private fun FileJob.showActionDialog(
                         ) { action, isAll ->
                             continuation.resume(ActionResult(action, isAll))
                         }
-                    ), title, message, service
+                    ),
+                    title, message, service
                 )
             }
         }
@@ -530,7 +535,8 @@ private fun FileJob.showConflictDialog(
                         ) { action, name, all ->
                             continuation.resume(ConflictResult(action, name, all))
                         }
-                    ), FileJobConflictDialogActivity.getTitle(sourceFile, targetFile, service),
+                    ),
+                    FileJobConflictDialogActivity.getTitle(sourceFile, targetFile, service),
                     FileJobConflictDialogActivity.getMessage(sourceFile, targetFile, type, service),
                     service
                 )
@@ -624,32 +630,35 @@ class ArchiveFileJob(
         target: Path,
         transferInfo: TransferInfo
     ) {
-        Files.walkFileTree(source, object : SimpleFileVisitor<Path>() {
-            @Throws(IOException::class)
-            override fun preVisitDirectory(
-                directory: Path,
-                attributes: BasicFileAttributes
-            ): FileVisitResult {
-                val directoryInTarget = target.resolveForeign(source.relativize(directory))
-                archive(directory, writer, directoryInTarget, archiveFile, transferInfo)
-                throwIfInterrupted()
-                return FileVisitResult.CONTINUE
-            }
+        Files.walkFileTree(
+            source,
+            object : SimpleFileVisitor<Path>() {
+                @Throws(IOException::class)
+                override fun preVisitDirectory(
+                    directory: Path,
+                    attributes: BasicFileAttributes
+                ): FileVisitResult {
+                    val directoryInTarget = target.resolveForeign(source.relativize(directory))
+                    archive(directory, writer, directoryInTarget, archiveFile, transferInfo)
+                    throwIfInterrupted()
+                    return FileVisitResult.CONTINUE
+                }
 
-            @Throws(IOException::class)
-            override fun visitFile(file: Path, attributes: BasicFileAttributes): FileVisitResult {
-                val fileInTarget = target.resolveForeign(source.relativize(file))
-                archive(file, writer, fileInTarget, archiveFile, transferInfo)
-                throwIfInterrupted()
-                return FileVisitResult.CONTINUE
-            }
+                @Throws(IOException::class)
+                override fun visitFile(file: Path, attributes: BasicFileAttributes): FileVisitResult {
+                    val fileInTarget = target.resolveForeign(source.relativize(file))
+                    archive(file, writer, fileInTarget, archiveFile, transferInfo)
+                    throwIfInterrupted()
+                    return FileVisitResult.CONTINUE
+                }
 
-            @Throws(IOException::class)
-            override fun visitFileFailed(file: Path, exception: IOException): FileVisitResult {
-                // TODO: Prompt retry, skip, skip-all or abort.
-                return super.visitFileFailed(file, exception)
+                @Throws(IOException::class)
+                override fun visitFileFailed(file: Path, exception: IOException): FileVisitResult {
+                    // TODO: Prompt retry, skip, skip-all or abort.
+                    return super.visitFileFailed(file, exception)
+                }
             }
-        })
+        )
     }
 }
 
@@ -704,7 +713,8 @@ class CopyFileJob(private val sources: List<Path>, private val targetDirectory: 
     override fun run() {
         val isExtract = sources.all { it.isArchivePath }
         val scanInfo = scan(
-            sources, if (isExtract) {
+            sources,
+            if (isExtract) {
                 R.plurals.file_job_extract_scan_notification_title_format
             } else {
                 R.plurals.file_job_copy_scan_notification_title_format
@@ -731,34 +741,37 @@ class CopyFileJob(private val sources: List<Path>, private val targetDirectory: 
         transferInfo: TransferInfo,
         actionAllInfo: ActionAllInfo
     ) {
-        Files.walkFileTree(source, object : SimpleFileVisitor<Path>() {
-            @Throws(IOException::class)
-            override fun preVisitDirectory(
-                directory: Path,
-                attributes: BasicFileAttributes
-            ): FileVisitResult {
-                val directoryInTarget = target.resolveForeign(source.relativize(directory))
-                val copied = copy(
-                    directory, directoryInTarget, isExtract, transferInfo, actionAllInfo
-                )
-                throwIfInterrupted()
-                return if (copied) FileVisitResult.CONTINUE else FileVisitResult.SKIP_SUBTREE
-            }
+        Files.walkFileTree(
+            source,
+            object : SimpleFileVisitor<Path>() {
+                @Throws(IOException::class)
+                override fun preVisitDirectory(
+                    directory: Path,
+                    attributes: BasicFileAttributes
+                ): FileVisitResult {
+                    val directoryInTarget = target.resolveForeign(source.relativize(directory))
+                    val copied = copy(
+                        directory, directoryInTarget, isExtract, transferInfo, actionAllInfo
+                    )
+                    throwIfInterrupted()
+                    return if (copied) FileVisitResult.CONTINUE else FileVisitResult.SKIP_SUBTREE
+                }
 
-            @Throws(IOException::class)
-            override fun visitFile(file: Path, attributes: BasicFileAttributes): FileVisitResult {
-                val fileInTarget = target.resolveForeign(source.relativize(file))
-                copy(file, fileInTarget, isExtract, transferInfo, actionAllInfo)
-                throwIfInterrupted()
-                return FileVisitResult.CONTINUE
-            }
+                @Throws(IOException::class)
+                override fun visitFile(file: Path, attributes: BasicFileAttributes): FileVisitResult {
+                    val fileInTarget = target.resolveForeign(source.relativize(file))
+                    copy(file, fileInTarget, isExtract, transferInfo, actionAllInfo)
+                    throwIfInterrupted()
+                    return FileVisitResult.CONTINUE
+                }
 
-            @Throws(IOException::class)
-            override fun visitFileFailed(file: Path, exception: IOException): FileVisitResult {
-                // TODO: Prompt retry, skip, skip-all or abort.
-                return super.visitFileFailed(file, exception)
+                @Throws(IOException::class)
+                override fun visitFileFailed(file: Path, exception: IOException): FileVisitResult {
+                    // TODO: Prompt retry, skip, skip-all or abort.
+                    return super.visitFileFailed(file, exception)
+                }
             }
-        })
+        )
     }
 
     private fun getTargetPathForDuplicate(source: Path): Path {
@@ -919,34 +932,37 @@ class DeleteFileJob(private val paths: List<Path>) : FileJob() {
         transferInfo: TransferInfo,
         actionAllInfo: ActionAllInfo
     ) {
-        Files.walkFileTree(path, object : SimpleFileVisitor<Path>() {
-            @Throws(IOException::class)
-            override fun visitFile(file: Path, attributes: BasicFileAttributes): FileVisitResult {
-                delete(file, transferInfo, actionAllInfo)
-                throwIfInterrupted()
-                return FileVisitResult.CONTINUE
-            }
-
-            @Throws(IOException::class)
-            override fun visitFileFailed(file: Path, exception: IOException): FileVisitResult {
-                // TODO: Prompt retry, skip, skip-all or abort.
-                return super.visitFileFailed(file, exception)
-            }
-
-            @Throws(IOException::class)
-            override fun postVisitDirectory(
-                directory: Path,
-                exception: IOException?
-            ): FileVisitResult {
-                // TODO: Prompt retry, skip, skip-all or abort.
-                if (exception != null) {
-                    throw exception
+        Files.walkFileTree(
+            path,
+            object : SimpleFileVisitor<Path>() {
+                @Throws(IOException::class)
+                override fun visitFile(file: Path, attributes: BasicFileAttributes): FileVisitResult {
+                    delete(file, transferInfo, actionAllInfo)
+                    throwIfInterrupted()
+                    return FileVisitResult.CONTINUE
                 }
-                delete(directory, transferInfo, actionAllInfo)
-                throwIfInterrupted()
-                return FileVisitResult.CONTINUE
+
+                @Throws(IOException::class)
+                override fun visitFileFailed(file: Path, exception: IOException): FileVisitResult {
+                    // TODO: Prompt retry, skip, skip-all or abort.
+                    return super.visitFileFailed(file, exception)
+                }
+
+                @Throws(IOException::class)
+                override fun postVisitDirectory(
+                    directory: Path,
+                    exception: IOException?
+                ): FileVisitResult {
+                    // TODO: Prompt retry, skip, skip-all or abort.
+                    if (exception != null) {
+                        throw exception
+                    }
+                    delete(directory, transferInfo, actionAllInfo)
+                    throwIfInterrupted()
+                    return FileVisitResult.CONTINUE
+                }
             }
-        })
+        )
     }
 }
 
@@ -1051,63 +1067,66 @@ class MoveFileJob(private val sources: List<Path>, private val targetDirectory: 
         transferInfo: TransferInfo,
         actionAllInfo: ActionAllInfo
     ) {
-        Files.walkFileTree(source, object : SimpleFileVisitor<Path>() {
-            @Throws(IOException::class)
-            override fun preVisitDirectory(
-                directory: Path,
-                attributes: BasicFileAttributes
-            ): FileVisitResult {
-                val directoryInTarget = target.resolveForeign(source.relativize(directory))
-                try {
-                    moveAtomically(directory, directoryInTarget)
+        Files.walkFileTree(
+            source,
+            object : SimpleFileVisitor<Path>() {
+                @Throws(IOException::class)
+                override fun preVisitDirectory(
+                    directory: Path,
+                    attributes: BasicFileAttributes
+                ): FileVisitResult {
+                    val directoryInTarget = target.resolveForeign(source.relativize(directory))
+                    try {
+                        moveAtomically(directory, directoryInTarget)
+                        throwIfInterrupted()
+                        return FileVisitResult.SKIP_SUBTREE
+                    } catch (e: InterruptedIOException) {
+                        throw e
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                    val copied = copyForMove(directory, directoryInTarget, transferInfo, actionAllInfo)
                     throwIfInterrupted()
-                    return FileVisitResult.SKIP_SUBTREE
-                } catch (e: InterruptedIOException) {
-                    throw e
-                } catch (e: IOException) {
-                    e.printStackTrace()
+                    return if (copied) FileVisitResult.CONTINUE else FileVisitResult.SKIP_SUBTREE
                 }
-                val copied = copyForMove(directory, directoryInTarget, transferInfo, actionAllInfo)
-                throwIfInterrupted()
-                return if (copied) FileVisitResult.CONTINUE else FileVisitResult.SKIP_SUBTREE
-            }
 
-            @Throws(IOException::class)
-            override fun visitFile(file: Path, attributes: BasicFileAttributes): FileVisitResult {
-                val fileInTarget = target.resolveForeign(source.relativize(file))
-                try {
-                    moveAtomically(file, fileInTarget)
+                @Throws(IOException::class)
+                override fun visitFile(file: Path, attributes: BasicFileAttributes): FileVisitResult {
+                    val fileInTarget = target.resolveForeign(source.relativize(file))
+                    try {
+                        moveAtomically(file, fileInTarget)
+                        throwIfInterrupted()
+                        return FileVisitResult.CONTINUE
+                    } catch (e: InterruptedIOException) {
+                        throw e
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                    moveByCopy(file, fileInTarget, transferInfo, actionAllInfo)
                     throwIfInterrupted()
                     return FileVisitResult.CONTINUE
-                } catch (e: InterruptedIOException) {
-                    throw e
-                } catch (e: IOException) {
-                    e.printStackTrace()
                 }
-                moveByCopy(file, fileInTarget, transferInfo, actionAllInfo)
-                throwIfInterrupted()
-                return FileVisitResult.CONTINUE
-            }
 
-            @Throws(IOException::class)
-            override fun visitFileFailed(file: Path, exception: IOException): FileVisitResult {
-                // TODO: Prompt retry, skip, skip-all or abort.
-                return super.visitFileFailed(file, exception)
-            }
-
-            @Throws(IOException::class)
-            override fun postVisitDirectory(
-                directory: Path,
-                exception: IOException?
-            ): FileVisitResult? {
-                if (exception != null) {
-                    throw exception
+                @Throws(IOException::class)
+                override fun visitFileFailed(file: Path, exception: IOException): FileVisitResult {
+                    // TODO: Prompt retry, skip, skip-all or abort.
+                    return super.visitFileFailed(file, exception)
                 }
-                delete(directory, null, actionAllInfo)
-                throwIfInterrupted()
-                return FileVisitResult.CONTINUE
+
+                @Throws(IOException::class)
+                override fun postVisitDirectory(
+                    directory: Path,
+                    exception: IOException?
+                ): FileVisitResult? {
+                    if (exception != null) {
+                        throw exception
+                    }
+                    delete(directory, null, actionAllInfo)
+                    throwIfInterrupted()
+                    return FileVisitResult.CONTINUE
+                }
             }
-        })
+        )
     }
 }
 
@@ -1270,8 +1289,9 @@ private fun FileJob.copyOrMove(
                 replaceExisting = true
                 retry = true
                 continue
-            } else if ((isMerge && actionAllInfo.skipMerge)
-                || (!isMerge && actionAllInfo.skipReplace)) {
+            } else if ((isMerge && actionAllInfo.skipMerge) ||
+                (!isMerge && actionAllInfo.skipReplace)
+            ) {
                 transferInfo.skipFile(source)
                 postCopyMoveNotification(transferInfo, source, type)
                 return false
@@ -1342,14 +1362,16 @@ private fun FileJob.copyOrMove(
                         R.string.file_job_copy_error_title_format,
                         R.string.file_job_extract_error_title_format,
                         R.string.file_job_move_error_title_format
-                    ), getFileName(source)
+                    ),
+                    getFileName(source)
                 ),
                 getString(
                     type.getResourceId(
                         R.string.file_job_copy_error_message_format,
                         R.string.file_job_extract_error_message_format,
                         R.string.file_job_move_error_message_format
-                    ), getFileName(targetParent), e.toString()
+                    ),
+                    getFileName(targetParent), e.toString()
                 ),
                 getReadOnlyFileStore(target, e),
                 true,
@@ -1388,11 +1410,13 @@ private fun FileJob.postCopyMoveNotification(
     type: CopyMoveType
 ) {
     postTransferSizeNotification(
-        transferInfo, currentSource, type.getResourceId(
+        transferInfo, currentSource,
+        type.getResourceId(
             R.string.file_job_copy_notification_title_one_format,
             R.string.file_job_extract_notification_title_one_format,
             R.string.file_job_move_notification_title_one_format
-        ), type.getResourceId(
+        ),
+        type.getResourceId(
             R.plurals.file_job_copy_notification_title_multiple_format,
             R.plurals.file_job_extract_notification_title_multiple_format,
             R.plurals.file_job_move_notification_title_multiple_format
@@ -1459,7 +1483,8 @@ private fun FileJob.open(
 ) {
     val isExtract = file.isArchivePath
     val scanInfo = scan(
-        file, if (isExtract) {
+        file,
+        if (isExtract) {
             R.plurals.file_job_extract_scan_notification_title_format
         } else {
             R.plurals.file_job_copy_scan_notification_title_format
@@ -1533,35 +1558,38 @@ class RestoreFileSeLinuxContextJob(
         )
         val transferInfo = TransferInfo(scanInfo, null)
         val actionAllInfo = ActionAllInfo()
-        walkFileTreeForSettingAttributes(path, recursive, object : SimpleFileVisitor<Path>() {
-            @Throws(IOException::class)
-            override fun preVisitDirectory(
-                directory: Path,
-                attributes: BasicFileAttributes
-            ): FileVisitResult = visitFile(directory, attributes)
+        walkFileTreeForSettingAttributes(
+            path, recursive,
+            object : SimpleFileVisitor<Path>() {
+                @Throws(IOException::class)
+                override fun preVisitDirectory(
+                    directory: Path,
+                    attributes: BasicFileAttributes
+                ): FileVisitResult = visitFile(directory, attributes)
 
-            @Throws(IOException::class)
-            override fun visitFile(file: Path, attributes: BasicFileAttributes): FileVisitResult {
-                restoreSeLinuxContext(file, !attributes.isSymbolicLink, transferInfo, actionAllInfo)
-                throwIfInterrupted()
-                return FileVisitResult.CONTINUE
-            }
+                @Throws(IOException::class)
+                override fun visitFile(file: Path, attributes: BasicFileAttributes): FileVisitResult {
+                    restoreSeLinuxContext(file, !attributes.isSymbolicLink, transferInfo, actionAllInfo)
+                    throwIfInterrupted()
+                    return FileVisitResult.CONTINUE
+                }
 
-            @Throws(IOException::class)
-            override fun visitFileFailed(file: Path, exception: IOException): FileVisitResult {
-                // TODO: Prompt retry, skip, skip-all or abort.
-                return super.visitFileFailed(file, exception)
-            }
+                @Throws(IOException::class)
+                override fun visitFileFailed(file: Path, exception: IOException): FileVisitResult {
+                    // TODO: Prompt retry, skip, skip-all or abort.
+                    return super.visitFileFailed(file, exception)
+                }
 
-            @Throws(IOException::class)
-            override fun postVisitDirectory(
-                directory: Path,
-                exception: IOException?
-            ): FileVisitResult {
-                // TODO: Prompt retry, skip, skip-all or abort.
-                return super.postVisitDirectory(directory, exception)
+                @Throws(IOException::class)
+                override fun postVisitDirectory(
+                    directory: Path,
+                    exception: IOException?
+                ): FileVisitResult {
+                    // TODO: Prompt retry, skip, skip-all or abort.
+                    return super.postVisitDirectory(directory, exception)
+                }
             }
-        })
+        )
     }
 }
 
@@ -1649,35 +1677,38 @@ class SetFileGroupJob(
         )
         val transferInfo = TransferInfo(scanInfo, null)
         val actionAllInfo = ActionAllInfo()
-        walkFileTreeForSettingAttributes(path, recursive, object : SimpleFileVisitor<Path>() {
-            @Throws(IOException::class)
-            override fun preVisitDirectory(
-                directory: Path,
-                attributes: BasicFileAttributes
-            ): FileVisitResult = visitFile(directory, attributes)
+        walkFileTreeForSettingAttributes(
+            path, recursive,
+            object : SimpleFileVisitor<Path>() {
+                @Throws(IOException::class)
+                override fun preVisitDirectory(
+                    directory: Path,
+                    attributes: BasicFileAttributes
+                ): FileVisitResult = visitFile(directory, attributes)
 
-            @Throws(IOException::class)
-            override fun visitFile(file: Path, attributes: BasicFileAttributes): FileVisitResult {
-                setGroup(file, group, !attributes.isSymbolicLink, transferInfo, actionAllInfo)
-                throwIfInterrupted()
-                return FileVisitResult.CONTINUE
-            }
+                @Throws(IOException::class)
+                override fun visitFile(file: Path, attributes: BasicFileAttributes): FileVisitResult {
+                    setGroup(file, group, !attributes.isSymbolicLink, transferInfo, actionAllInfo)
+                    throwIfInterrupted()
+                    return FileVisitResult.CONTINUE
+                }
 
-            @Throws(IOException::class)
-            override fun visitFileFailed(file: Path, exception: IOException): FileVisitResult {
-                // TODO: Prompt retry, skip, skip-all or abort.
-                return super.visitFileFailed(file, exception)
-            }
+                @Throws(IOException::class)
+                override fun visitFileFailed(file: Path, exception: IOException): FileVisitResult {
+                    // TODO: Prompt retry, skip, skip-all or abort.
+                    return super.visitFileFailed(file, exception)
+                }
 
-            @Throws(IOException::class)
-            override fun postVisitDirectory(
-                directory: Path,
-                exception: IOException?
-            ): FileVisitResult {
-                // TODO: Prompt retry, skip, skip-all or abort.
-                return super.postVisitDirectory(directory, exception)
+                @Throws(IOException::class)
+                override fun postVisitDirectory(
+                    directory: Path,
+                    exception: IOException?
+                ): FileVisitResult {
+                    // TODO: Prompt retry, skip, skip-all or abort.
+                    return super.postVisitDirectory(directory, exception)
+                }
             }
-        })
+        )
     }
 }
 
@@ -1763,42 +1794,45 @@ class SetFileModeJob(
         )
         val transferInfo = TransferInfo(scanInfo, null)
         val actionAllInfo = ActionAllInfo()
-        walkFileTreeForSettingAttributes(path, recursive, object : SimpleFileVisitor<Path>() {
-            @Throws(IOException::class)
-            override fun preVisitDirectory(
-                directory: Path,
-                attributes: BasicFileAttributes
-            ): FileVisitResult = visitFile(directory, attributes)
+        walkFileTreeForSettingAttributes(
+            path, recursive,
+            object : SimpleFileVisitor<Path>() {
+                @Throws(IOException::class)
+                override fun preVisitDirectory(
+                    directory: Path,
+                    attributes: BasicFileAttributes
+                ): FileVisitResult = visitFile(directory, attributes)
 
-            @Throws(IOException::class)
-            override fun visitFile(file: Path, attributes: BasicFileAttributes): FileVisitResult {
-                if (attributes.isSymbolicLink) {
-                    // We cannot set mode on symbolic links.
-                    transferInfo.skipFileIgnoringSize()
+                @Throws(IOException::class)
+                override fun visitFile(file: Path, attributes: BasicFileAttributes): FileVisitResult {
+                    if (attributes.isSymbolicLink) {
+                        // We cannot set mode on symbolic links.
+                        transferInfo.skipFileIgnoringSize()
+                        return FileVisitResult.CONTINUE
+                    }
+                    // The file may actually be a directory if we are not entering it.
+                    val mode = if (!attributes.isDirectory) getFileMode(file) else mode
+                    setMode(file, mode, transferInfo, actionAllInfo)
+                    throwIfInterrupted()
                     return FileVisitResult.CONTINUE
                 }
-                // The file may actually be a directory if we are not entering it.
-                val mode = if (!attributes.isDirectory) getFileMode(file) else mode
-                setMode(file, mode, transferInfo, actionAllInfo)
-                throwIfInterrupted()
-                return FileVisitResult.CONTINUE
-            }
 
-            @Throws(IOException::class)
-            override fun visitFileFailed(file: Path, exception: IOException): FileVisitResult {
-                // TODO: Prompt retry, skip, skip-all or abort.
-                return super.visitFileFailed(file, exception)
-            }
+                @Throws(IOException::class)
+                override fun visitFileFailed(file: Path, exception: IOException): FileVisitResult {
+                    // TODO: Prompt retry, skip, skip-all or abort.
+                    return super.visitFileFailed(file, exception)
+                }
 
-            @Throws(IOException::class)
-            override fun postVisitDirectory(
-                directory: Path,
-                exception: IOException?
-            ): FileVisitResult {
-                // TODO: Prompt retry, skip, skip-all or abort.
-                return super.postVisitDirectory(directory, exception)
+                @Throws(IOException::class)
+                override fun postVisitDirectory(
+                    directory: Path,
+                    exception: IOException?
+                ): FileVisitResult {
+                    // TODO: Prompt retry, skip, skip-all or abort.
+                    return super.postVisitDirectory(directory, exception)
+                }
             }
-        })
+        )
     }
 
     @Throws(IOException::class)
@@ -1901,35 +1935,38 @@ class SetFileOwnerJob(
         )
         val transferInfo = TransferInfo(scanInfo, null)
         val actionAllInfo = ActionAllInfo()
-        walkFileTreeForSettingAttributes(path, recursive, object : SimpleFileVisitor<Path>() {
-            @Throws(IOException::class)
-            override fun preVisitDirectory(
-                directory: Path,
-                attributes: BasicFileAttributes
-            ): FileVisitResult = visitFile(directory, attributes)
+        walkFileTreeForSettingAttributes(
+            path, recursive,
+            object : SimpleFileVisitor<Path>() {
+                @Throws(IOException::class)
+                override fun preVisitDirectory(
+                    directory: Path,
+                    attributes: BasicFileAttributes
+                ): FileVisitResult = visitFile(directory, attributes)
 
-            @Throws(IOException::class)
-            override fun visitFile(file: Path, attributes: BasicFileAttributes): FileVisitResult {
-                setOwner(file, owner, !attributes.isSymbolicLink, transferInfo, actionAllInfo)
-                throwIfInterrupted()
-                return FileVisitResult.CONTINUE
-            }
+                @Throws(IOException::class)
+                override fun visitFile(file: Path, attributes: BasicFileAttributes): FileVisitResult {
+                    setOwner(file, owner, !attributes.isSymbolicLink, transferInfo, actionAllInfo)
+                    throwIfInterrupted()
+                    return FileVisitResult.CONTINUE
+                }
 
-            @Throws(IOException::class)
-            override fun visitFileFailed(file: Path, exception: IOException): FileVisitResult {
-                // TODO: Prompt retry, skip, skip-all or abort.
-                return super.visitFileFailed(file, exception)
-            }
+                @Throws(IOException::class)
+                override fun visitFileFailed(file: Path, exception: IOException): FileVisitResult {
+                    // TODO: Prompt retry, skip, skip-all or abort.
+                    return super.visitFileFailed(file, exception)
+                }
 
-            @Throws(IOException::class)
-            override fun postVisitDirectory(
-                directory: Path,
-                exception: IOException?
-            ): FileVisitResult {
-                // TODO: Prompt retry, skip, skip-all or abort.
-                return super.postVisitDirectory(directory, exception)
+                @Throws(IOException::class)
+                override fun postVisitDirectory(
+                    directory: Path,
+                    exception: IOException?
+                ): FileVisitResult {
+                    // TODO: Prompt retry, skip, skip-all or abort.
+                    return super.postVisitDirectory(directory, exception)
+                }
             }
-        })
+        )
     }
 }
 
@@ -2017,40 +2054,43 @@ class SetFileSeLinuxContextJob(
         )
         val transferInfo = TransferInfo(scanInfo, null)
         val actionAllInfo = ActionAllInfo()
-        walkFileTreeForSettingAttributes(path, recursive, object : SimpleFileVisitor<Path>() {
-            @Throws(IOException::class)
-            override fun preVisitDirectory(
-                directory: Path,
-                attributes: BasicFileAttributes
-            ): FileVisitResult = visitFile(directory, attributes)
+        walkFileTreeForSettingAttributes(
+            path, recursive,
+            object : SimpleFileVisitor<Path>() {
+                @Throws(IOException::class)
+                override fun preVisitDirectory(
+                    directory: Path,
+                    attributes: BasicFileAttributes
+                ): FileVisitResult = visitFile(directory, attributes)
 
-            @Throws(IOException::class)
-            override fun visitFile(
-                file: Path,
-                attributes: BasicFileAttributes
-            ): FileVisitResult {
-                setSeLinuxContext(
-                    file, seLinuxContext, !attributes.isSymbolicLink, transferInfo, actionAllInfo
-                )
-                throwIfInterrupted()
-                return FileVisitResult.CONTINUE
-            }
+                @Throws(IOException::class)
+                override fun visitFile(
+                    file: Path,
+                    attributes: BasicFileAttributes
+                ): FileVisitResult {
+                    setSeLinuxContext(
+                        file, seLinuxContext, !attributes.isSymbolicLink, transferInfo, actionAllInfo
+                    )
+                    throwIfInterrupted()
+                    return FileVisitResult.CONTINUE
+                }
 
-            @Throws(IOException::class)
-            override fun visitFileFailed(file: Path, exception: IOException): FileVisitResult {
-                // TODO: Prompt retry, skip, skip-all or abort.
-                return super.visitFileFailed(file, exception)
-            }
+                @Throws(IOException::class)
+                override fun visitFileFailed(file: Path, exception: IOException): FileVisitResult {
+                    // TODO: Prompt retry, skip, skip-all or abort.
+                    return super.visitFileFailed(file, exception)
+                }
 
-            @Throws(IOException::class)
-            override fun postVisitDirectory(
-                directory: Path,
-                exception: IOException?
-            ): FileVisitResult {
-                // TODO: Prompt retry, skip, skip-all or abort.
-                return super.postVisitDirectory(directory, exception)
+                @Throws(IOException::class)
+                override fun postVisitDirectory(
+                    directory: Path,
+                    exception: IOException?
+                ): FileVisitResult {
+                    // TODO: Prompt retry, skip, skip-all or abort.
+                    return super.postVisitDirectory(directory, exception)
+                }
             }
-        })
+        )
     }
 }
 

@@ -41,13 +41,16 @@ private const val CHARSET_FRAGMENT = "$CHARSET_PCHAR/?"
  * @see java.net.URI#appendSchemeSpecificPart
  */
 private fun encodeSchemeSpecificPart(decoded: ByteString): String =
-    if (decoded.length >= 3 && decoded[0] == '/'.code.toByte() && decoded[1] == '/'.code.toByte()
-        && decoded[2] == '['.code.toByte()) {
+    if (decoded.length >= 3 && decoded[0] == '/'.code.toByte() && decoded[1] == '/'.code.toByte() &&
+        decoded[2] == '['.code.toByte()
+    ) {
         val ipLiteralLastCharacterIndex = decoded.indexOf(']'.code.toByte(), 3)
         require(ipLiteralLastCharacterIndex != -1) { "Incomplete IP literal in URI" }
         val ipLiteralEnd = ipLiteralLastCharacterIndex + 1
-        (decoded.substring(0, ipLiteralEnd).toString()
-            + encode(decoded.substring(ipLiteralEnd), CHARSET_PATH))
+        (
+            decoded.substring(0, ipLiteralEnd).toString() +
+                encode(decoded.substring(ipLiteralEnd), CHARSET_PATH)
+            )
     } else {
         encode(decoded, CHARSET_PATH)
     }

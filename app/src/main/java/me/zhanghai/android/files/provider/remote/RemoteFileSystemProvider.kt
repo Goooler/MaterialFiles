@@ -8,6 +8,10 @@ package me.zhanghai.android.files.provider.remote
 import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
+import java.io.IOException
+import java.io.InputStream
+import java.io.InterruptedIOException
+import java.io.Serializable
 import java8.nio.channels.FileChannel
 import java8.nio.channels.SeekableByteChannel
 import java8.nio.file.AccessMode
@@ -20,6 +24,9 @@ import java8.nio.file.Path
 import java8.nio.file.attribute.BasicFileAttributes
 import java8.nio.file.attribute.FileAttribute
 import java8.nio.file.spi.FileSystemProvider
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 import kotlinx.coroutines.runBlocking
 import kotlinx.parcelize.Parcelize
 import me.zhanghai.android.files.provider.common.PathObservable
@@ -28,13 +35,6 @@ import me.zhanghai.android.files.provider.common.Searchable
 import me.zhanghai.android.files.util.ParcelableArgs
 import me.zhanghai.android.files.util.RemoteCallback
 import me.zhanghai.android.files.util.getArgs
-import java.io.IOException
-import java.io.InputStream
-import java.io.InterruptedIOException
-import java.io.Serializable
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 abstract class RemoteFileSystemProvider(
     private val remoteInterface: RemoteInterface<IRemoteFileSystemProvider>
@@ -189,7 +189,8 @@ abstract class RemoteFileSystemProvider(
     @Throws(IOException::class)
     override fun getFileStore(path: Path): FileStore =
         remoteInterface.get().call {
-            exception -> getFileStore(path.toParcelable(), exception)
+            exception ->
+            getFileStore(path.toParcelable(), exception)
         }.value()
 
     @Throws(IOException::class)
@@ -269,7 +270,8 @@ abstract class RemoteFileSystemProvider(
         }
     }
 
-    private class ParcelableAcceptAllFilter private constructor() : DirectoryStream.Filter<Path>,
+    private class ParcelableAcceptAllFilter private constructor() :
+        DirectoryStream.Filter<Path>,
         Parcelable {
         override fun accept(entry: Path): Boolean = true
 

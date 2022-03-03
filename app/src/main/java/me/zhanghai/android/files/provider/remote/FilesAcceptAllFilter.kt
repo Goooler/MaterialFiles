@@ -5,6 +5,8 @@
 
 package me.zhanghai.android.files.provider.remote
 
+import java.io.File
+import java.net.URI
 import java8.nio.channels.SeekableByteChannel
 import java8.nio.file.AccessMode
 import java8.nio.file.CopyOption
@@ -24,8 +26,6 @@ import java8.nio.file.attribute.FileAttribute
 import java8.nio.file.attribute.FileAttributeView
 import java8.nio.file.attribute.UserPrincipalLookupService
 import java8.nio.file.spi.FileSystemProvider
-import java.io.File
-import java.net.URI
 
 val filesAcceptAllFilter: DirectoryStream.Filter<in Path> = run {
     var capturedFilter: DirectoryStream.Filter<in Path>? = null

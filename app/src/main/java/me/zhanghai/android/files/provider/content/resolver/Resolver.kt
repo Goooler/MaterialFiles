@@ -10,14 +10,14 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.ParcelFileDescriptor
 import android.provider.OpenableColumns
-import me.zhanghai.android.files.app.contentResolver
-import me.zhanghai.android.files.file.MimeType
-import me.zhanghai.android.files.util.closeSafe
-import me.zhanghai.android.files.util.takeIfNotEmpty
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
+import me.zhanghai.android.files.app.contentResolver
+import me.zhanghai.android.files.file.MimeType
+import me.zhanghai.android.files.util.closeSafe
+import me.zhanghai.android.files.util.takeIfNotEmpty
 
 object Resolver {
     @Throws(ResolverException::class)

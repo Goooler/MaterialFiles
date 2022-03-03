@@ -18,7 +18,6 @@ import me.zhanghai.android.files.file.DocumentTreeUri
 import me.zhanghai.android.files.file.asDocumentTreeUri
 import me.zhanghai.android.files.file.releasePersistablePermission
 import me.zhanghai.android.files.provider.document.documentTreeUri
-import me.zhanghai.android.files.provider.document.isDocumentPath
 import me.zhanghai.android.files.storage.AddStorageDialogActivity
 import me.zhanghai.android.files.storage.Storage
 import me.zhanghai.android.files.util.createIntent
@@ -46,7 +45,7 @@ class NavigationFragment : Fragment(), NavigationItem.Listener {
 
         binding.recyclerView.setHasFixedSize(true)
         // TODO: Needed?
-        //binding.recyclerView.setItemAnimator(new NoChangeAnimationItemAnimator());
+        // binding.recyclerView.setItemAnimator(new NoChangeAnimationItemAnimator());
         val context = requireContext()
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         adapter = NavigationListAdapter(this)
@@ -89,8 +88,9 @@ class NavigationFragment : Fragment(), NavigationItem.Listener {
     fun removeDocumentTree(treeUri: DocumentTreeUri) {
         treeUri.releasePersistablePermission()
         val currentPath = listener.currentPath
-        if (currentPath.isDocumentPath
-            && currentPath.documentTreeUri.asDocumentTreeUri() == treeUri) {
+        if (currentPath.isDocumentPath &&
+            currentPath.documentTreeUri.asDocumentTreeUri() == treeUri
+        ) {
             listener.navigateToDefaultRoot()
         }
     }

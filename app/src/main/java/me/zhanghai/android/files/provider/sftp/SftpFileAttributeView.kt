@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.files.provider.sftp
 
+import java.io.IOException
 import java8.nio.file.LinkOption
 import java8.nio.file.attribute.FileTime
 import me.zhanghai.android.files.provider.common.ByteString
@@ -16,7 +17,6 @@ import me.zhanghai.android.files.provider.common.toInt
 import me.zhanghai.android.files.provider.sftp.client.Client
 import me.zhanghai.android.files.provider.sftp.client.ClientException
 import net.schmizz.sshj.sftp.FileAttributes
-import java.io.IOException
 
 internal class SftpFileAttributeView(
     private val path: SftpPath,

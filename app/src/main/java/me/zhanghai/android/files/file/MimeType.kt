@@ -46,9 +46,9 @@ value class MimeType(val value: String) : Parcelable {
         }
 
     fun match(mimeType: MimeType): Boolean =
-        type.let { it == "*" || mimeType.type == it }
-            && subtype.let { it == "*" || mimeType.subtype == it }
-            && parameters.let { it == null || mimeType.parameters == it }
+        type.let { it == "*" || mimeType.type == it } &&
+            subtype.let { it == "*" || mimeType.subtype == it } &&
+            parameters.let { it == null || mimeType.parameters == it }
 
     companion object {
         val ANY = "*/*".asMimeType()
@@ -88,7 +88,8 @@ private val String.isValidMimeType: Boolean
         val indexOfPlus = indexOf('+')
         if (indexOfPlus != -1 && !(indexOfSemicolon != -1 && indexOfPlus > indexOfSemicolon)) {
             if (indexOfPlus !in indexOfSlash + 2
-                until if (indexOfSemicolon != -1) indexOfSemicolon - 1 else length) {
+                until if (indexOfSemicolon != -1) indexOfSemicolon - 1 else length
+            ) {
                 return false
             }
         }

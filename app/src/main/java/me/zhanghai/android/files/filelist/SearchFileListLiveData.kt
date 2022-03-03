@@ -6,6 +6,9 @@
 package me.zhanghai.android.files.filelist
 
 import android.os.AsyncTask
+import java.io.IOException
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Future
 import java8.nio.file.Path
 import me.zhanghai.android.files.file.FileItem
 import me.zhanghai.android.files.file.loadFileItem
@@ -16,9 +19,6 @@ import me.zhanghai.android.files.util.Loading
 import me.zhanghai.android.files.util.Stateful
 import me.zhanghai.android.files.util.Success
 import me.zhanghai.android.files.util.valueCompat
-import java.io.IOException
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Future
 
 class SearchFileListLiveData(
     private val path: Path,

@@ -10,13 +10,13 @@ import android.os.Handler
 import android.os.ParcelFileDescriptor
 import android.os.storage.StorageManager
 import android.os.storage.StorageVolume
-import kotlinx.coroutines.runBlocking
-import me.zhanghai.android.files.util.lazyReflectedMethod
 import java.io.IOException
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
+import kotlinx.coroutines.runBlocking
+import me.zhanghai.android.files.util.lazyReflectedMethod
 
 private val getVolumeListMethod by lazyReflectedMethod(StorageManager::class.java, "getVolumeList")
 
@@ -48,7 +48,7 @@ fun StorageManager.openProxyFileDescriptorCompat(
         pfds[0]
     }
 
-private class PipeWriter (
+private class PipeWriter(
     private val pfd: ParcelFileDescriptor,
     private val callback: ProxyFileDescriptorCallbackCompat,
     private val handler: Handler

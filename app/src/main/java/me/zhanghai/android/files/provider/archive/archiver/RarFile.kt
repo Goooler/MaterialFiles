@@ -7,8 +7,6 @@ package me.zhanghai.android.files.provider.archive.archiver
 
 import com.github.junrar.Archive
 import com.github.junrar.exception.RarException
-import org.apache.commons.compress.archivers.zip.ZipEncodingHelper
-import org.apache.commons.compress.utils.IOUtils
 import java.io.Closeable
 import java.io.File
 import java.io.IOException
@@ -16,6 +14,8 @@ import java.io.InputStream
 import java.io.PipedInputStream
 import java.io.PipedOutputStream
 import kotlin.math.max
+import org.apache.commons.compress.archivers.zip.ZipEncodingHelper
+import org.apache.commons.compress.utils.IOUtils
 
 internal class RarFile(file: File, encoding: String?) : Closeable {
     private var archive =
@@ -83,9 +83,9 @@ internal class RarFile(file: File, encoding: String?) : Closeable {
         }
 
         private fun matches(signature: ByteArray, length: Int): Boolean =
-            matches(signature, length, SIGNATURE_OLD)
-                || matches(signature, length, SIGNATURE_V4)
-                || matches(signature, length, SIGNATURE_V5)
+            matches(signature, length, SIGNATURE_OLD) ||
+                matches(signature, length, SIGNATURE_V4) ||
+                matches(signature, length, SIGNATURE_V5)
 
         private fun matches(actual: ByteArray, actualLength: Int, expected: ByteArray): Boolean {
             if (actualLength < expected.size) {

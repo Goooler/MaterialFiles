@@ -5,6 +5,8 @@
 
 package me.zhanghai.android.files.provider.archive
 
+import java.io.IOException
+import java.io.InputStream
 import java8.nio.file.AccessMode
 import java8.nio.file.DirectoryStream
 import java8.nio.file.OpenOption
@@ -12,8 +14,6 @@ import java8.nio.file.Path
 import java8.nio.file.ProviderMismatchException
 import me.zhanghai.android.files.provider.remote.RemoteFileSystemException
 import me.zhanghai.android.files.provider.root.RootFileSystemProvider
-import java.io.IOException
-import java.io.InputStream
 
 class RootArchiveFileSystemProvider(scheme: String) : RootFileSystemProvider(scheme) {
     @Throws(IOException::class)

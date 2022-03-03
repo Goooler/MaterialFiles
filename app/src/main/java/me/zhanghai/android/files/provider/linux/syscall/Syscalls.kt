@@ -13,12 +13,12 @@ import android.system.OsConstants
 import android.system.StructPollfd
 import android.system.StructStatVfs
 import androidx.annotation.Size
+import java.io.FileDescriptor
+import java.io.InterruptedIOException
 import me.zhanghai.android.files.compat.SELinuxCompat
 import me.zhanghai.android.files.provider.common.ByteString
 import me.zhanghai.android.files.provider.common.moveToByteString
 import me.zhanghai.android.libselinux.SeLinux
-import java.io.FileDescriptor
-import java.io.InterruptedIOException
 
 object Syscalls {
     init {
@@ -268,8 +268,8 @@ object Syscalls {
     external fun sendfile(
         outFd: FileDescriptor,
         inFd: FileDescriptor,
-        offset: Int64Ref?
-        , count: Long
+        offset: Int64Ref?,
+        count: Long
     ): Long
 
     @Throws(SyscallException::class)

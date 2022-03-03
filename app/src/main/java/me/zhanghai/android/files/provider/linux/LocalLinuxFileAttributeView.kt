@@ -6,6 +6,7 @@
 package me.zhanghai.android.files.provider.linux
 
 import android.system.OsConstants
+import java.io.IOException
 import java8.nio.file.attribute.FileTime
 import me.zhanghai.android.files.provider.common.ByteString
 import me.zhanghai.android.files.provider.common.PosixFileAttributeView
@@ -17,7 +18,6 @@ import me.zhanghai.android.files.provider.linux.syscall.Constants
 import me.zhanghai.android.files.provider.linux.syscall.StructTimespec
 import me.zhanghai.android.files.provider.linux.syscall.SyscallException
 import me.zhanghai.android.files.provider.linux.syscall.Syscalls
-import java.io.IOException
 
 internal class LocalLinuxFileAttributeView(
     private val path: ByteString,

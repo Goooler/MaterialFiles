@@ -6,12 +6,12 @@
 package me.zhanghai.android.files.filelist
 
 import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
-import me.zhanghai.android.files.provider.common.ByteStringBuilder
-import me.zhanghai.android.files.provider.common.toByteString
 import java.text.CollationKey
 import java.text.Collator
 import kotlin.math.min
+import kotlinx.parcelize.Parcelize
+import me.zhanghai.android.files.provider.common.ByteStringBuilder
+import me.zhanghai.android.files.provider.common.toByteString
 
 private val COLLATION_SENTINEL = byteArrayOf(1, 1, 1)
 

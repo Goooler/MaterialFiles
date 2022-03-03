@@ -10,8 +10,8 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.annotation.AttrRes
 import androidx.appcompat.widget.AppCompatImageView
-import me.zhanghai.android.files.util.getFloatByAttr
 import kotlin.math.roundToInt
+import me.zhanghai.android.files.util.getFloatByAttr
 
 class DisabledAlphaImageView @JvmOverloads constructor(
     context: Context,

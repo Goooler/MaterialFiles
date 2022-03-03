@@ -307,7 +307,8 @@ class FileJobConflictDialogFragment : AppCompatDialogFragment() {
                     RemoteCallback {
                         val args = it.getArgs<ListenerArgs>()
                         this(args.action, args.name, args.isAll)
-                    }, flags
+                    },
+                    flags
                 )
             }
 

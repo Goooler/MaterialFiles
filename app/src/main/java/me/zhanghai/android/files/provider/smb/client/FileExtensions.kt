@@ -115,7 +115,7 @@ private fun File.serverCopyChunk(
     val share = diskShare
     val buffer = SMBBuffer()
     request.write(buffer)
-    //val readTimeout = share.readTimeout
+    // val readTimeout = share.readTimeout
     val readTimeout = share.treeConnect.config.readTimeout
     val ioctlResponse = ShareAccessor.ioctl(
         share, fileId, CopyChunkRequest.getCtlCode(), true, buffer.array(), buffer.rpos(),
