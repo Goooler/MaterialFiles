@@ -34,4 +34,6 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
       - name: Build with Gradle
-        run: ./gradlew assembleDebug lintVitalRelease
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: assembleDebug lintVitalRelease
