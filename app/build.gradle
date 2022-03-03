@@ -151,7 +151,7 @@ dependencies {
     implementation 'org.tukaani:xz:1.9'
     implementation 'org.apache.ftpserver:ftpserver-core:1.1.1'
     // Also a dependency of jCIFS-NG and Junrar.
-    implementation 'org.slf4j:slf4j-android:1.7.32'
+    implementation 'org.slf4j:slf4j-android:1.7.36'
 
     implementation platform('com.google.firebase:firebase-bom:29.0.3')
     implementation 'com.google.firebase:firebase-analytics'
