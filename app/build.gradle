@@ -32,7 +32,7 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs += [
-                '-Xopt-in=kotlin.RequiresOptIn',
+            '-Xopt-in=kotlin.RequiresOptIn',
         ]
     }
     externalNativeBuild {
@@ -95,12 +95,12 @@ dependencies {
     implementation 'com.github.junrar:junrar:7.4.1'
     implementation 'com.h6ah4i.android.materialshadowninepatch:materialshadowninepatch:1.0.0'
     implementation 'com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:1.0.0'
-    implementation ('com.hierynomus:smbj:0.11.5') {
+    implementation('com.hierynomus:smbj:0.11.5') {
         // org.bouncycastle:bcprov-jdk15on uses bytecode version unsupported by Jetifier, so use
         // org.bouncycastle:bcprov-jdk15to18 instead.
         exclude group: 'org.bouncycastle', module: 'bcprov-jdk15on'
     }
-    implementation ('com.hierynomus:sshj:0.32.0') {
+    implementation('com.hierynomus:sshj:0.32.0') {
         // org.bouncycastle:bcprov-jdk15on uses bytecode version unsupported by Jetifier, so use
         // org.bouncycastle:bcprov-jdk15to18 instead.
         exclude group: 'org.bouncycastle', module: 'bcprov-jdk15on'
@@ -110,7 +110,7 @@ dependencies {
     // strange focus effect on the first mini FAB.
     //noinspection GradleDependency
     implementation 'com.leinardi.android:speed-dial:3.2.0'
-    implementation ('com.rapid7.client:dcerpc:0.12.0') {
+    implementation('com.rapid7.client:dcerpc:0.12.0') {
         // org.bouncycastle:bcprov-jdk15on uses bytecode version unsupported by Jetifier, so use
         // org.bouncycastle:bcprov-jdk15to18 instead.
         exclude group: 'org.bouncycastle', module: 'bcprov-jdk15on'
@@ -128,7 +128,7 @@ dependencies {
     implementation 'dev.chrisbanes:insetter-ktx:0.3.1'
     implementation 'dev.rikka.rikkax.preference:simplemenu-preference:1.0.3'
     implementation 'dev.rikka.shizuku:api:12.1.0'
-    implementation ('eu.agno3.jcifs:jcifs-ng:2.1.7') {
+    implementation('eu.agno3.jcifs:jcifs-ng:2.1.7') {
         // org.bouncycastle:bcprov-jdk15on uses bytecode version unsupported by Jetifier, so use
         // org.bouncycastle:bcprov-jdk15to18 instead.
         exclude group: 'org.bouncycastle', module: 'bcprov-jdk15on'
