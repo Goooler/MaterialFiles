@@ -35,26 +35,30 @@ class FilePropertiesPermissionsTabFragment : FilePropertiesTabFragment() {
             val attributes = file.attributes as PosixFileAttributes
             val owner = attributes.owner()
             addItemView(
-                R.string.file_properties_permissions_owner, getPrincipalText(owner), owner?.let {
+                R.string.file_properties_permissions_owner, getPrincipalText(owner),
+                owner?.let {
                     { SetOwnerDialogFragment.show(file, this@FilePropertiesPermissionsTabFragment) }
                 }
             )
             val group = attributes.group()
             addItemView(
-                R.string.file_properties_permissions_group, getPrincipalText(group), group?.let {
+                R.string.file_properties_permissions_group, getPrincipalText(group),
+                group?.let {
                     { SetGroupDialogFragment.show(file, this@FilePropertiesPermissionsTabFragment) }
                 }
             )
             val mode = attributes.mode()
             addItemView(
-                R.string.file_properties_permissions_mode, if (mode != null) {
+                R.string.file_properties_permissions_mode,
+                if (mode != null) {
                     getString(
                         R.string.file_properties_permissions_mode_format, mode.toModeString(),
                         mode.toInt()
                     )
                 } else {
                     getString(R.string.unknown)
-                }, if (mode != null && !attributes.isSymbolicLink) {
+                },
+                if (mode != null && !attributes.isSymbolicLink) {
                     { SetModeDialogFragment.show(file, this@FilePropertiesPermissionsTabFragment) }
                 } else {
                     null
@@ -95,9 +99,11 @@ class FilePropertiesPermissionsTabFragment : FilePropertiesTabFragment() {
     companion object {
         fun isAvailable(file: FileItem): Boolean {
             val attributes = file.attributes
-            return attributes is PosixFileAttributes && (attributes.owner() != null
-                || attributes.group() != null || attributes.mode() != null
-                || attributes.seLinuxContext() != null)
+            return attributes is PosixFileAttributes && (
+                attributes.owner() != null ||
+                    attributes.group() != null || attributes.mode() != null ||
+                    attributes.seLinuxContext() != null
+                )
         }
     }
 }

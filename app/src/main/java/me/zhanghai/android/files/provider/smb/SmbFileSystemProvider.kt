@@ -6,6 +6,8 @@
 package me.zhanghai.android.files.provider.smb
 
 import com.hierynomus.msdtyp.AccessMask
+import java.io.IOException
+import java.net.URI
 import java8.nio.channels.FileChannel
 import java8.nio.channels.SeekableByteChannel
 import java8.nio.file.AccessMode
@@ -45,8 +47,6 @@ import me.zhanghai.android.files.provider.smb.client.FileInformation
 import me.zhanghai.android.files.provider.smb.client.SymbolicLinkReparseData
 import me.zhanghai.android.files.util.enumSetOf
 import me.zhanghai.android.files.util.takeIfNotEmpty
-import java.io.IOException
-import java.net.URI
 
 object SmbFileSystemProvider : FileSystemProvider(), PathObservableProvider, Searchable {
     private const val SCHEME = "smb"
@@ -196,9 +196,10 @@ object SmbFileSystemProvider : FileSystemProvider(), PathObservableProvider, Sea
         val isRelative: Boolean
         when (target) {
             is SmbPath -> {
-                if(target.isAbsolute && target.authority.port != Authority.DEFAULT_PORT) {
+                if (target.isAbsolute && target.authority.port != Authority.DEFAULT_PORT) {
                     throw InvalidFileNameException(
-                        target.toString(), null, "Path is absolute but uses port ${
+                        target.toString(), null,
+                        "Path is absolute but uses port ${
                         target.authority.port} instead of the default port ${
                         Authority.DEFAULT_PORT}"
                     )
@@ -285,8 +286,9 @@ object SmbFileSystemProvider : FileSystemProvider(), PathObservableProvider, Sea
         }
         val sharePath = path.sharePath
         val sharePath2 = path2.sharePath
-        if (sharePath == null || sharePath2 == null || sharePath.name != sharePath2.name
-            || sharePath.path.isEmpty() || sharePath2.path.isEmpty()) {
+        if (sharePath == null || sharePath2 == null || sharePath.name != sharePath2.name ||
+            sharePath.path.isEmpty() || sharePath2.path.isEmpty()
+        ) {
             return false
         }
         val pathInformation = try {
@@ -299,8 +301,10 @@ object SmbFileSystemProvider : FileSystemProvider(), PathObservableProvider, Sea
         } catch (e: ClientException) {
             throw e.toFileSystemException(path2.toString())
         } as FileInformation
-        return (SmbFileKey(path, pathInformation.fileId)
-            == SmbFileKey(path2, path2Information.fileId))
+        return (
+            SmbFileKey(path, pathInformation.fileId)
+                == SmbFileKey(path2, path2Information.fileId)
+            )
     }
 
     override fun isHidden(path: Path): Boolean {

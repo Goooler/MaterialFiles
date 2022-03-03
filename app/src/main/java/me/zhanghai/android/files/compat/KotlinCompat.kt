@@ -6,10 +6,10 @@
 package me.zhanghai.android.files.compat
 
 import java.io.Closeable
+import kotlin.comparisons.reversed as kotlinReversed
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
-import kotlin.comparisons.reversed as kotlinReversed
 import kotlin.io.use as kotlinUse
 import kotlin.use as kotlinUse
 

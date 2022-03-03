@@ -7,6 +7,12 @@ package me.zhanghai.android.files.provider.archive.archiver
 
 import android.os.Build
 import androidx.preference.PreferenceManager
+import java.io.BufferedInputStream
+import java.io.Closeable
+import java.io.FileNotFoundException
+import java.io.IOException
+import java.io.InputStream
+import java.util.Date
 import java8.nio.charset.StandardCharsets
 import java8.nio.file.AccessMode
 import java8.nio.file.NoSuchFileException
@@ -23,6 +29,7 @@ import me.zhanghai.android.files.provider.root.rootContext
 import me.zhanghai.android.files.settings.Settings
 import me.zhanghai.android.files.util.valueCompat
 import org.apache.commons.compress.archivers.ArchiveEntry
+import org.apache.commons.compress.archivers.ArchiveException as ApacheArchiveException
 import org.apache.commons.compress.archivers.ArchiveInputStream
 import org.apache.commons.compress.archivers.ArchiveStreamFactory
 import org.apache.commons.compress.archivers.sevenz.SevenZArchiveEntry
@@ -31,13 +38,6 @@ import org.apache.commons.compress.archivers.tar.TarArchiveEntry
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry
 import org.apache.commons.compress.compressors.CompressorException
 import org.apache.commons.compress.compressors.CompressorStreamFactory
-import java.io.BufferedInputStream
-import java.io.Closeable
-import java.io.FileNotFoundException
-import java.io.IOException
-import java.io.InputStream
-import java.util.Date
-import org.apache.commons.compress.archivers.ArchiveException as ApacheArchiveException
 
 object ArchiveReader {
     private val compressorStreamFactory = CompressorStreamFactory()

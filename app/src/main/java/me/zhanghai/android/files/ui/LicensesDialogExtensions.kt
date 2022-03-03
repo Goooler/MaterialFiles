@@ -17,14 +17,14 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.graphics.ColorUtils
 import androidx.core.view.ViewCompat
 import de.psdev.licensesdialog.model.Notices
+import java.nio.charset.StandardCharsets
+import kotlin.math.roundToInt
 import me.zhanghai.android.files.R
 import me.zhanghai.android.files.compat.scrollIndicatorsCompat
 import me.zhanghai.android.files.util.createViewIntent
 import me.zhanghai.android.files.util.getColorByAttr
 import me.zhanghai.android.files.util.getDimensionPixelSize
 import me.zhanghai.android.files.util.startActivitySafe
-import java.nio.charset.StandardCharsets
-import kotlin.math.roundToInt
 
 /**
  * @see de.psdev.licensesdialog.LicensesDialog
@@ -111,14 +111,16 @@ private fun Int.toCssColor(): String =
         "#%06X".format(this and 0x00FFFFFF)
     } else {
         "rgba(${Color.red(this)}, ${Color.green(this)}, ${Color.blue(this)}, ${
-            Color.alpha(this).toFloat() / 0xFF
+        Color.alpha(this).toFloat() / 0xFF
         })"
     }
 
 private fun createView(html: String, context: Context): View {
     val webView = WebView(context).apply {
-        scrollIndicatorsCompat = (ViewCompat.SCROLL_INDICATOR_TOP
-            or ViewCompat.SCROLL_INDICATOR_BOTTOM)
+        scrollIndicatorsCompat = (
+            ViewCompat.SCROLL_INDICATOR_TOP
+                or ViewCompat.SCROLL_INDICATOR_BOTTOM
+            )
         setBackgroundColor(Color.TRANSPARENT)
         settings.setSupportMultipleWindows(true)
         webChromeClient = object : WebChromeClient() {

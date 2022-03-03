@@ -12,13 +12,13 @@ import android.os.Parcelable
 import android.provider.MediaStore
 import android.provider.Settings
 import androidx.core.app.ShareCompat
+import kotlin.reflect.KClass
 import me.zhanghai.android.files.app.appClassLoader
 import me.zhanghai.android.files.app.application
 import me.zhanghai.android.files.app.packageManager
 import me.zhanghai.android.files.compat.removeFlagsCompat
 import me.zhanghai.android.files.file.MimeType
 import me.zhanghai.android.files.file.intentType
-import kotlin.reflect.KClass
 
 fun <T : Context> KClass<T>.createIntent(): Intent = Intent(application, java)
 

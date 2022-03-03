@@ -5,6 +5,9 @@
 
 package me.zhanghai.android.files.provider.common
 
+import java.io.IOException
+import java.io.InterruptedIOException
+import java.util.concurrent.atomic.AtomicInteger
 import java8.nio.file.DirectoryIteratorException
 import java8.nio.file.LinkOption
 import java8.nio.file.Path
@@ -13,9 +16,6 @@ import java8.nio.file.WatchEvent
 import java8.nio.file.attribute.BasicFileAttributes
 import me.zhanghai.android.files.BuildConfig
 import me.zhanghai.android.files.provider.FileSystemProviders
-import java.io.IOException
-import java.io.InterruptedIOException
-import java.util.concurrent.atomic.AtomicInteger
 
 class PollingWatchService : AbstractWatchService<PollingWatchKey>() {
     private val pollers = mutableMapOf<Path, Poller>()
@@ -54,7 +54,7 @@ class PollingWatchService : AbstractWatchService<PollingWatchKey>() {
 
     private fun removePoller(poller: Poller) {
         // TODO: kotlinc: Type mismatch.
-        //synchronized(pollers) { pollers -= poller.key.watchable() }
+        // synchronized(pollers) { pollers -= poller.key.watchable() }
         synchronized(pollers) { pollers.remove(poller.key.watchable()) }
     }
 

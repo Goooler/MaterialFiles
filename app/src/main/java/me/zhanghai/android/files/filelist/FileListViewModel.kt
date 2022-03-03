@@ -11,6 +11,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
+import java.io.Closeable
 import java8.nio.file.Path
 import me.zhanghai.android.files.file.FileItem
 import me.zhanghai.android.files.filelist.FileSortOptions.By
@@ -20,7 +21,6 @@ import me.zhanghai.android.files.provider.archive.isArchivePath
 import me.zhanghai.android.files.util.CloseableLiveData
 import me.zhanghai.android.files.util.Stateful
 import me.zhanghai.android.files.util.valueCompat
-import java.io.Closeable
 
 // TODO: Use SavedStateHandle to save state.
 class FileListViewModel : ViewModel() {

@@ -6,15 +6,15 @@
 package me.zhanghai.android.files.provider.common
 
 import android.os.ParcelFileDescriptor
-import java8.nio.channels.FileChannel
-import java8.nio.channels.FileChannels
-import me.zhanghai.android.files.compat.NioUtilsCompat
-import me.zhanghai.android.files.provider.linux.syscall.SyscallException
-import me.zhanghai.android.files.provider.linux.syscall.Syscalls
 import java.io.Closeable
 import java.io.FileDescriptor
 import java.io.IOException
+import java8.nio.channels.FileChannel
+import java8.nio.channels.FileChannels
 import kotlin.reflect.KClass
+import me.zhanghai.android.files.compat.NioUtilsCompat
+import me.zhanghai.android.files.provider.linux.syscall.SyscallException
+import me.zhanghai.android.files.provider.linux.syscall.Syscalls
 
 fun KClass<FileChannel>.open(fd: FileDescriptor, flags: Int): FileChannel {
     val closeable = Closeable {

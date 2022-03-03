@@ -13,11 +13,11 @@ import androidx.annotation.WorkerThread
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import java.util.concurrent.Executors
 import me.zhanghai.android.files.compat.mainExecutorCompat
 import me.zhanghai.android.files.settings.Settings
 import me.zhanghai.android.files.util.showToast
 import me.zhanghai.android.files.util.valueCompat
-import java.util.concurrent.Executors
 
 class FtpServerService : Service() {
     private var state = State.STOPPED

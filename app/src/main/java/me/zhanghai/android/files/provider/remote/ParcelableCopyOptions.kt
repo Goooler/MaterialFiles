@@ -7,10 +7,10 @@ package me.zhanghai.android.files.provider.remote
 
 import android.os.Parcel
 import android.os.Parcelable
+import java.io.Serializable
 import java8.nio.file.CopyOption
 import java8.nio.file.LinkOption
 import me.zhanghai.android.files.compat.readSerializableCompat
-import java.io.Serializable
 
 class ParcelableCopyOptions(val value: Array<out CopyOption>) : Parcelable {
     private constructor(source: Parcel) : this(

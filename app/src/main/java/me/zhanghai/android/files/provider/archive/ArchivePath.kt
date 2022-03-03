@@ -7,6 +7,8 @@ package me.zhanghai.android.files.provider.archive
 
 import android.os.Parcel
 import android.os.Parcelable
+import java.io.File
+import java.io.IOException
 import java8.nio.file.LinkOption
 import java8.nio.file.Path
 import java8.nio.file.WatchEvent
@@ -17,8 +19,6 @@ import me.zhanghai.android.files.provider.common.ByteStringListPath
 import me.zhanghai.android.files.provider.common.toByteString
 import me.zhanghai.android.files.provider.root.RootablePath
 import me.zhanghai.android.files.util.readParcelable
-import java.io.File
-import java.io.IOException
 
 internal class ArchivePath : ByteStringListPath<ArchivePath>, RootablePath {
     private val fileSystem: ArchiveFileSystem

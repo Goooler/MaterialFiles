@@ -21,13 +21,13 @@ import androidx.annotation.StyleRes
 import androidx.lifecycle.Observer
 import androidx.preference.Preference
 import androidx.preference.PreferenceViewHolder
+import java.net.InetAddress
 import me.zhanghai.android.files.R
 import me.zhanghai.android.files.app.clipboardManager
 import me.zhanghai.android.files.settings.Settings
 import me.zhanghai.android.files.util.copyText
 import me.zhanghai.android.files.util.getLocalAddress
 import me.zhanghai.android.files.util.valueCompat
-import java.net.InetAddress
 
 class FtpServerUrlPreference : Preference {
     private val observer = Observer<Any> { updateSummary() }
@@ -113,7 +113,9 @@ class FtpServerUrlPreference : Preference {
 
     private inner class ContextMenuListener : OnCreateContextMenuListener {
         override fun onCreateContextMenu(
-            menu: ContextMenu, view: View, menuInfo: ContextMenuInfo?
+            menu: ContextMenu,
+            view: View,
+            menuInfo: ContextMenuInfo?
         ) {
             if (!hasUrl) {
                 return

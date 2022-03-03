@@ -5,10 +5,10 @@
 
 package me.zhanghai.android.files.provider.root
 
+import java.io.IOException
 import java8.nio.file.Path
 import me.zhanghai.android.files.settings.Settings
 import me.zhanghai.android.files.util.valueCompat
-import java.io.IOException
 
 interface RootablePath {
     fun isRootRequired(isAttributeAccess: Boolean): Boolean
@@ -22,7 +22,8 @@ fun <T, R> callRootable(
     path: Path,
     isAttributeAccess: Boolean,
     localObject: T,
-    rootObject: T, block: T.() -> R
+    rootObject: T,
+    block: T.() -> R
 ): R {
     path as? RootablePath ?: throw IllegalArgumentException("$path is not a RootablePath")
     return when (rootStrategy) {
@@ -52,8 +53,9 @@ fun <T, R> callRootable(
         RootStrategy.NEVER ->
             localObject.block()
         RootStrategy.AUTOMATIC ->
-            if (path1.isRootRequired(isAttributeAccess)
-                || path2.isRootRequired(isAttributeAccess)) {
+            if (path1.isRootRequired(isAttributeAccess) ||
+                path2.isRootRequired(isAttributeAccess)
+            ) {
                 rootObject.block()
             } else {
                 localObject.block()

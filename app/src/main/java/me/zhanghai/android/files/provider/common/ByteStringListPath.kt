@@ -7,9 +7,12 @@ package me.zhanghai.android.files.provider.common
 
 import android.os.Parcel
 import android.os.Parcelable
+import java.net.URI
+import java.util.NoSuchElementException
 import java8.nio.file.InvalidPathException
 import java8.nio.file.Path
 import java8.nio.file.ProviderMismatchException
+import kotlin.math.min
 import me.zhanghai.android.files.compat.readBooleanCompat
 import me.zhanghai.android.files.compat.writeBooleanCompat
 import me.zhanghai.android.files.compat.writeParcelableListCompat
@@ -17,9 +20,6 @@ import me.zhanghai.android.files.util.endsWith
 import me.zhanghai.android.files.util.hash
 import me.zhanghai.android.files.util.readParcelableListCompat
 import me.zhanghai.android.files.util.startsWith
-import java.net.URI
-import java.util.NoSuchElementException
-import kotlin.math.min
 
 abstract class ByteStringListPath<T : ByteStringListPath<T>> : AbstractPath<T>, Parcelable {
     protected val separator: Byte
@@ -179,8 +179,9 @@ abstract class ByteStringListPath<T : ByteStringListPath<T>> : AbstractPath<T>, 
         val otherSegmentsSize = other.segments.size
         val minSegmentsSize = min(segmentsSize, otherSegmentsSize)
         var commonSegmentsSize = 0
-        while (commonSegmentsSize < minSegmentsSize
-            && segments[commonSegmentsSize] == other.segments[commonSegmentsSize]) {
+        while (commonSegmentsSize < minSegmentsSize &&
+            segments[commonSegmentsSize] == other.segments[commonSegmentsSize]
+        ) {
             ++commonSegmentsSize
         }
         val relativeSegments = mutableListOf<ByteString>()
@@ -238,10 +239,10 @@ abstract class ByteStringListPath<T : ByteStringListPath<T>> : AbstractPath<T>, 
             return false
         }
         other as ByteStringListPath<*>
-        return separator == other.separator
-            && segments == other.segments
-            && isAbsolute == other.isAbsolute
-            && fileSystem == other.fileSystem
+        return separator == other.separator &&
+            segments == other.segments &&
+            isAbsolute == other.isAbsolute &&
+            fileSystem == other.fileSystem
     }
 
     override fun hashCode(): Int = hash(separator, segments, isAbsolute, fileSystem)

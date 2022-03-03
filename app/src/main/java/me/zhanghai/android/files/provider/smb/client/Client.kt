@@ -32,6 +32,12 @@ import com.hierynomus.smbj.share.PrinterShare
 import com.hierynomus.smbj.share.Share
 import com.rapid7.client.dcerpc.mssrvs.ServerService
 import com.rapid7.client.dcerpc.transport.SMBTransportFactories
+import java.io.Closeable
+import java.io.IOException
+import java.net.UnknownHostException
+import java.util.Collections
+import java.util.WeakHashMap
+import java.util.concurrent.Future
 import java8.nio.channels.SeekableByteChannel
 import jcifs.context.SingletonContext
 import me.zhanghai.android.files.provider.common.CloseableIterator
@@ -41,12 +47,6 @@ import me.zhanghai.android.files.provider.common.newOutputStream
 import me.zhanghai.android.files.util.closeSafe
 import me.zhanghai.android.files.util.enumSetOf
 import me.zhanghai.android.files.util.hasBits
-import java.io.Closeable
-import java.io.IOException
-import java.net.UnknownHostException
-import java.util.Collections
-import java.util.WeakHashMap
-import java.util.concurrent.Future
 
 object Client {
     @Volatile
@@ -104,9 +104,12 @@ object Client {
                 throw ClientException(e)
             }
             val sharePaths = netShareInfos.mapNotNull {
-                if (!(it.type.hasBits(ShareTypes.STYPE_PRINTQ.value)
-                        || it.type.hasBits(ShareTypes.STYPE_DEVICE.value)
-                        || it.type.hasBits(ShareTypes.STYPE_IPC.value))) {
+                if (!(
+                    it.type.hasBits(ShareTypes.STYPE_PRINTQ.value) ||
+                        it.type.hasBits(ShareTypes.STYPE_DEVICE.value) ||
+                        it.type.hasBits(ShareTypes.STYPE_IPC.value)
+                    )
+                ) {
                     path.resolve(it.netName)
                 } else {
                     null
@@ -119,10 +122,12 @@ object Client {
             val share = getDiskShare(session, sharePath.name)
             val directory = try {
                 share.openDirectory(
-                    sharePath.path, enumSetOf(
+                    sharePath.path,
+                    enumSetOf(
                         AccessMask.FILE_LIST_DIRECTORY, AccessMask.FILE_READ_ATTRIBUTES,
                         AccessMask.FILE_READ_EA
-                    ), null, SMB2ShareAccess.ALL, SMB2CreateDisposition.FILE_OPEN, null
+                    ),
+                    null, SMB2ShareAccess.ALL, SMB2CreateDisposition.FILE_OPEN, null
                 )
             } catch (e: SMBRuntimeException) {
                 throw ClientException(e)
@@ -138,7 +143,9 @@ object Client {
                     }
                 }
                 .iterator()
-            return object : CloseableIterator<Path>, Iterator<Path> by directoryIterator,
+            return object :
+                CloseableIterator<Path>,
+                Iterator<Path> by directoryIterator,
                 Closeable by directory {}
         }
     }
@@ -155,7 +162,8 @@ object Client {
                 sharePath.path,
                 enumSetOf(AccessMask.FILE_READ_ATTRIBUTES, AccessMask.FILE_READ_EA),
                 enumSetOf(FileAttributes.FILE_ATTRIBUTE_DIRECTORY)
-                    .apply { fileAttributes?.let { addAll(it) } }, SMB2ShareAccess.ALL,
+                    .apply { fileAttributes?.let { addAll(it) } },
+                SMB2ShareAccess.ALL,
                 SMB2CreateDisposition.FILE_CREATE,
                 enumSetOf(SMB2CreateOptions.FILE_OPEN_REPARSE_POINT)
             )
@@ -182,17 +190,21 @@ object Client {
         val share = getDiskShare(session, sharePath.name)
         val diskEntry = try {
             share.open(
-                sharePath.path, enumSetOf(
+                sharePath.path,
+                enumSetOf(
                     AccessMask.FILE_READ_ATTRIBUTES, AccessMask.FILE_WRITE_ATTRIBUTES,
                     AccessMask.FILE_READ_EA, AccessMask.FILE_WRITE_EA, AccessMask.DELETE,
                     AccessMask.SYNCHRONIZE
-                ), enumSetOf<FileAttributes>().apply {
+                ),
+                enumSetOf<FileAttributes>().apply {
                     fileAttributes?.let { addAll(it) }
                     this -= FileAttributes.FILE_ATTRIBUTE_REPARSE_POINT
                     if (isEmpty()) {
                         this += FileAttributes.FILE_ATTRIBUTE_NORMAL
                     }
-                }, null, SMB2CreateDisposition.FILE_CREATE, enumSetOf(
+                },
+                null, SMB2CreateDisposition.FILE_CREATE,
+                enumSetOf(
                     SMB2CreateOptions.FILE_NON_DIRECTORY_FILE,
                     SMB2CreateOptions.FILE_OPEN_REPARSE_POINT
                 )
@@ -268,7 +280,8 @@ object Client {
         val diskEntry = try {
             share.open(
                 sharePath.path, enumSetOf(AccessMask.DELETE), null, SMB2ShareAccess.ALL,
-                SMB2CreateDisposition.FILE_OPEN, enumSetOf(
+                SMB2CreateDisposition.FILE_OPEN,
+                enumSetOf(
                     SMB2CreateOptions.FILE_DELETE_ON_CLOSE,
                     SMB2CreateOptions.FILE_OPEN_REPARSE_POINT
                 )
@@ -331,10 +344,12 @@ object Client {
         val targetShare = getDiskShare(targetSession, targetSharePath.name)
         val sourceFile = try {
             sourceShare.openFile(
-                sourceSharePath.path, enumSetOf(
+                sourceSharePath.path,
+                enumSetOf(
                     AccessMask.FILE_READ_DATA, AccessMask.FILE_READ_ATTRIBUTES,
                     AccessMask.FILE_READ_EA
-                ), null, SMB2ShareAccess.ALL, SMB2CreateDisposition.FILE_OPEN,
+                ),
+                null, SMB2ShareAccess.ALL, SMB2CreateDisposition.FILE_OPEN,
                 if (openReparsePoint) {
                     enumSetOf(SMB2CreateOptions.FILE_OPEN_REPARSE_POINT)
                 } else {
@@ -358,10 +373,12 @@ object Client {
                 }
                 val targetFile = try {
                     targetShare.openFile(
-                        targetSharePath.path, enumSetOf(
-                        AccessMask.FILE_WRITE_DATA, AccessMask.FILE_WRITE_ATTRIBUTES,
-                        AccessMask.FILE_WRITE_EA, AccessMask.DELETE
-                    ), attributesToCopy, SMB2ShareAccess.ALL,
+                        targetSharePath.path,
+                        enumSetOf(
+                            AccessMask.FILE_WRITE_DATA, AccessMask.FILE_WRITE_ATTRIBUTES,
+                            AccessMask.FILE_WRITE_EA, AccessMask.DELETE
+                        ),
+                        attributesToCopy, SMB2ShareAccess.ALL,
                         SMB2CreateDisposition.FILE_CREATE,
                         enumSetOf(SMB2CreateOptions.FILE_OPEN_REPARSE_POINT)
                     )
@@ -476,7 +493,8 @@ object Client {
                 directoryFileInformationCache[path]?.let {
                     if (openReparsePoint || !it.fileAttributes.hasBits(
                             FileAttributes.FILE_ATTRIBUTE_REPARSE_POINT.value
-                        )) {
+                        )
+                    ) {
                         return it.also { directoryFileInformationCache -= path }
                     }
                 }
@@ -544,7 +562,8 @@ object Client {
         val diskEntry = try {
             share.open(
                 sharePath.path, desiredAccess, null, SMB2ShareAccess.ALL,
-                SMB2CreateDisposition.FILE_OPEN, if (openReparsePoint) {
+                SMB2CreateDisposition.FILE_OPEN,
+                if (openReparsePoint) {
                     enumSetOf(SMB2CreateOptions.FILE_OPEN_REPARSE_POINT)
                 } else {
                     null
@@ -619,9 +638,9 @@ object Client {
                 // will receive an exception about no available credits.
                 connection.closeSafe()
                 throw ClientException(e)
-            // TODO: kotlinc: Type mismatch: inferred type is Session? but TypeVariable(V) was
-            //  expected
-            //}
+                // TODO: kotlinc: Type mismatch: inferred type is Session? but TypeVariable(V) was
+                //  expected
+                // }
             }!!
             sessions[authority] = session
             return session

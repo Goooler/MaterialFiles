@@ -19,6 +19,7 @@ import androidx.core.view.children
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import java.nio.charset.Charset
 import java8.nio.file.Path
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -36,9 +37,10 @@ import me.zhanghai.android.files.util.getExtraPath
 import me.zhanghai.android.files.util.isReady
 import me.zhanghai.android.files.util.showToast
 import me.zhanghai.android.files.util.viewModels
-import java.nio.charset.Charset
 
-class TextEditorFragment : Fragment(), ConfirmReloadDialogFragment.Listener,
+class TextEditorFragment :
+    Fragment(),
+    ConfirmReloadDialogFragment.Listener,
     ConfirmCloseDialogFragment.Listener {
     private val args by args<Args>()
     private lateinit var argsFile: Path
@@ -220,7 +222,8 @@ class TextEditorFragment : Fragment(), ConfirmReloadDialogFragment.Listener,
                 R.string.text_editor_title_changed_format
             } else {
                 R.string.text_editor_title_format
-            }, fileName
+            },
+            fileName
         )
     }
 

@@ -5,6 +5,9 @@
 
 package me.zhanghai.android.files.provider.sftp.client
 
+import java.io.IOException
+import java.util.Collections
+import java.util.WeakHashMap
 import java8.nio.channels.SeekableByteChannel
 import me.zhanghai.android.files.util.closeSafe
 import net.schmizz.sshj.SSHClient
@@ -18,9 +21,6 @@ import net.schmizz.sshj.sftp.SFTPException
 import net.schmizz.sshj.transport.TransportException
 import net.schmizz.sshj.transport.verification.PromiscuousVerifier
 import net.schmizz.sshj.userauth.UserAuthException
-import java.io.IOException
-import java.util.Collections
-import java.util.WeakHashMap
 
 object Client {
     @Volatile

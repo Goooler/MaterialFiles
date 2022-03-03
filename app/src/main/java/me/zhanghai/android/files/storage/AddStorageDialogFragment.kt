@@ -41,30 +41,34 @@ class AddStorageDialogFragment : AppCompatDialogFragment() {
     companion object {
         private val STORAGE_TYPES = listOfNotNull(
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                (R.string.storage_add_storage_android_data
+                (
+                    R.string.storage_add_storage_android_data
                         to AddDocumentTreeActivity ::class.createIntent()
-                    .putArgs(
-                        AddDocumentTreeFragment.Args(
-                            R.string.storage_add_storage_android_data,
-                            ExternalStorageProviderHacks.DOCUMENT_URI_ANDROID_DATA
-                                .asDocumentTreeUri()
-                        )
-                    ))
+                            .putArgs(
+                                AddDocumentTreeFragment.Args(
+                                    R.string.storage_add_storage_android_data,
+                                    ExternalStorageProviderHacks.DOCUMENT_URI_ANDROID_DATA
+                                        .asDocumentTreeUri()
+                                )
+                            )
+                    )
             } else null,
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                (R.string.storage_add_storage_android_obb
+                (
+                    R.string.storage_add_storage_android_obb
                         to AddDocumentTreeActivity ::class.createIntent()
-                    .putArgs(
-                        AddDocumentTreeFragment.Args(
-                            R.string.storage_add_storage_android_obb,
-                            ExternalStorageProviderHacks.DOCUMENT_URI_ANDROID_OBB
-                                .asDocumentTreeUri()
-                        )
-                    ))
+                            .putArgs(
+                                AddDocumentTreeFragment.Args(
+                                    R.string.storage_add_storage_android_obb,
+                                    ExternalStorageProviderHacks.DOCUMENT_URI_ANDROID_OBB
+                                        .asDocumentTreeUri()
+                                )
+                            )
+                    )
             } else null,
             R.string.storage_add_storage_document_tree
-                    to AddDocumentTreeActivity::class.createIntent()
-                .putArgs(AddDocumentTreeFragment.Args(null, null)),
+                to AddDocumentTreeActivity::class.createIntent()
+                    .putArgs(AddDocumentTreeFragment.Args(null, null)),
             R.string.storage_add_storage_sftp_server to EditSftpServerActivity::class.createIntent()
                 .putArgs(EditSftpServerFragment.Args()),
             R.string.storage_add_storage_smb_server to AddLanSmbServerActivity::class.createIntent()

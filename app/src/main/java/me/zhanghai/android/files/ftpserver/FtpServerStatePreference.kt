@@ -55,10 +55,12 @@ class FtpServerStatePreference : SwitchPreferenceCompat {
             FtpServerService.State.STOPPED -> R.string.ftp_server_state_summary_stopped
         }
         summary = context.getString(summaryRes)
-        isChecked = state == FtpServerService.State.STARTING
-            || state == FtpServerService.State.RUNNING
-        isEnabled = !(state == FtpServerService.State.STARTING
-            || state == FtpServerService.State.STOPPING)
+        isChecked = state == FtpServerService.State.STARTING ||
+            state == FtpServerService.State.RUNNING
+        isEnabled = !(
+            state == FtpServerService.State.STARTING ||
+                state == FtpServerService.State.STOPPING
+            )
     }
 
     override fun onClick() {

@@ -60,7 +60,8 @@ class AddLanSmbServerFragment : Fragment() {
         binding.recyclerView.adapter = ConcatAdapter(
             ConcatAdapter.Config.Builder()
                 .setStableIdMode(ConcatAdapter.Config.StableIdMode.ISOLATED_STABLE_IDS)
-                .build(), loadingAdapter, serverListAdapter, addAdapter
+                .build(),
+            loadingAdapter, serverListAdapter, addAdapter
         )
 
         viewModel.lanSmbServerListLiveData.observe(viewLifecycleOwner) {

@@ -5,10 +5,10 @@
 
 package me.zhanghai.android.files.filejob
 
-import me.zhanghai.android.files.util.showToast
 import java.io.IOException
 import java.io.InterruptedIOException
 import java.util.Random
+import me.zhanghai.android.files.util.showToast
 
 abstract class FileJob {
     val id = Random().nextInt()

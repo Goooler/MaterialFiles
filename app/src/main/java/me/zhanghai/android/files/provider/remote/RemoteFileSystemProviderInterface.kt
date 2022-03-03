@@ -5,12 +5,12 @@
 
 package me.zhanghai.android.files.provider.remote
 
+import java.util.concurrent.Executors
 import java8.nio.file.spi.FileSystemProvider
 import me.zhanghai.android.files.provider.common.PathObservableProvider
 import me.zhanghai.android.files.provider.common.Searchable
 import me.zhanghai.android.files.util.RemoteCallback
 import me.zhanghai.android.files.util.toBundle
-import java.util.concurrent.Executors
 
 class RemoteFileSystemProviderInterface(
     private val provider: FileSystemProvider

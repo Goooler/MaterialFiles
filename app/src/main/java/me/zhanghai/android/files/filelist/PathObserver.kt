@@ -9,12 +9,12 @@ import android.os.AsyncTask
 import android.os.Handler
 import android.os.Looper
 import androidx.annotation.MainThread
+import java.io.Closeable
+import java.io.IOException
 import java8.nio.file.Path
 import me.zhanghai.android.files.provider.common.PathObservable
 import me.zhanghai.android.files.provider.common.observe
 import me.zhanghai.android.files.util.closeSafe
-import java.io.Closeable
-import java.io.IOException
 
 class PathObserver(path: Path, @MainThread onChange: () -> Unit) : Closeable {
     private var pathObservable: PathObservable? = null

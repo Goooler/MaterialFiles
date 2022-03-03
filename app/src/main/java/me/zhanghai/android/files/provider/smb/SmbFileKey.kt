@@ -23,9 +23,9 @@ internal class SmbFileKey(
         }
         other as SmbFileKey
         return if (fileId != 0L || other.fileId != 0L) {
-            path.authority == other.path.authority
-                && path.sharePath!!.name == other.path.sharePath!!.name
-                && fileId == other.fileId
+            path.authority == other.path.authority &&
+                path.sharePath!!.name == other.path.sharePath!!.name &&
+                fileId == other.fileId
         } else {
             path == other.path
         }

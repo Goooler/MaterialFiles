@@ -7,6 +7,7 @@ package me.zhanghai.android.files.provider.sftp
 
 import android.os.Parcel
 import android.os.Parcelable
+import java.io.IOException
 import java8.nio.file.FileStore
 import java8.nio.file.FileSystem
 import java8.nio.file.Path
@@ -21,7 +22,6 @@ import me.zhanghai.android.files.provider.common.PollingWatchService
 import me.zhanghai.android.files.provider.common.toByteString
 import me.zhanghai.android.files.provider.sftp.client.Authority
 import me.zhanghai.android.files.util.readParcelable
-import java.io.IOException
 
 internal class SftpFileSystem(
     private val provider: SftpFileSystemProvider,

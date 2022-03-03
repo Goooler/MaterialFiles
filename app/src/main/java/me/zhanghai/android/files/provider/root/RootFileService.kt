@@ -34,11 +34,11 @@ object RootFileService : RemoteFileService(
     private val LOG_TAG = RootFileService::class.java.simpleName
 
     // Not actually restricted because there's no restriction when running as root.
-    //@RestrictedHiddenApi
+    // @RestrictedHiddenApi
     private val activityThreadCurrentActivityThreadMethod by lazyReflectedMethod(
         "android.app.ActivityThread", "currentActivityThread"
     )
-    //@RestrictedHiddenApi
+    // @RestrictedHiddenApi
     private val activityThreadGetSystemContextMethod by lazyReflectedMethod(
         "android.app.ActivityThread", "getSystemContext"
     )

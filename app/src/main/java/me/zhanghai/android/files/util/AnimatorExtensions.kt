@@ -8,8 +8,8 @@ package me.zhanghai.android.files.util
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.view.ViewPropertyAnimator
-import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
+import kotlinx.coroutines.suspendCancellableCoroutine
 
 suspend fun Animator.awaitEnd(): Unit =
     suspendCancellableCoroutine { continuation ->

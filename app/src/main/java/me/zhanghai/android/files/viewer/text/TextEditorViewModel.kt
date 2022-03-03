@@ -9,6 +9,8 @@ import android.content.Context
 import android.os.Parcelable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import java.io.IOException
+import java.nio.charset.StandardCharsets
 import java8.nio.file.Path
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
@@ -32,8 +34,6 @@ import me.zhanghai.android.files.util.isFinished
 import me.zhanghai.android.files.util.isReady
 import me.zhanghai.android.files.util.toError
 import me.zhanghai.android.files.util.toLoading
-import java.io.IOException
-import java.nio.charset.StandardCharsets
 
 class TextEditorViewModel(file: Path) : ViewModel() {
     private val _file = MutableStateFlow(file)

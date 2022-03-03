@@ -6,12 +6,12 @@
 package me.zhanghai.android.files.provider.document
 
 import android.net.Uri
+import java.io.IOException
 import java8.nio.file.FileAlreadyExistsException
 import java8.nio.file.StandardCopyOption
 import me.zhanghai.android.files.provider.common.CopyOptions
 import me.zhanghai.android.files.provider.content.resolver.ResolverException
 import me.zhanghai.android.files.provider.document.resolver.DocumentResolver
-import java.io.IOException
 
 internal object DocumentCopyMove {
     @Throws(IOException::class)

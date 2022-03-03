@@ -7,12 +7,12 @@ package me.zhanghai.android.files.fileproperties.image
 
 import android.annotation.SuppressLint
 import androidx.exifinterface.media.ExifInterface
+import kotlin.math.roundToLong
 import me.zhanghai.android.files.util.takeIfNotBlank
 import org.threeten.bp.Duration
 import org.threeten.bp.Instant
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZoneOffset
-import kotlin.math.roundToLong
 
 fun ExifInterface.getAttributeNotBlank(tag: String): String? =
     getAttribute(tag)?.takeIfNotBlank()

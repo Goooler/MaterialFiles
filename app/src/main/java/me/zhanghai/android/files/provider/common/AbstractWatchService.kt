@@ -5,14 +5,14 @@
 
 package me.zhanghai.android.files.provider.common
 
+import java.io.IOException
+import java.util.concurrent.LinkedBlockingQueue
+import java.util.concurrent.TimeUnit
 import java8.nio.file.ClosedWatchServiceException
 import java8.nio.file.WatchEvent
 import java8.nio.file.WatchKey
 import java8.nio.file.WatchService
 import java8.nio.file.Watchable
-import java.io.IOException
-import java.util.concurrent.LinkedBlockingQueue
-import java.util.concurrent.TimeUnit
 
 abstract class AbstractWatchService<K : AbstractWatchKey<K, *>> : WatchService {
     private val queue = LinkedBlockingQueue<WatchKey>()

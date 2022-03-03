@@ -6,6 +6,10 @@
 package me.zhanghai.android.files.provider.archive.archiver
 
 import android.os.Build
+import java.io.Closeable
+import java.io.File
+import java.io.IOException
+import java.io.OutputStream
 import java8.nio.channels.SeekableByteChannel
 import java8.nio.file.LinkOption
 import java8.nio.file.Path
@@ -33,10 +37,6 @@ import org.apache.commons.compress.archivers.zip.UnixStat
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry
 import org.apache.commons.compress.compressors.CompressorException
 import org.apache.commons.compress.compressors.CompressorStreamFactory
-import java.io.Closeable
-import java.io.File
-import java.io.IOException
-import java.io.OutputStream
 
 class ArchiveWriter(
     archiveType: String,

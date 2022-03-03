@@ -124,5 +124,5 @@ class FilePropertiesDialogFragment : AppCompatDialogFragment() {
     }
 
     @Parcelize
-    class Args(val file: FileItem): ParcelableArgs
+    class Args(val file: FileItem) : ParcelableArgs
 }

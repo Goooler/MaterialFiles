@@ -8,6 +8,7 @@ package me.zhanghai.android.files.provider.document
 import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
+import java.io.IOException
 import java8.nio.file.FileStore
 import java8.nio.file.FileSystem
 import java8.nio.file.Path
@@ -20,7 +21,6 @@ import me.zhanghai.android.files.provider.common.ByteStringBuilder
 import me.zhanghai.android.files.provider.common.ByteStringListPathCreator
 import me.zhanghai.android.files.provider.common.toByteString
 import me.zhanghai.android.files.util.readParcelable
-import java.io.IOException
 
 internal class DocumentFileSystem(
     private val provider: DocumentFileSystemProvider,

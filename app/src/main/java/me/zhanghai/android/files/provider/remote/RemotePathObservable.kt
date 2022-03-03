@@ -9,9 +9,9 @@ import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
 import android.os.RemoteException
+import java.io.IOException
 import me.zhanghai.android.files.provider.common.PathObservable
 import me.zhanghai.android.files.util.RemoteCallback
-import java.io.IOException
 
 class RemotePathObservable : PathObservable, Parcelable {
     private val localPathObservable: PathObservable?
@@ -32,9 +32,11 @@ class RemotePathObservable : PathObservable, Parcelable {
         synchronized(remoteLock!!) {
             check(!isRemoteInitialized)
             try {
-                remotePathObservable!!.addObserver(RemoteCallback {
-                    synchronized(remoteLock) { remoteObservers!!.forEach { it() } }
-                })
+                remotePathObservable!!.addObserver(
+                    RemoteCallback {
+                        synchronized(remoteLock) { remoteObservers!!.forEach { it() } }
+                    }
+                )
             } catch (e: RemoteException) {
                 close()
                 throw RemoteFileSystemException(e)

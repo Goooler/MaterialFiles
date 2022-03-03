@@ -5,12 +5,12 @@
 
 package me.zhanghai.android.files.provider.common
 
+import java.io.IOException
+import java.util.NoSuchElementException
 import java8.nio.file.Path
 import java8.nio.file.WatchEvent
 import java8.nio.file.WatchKey
 import java8.nio.file.WatchService
-import java.io.IOException
-import java.util.NoSuchElementException
 
 abstract class AbstractPath<T : AbstractPath<T>> : CovariantPath<T> {
     override fun getFileName(): T? {

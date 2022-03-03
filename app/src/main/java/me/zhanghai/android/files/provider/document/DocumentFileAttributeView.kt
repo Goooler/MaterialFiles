@@ -8,6 +8,7 @@ package me.zhanghai.android.files.provider.document
 import android.os.Parcel
 import android.os.Parcelable
 import android.provider.DocumentsContract
+import java.io.IOException
 import java8.nio.file.attribute.BasicFileAttributeView
 import java8.nio.file.attribute.FileTime
 import me.zhanghai.android.files.compat.use
@@ -18,7 +19,6 @@ import me.zhanghai.android.files.provider.content.resolver.getString
 import me.zhanghai.android.files.provider.content.resolver.moveToFirstOrThrow
 import me.zhanghai.android.files.provider.document.resolver.DocumentResolver
 import me.zhanghai.android.files.util.readParcelable
-import java.io.IOException
 
 internal class DocumentFileAttributeView(
     private val path: DocumentPath

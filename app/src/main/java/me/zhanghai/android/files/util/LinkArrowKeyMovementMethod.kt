@@ -53,8 +53,9 @@ object LinkArrowKeyMovementMethod : ArrowKeyMovementMethod() {
     ): Boolean {
         if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
             if (KeyEvent.metaStateHasNoModifiers(movementMetaState)) {
-                if (event.action == KeyEvent.ACTION_DOWN && event.repeatCount == 0
-                    && action(CLICK, widget, buffer)) {
+                if (event.action == KeyEvent.ACTION_DOWN && event.repeatCount == 0 &&
+                    action(CLICK, widget, buffer)
+                ) {
                     return true
                 }
             }
@@ -191,9 +192,9 @@ object LinkArrowKeyMovementMethod : ArrowKeyMovementMethod() {
                 return true
             }
             // Removed
-            //else {
+            // else {
             //    Selection.removeSelection(buffer);
-            //}
+            // }
         }
         return super.onTouchEvent(widget, buffer, event)
     }

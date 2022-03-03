@@ -10,6 +10,8 @@ import android.location.Geocoder
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import java8.nio.file.Path
+import kotlin.math.pow
+import kotlin.math.roundToInt
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -32,8 +34,6 @@ import me.zhanghai.android.files.util.isGeocoderPresent
 import me.zhanghai.android.files.util.startActivitySafe
 import me.zhanghai.android.files.util.userFriendlyString
 import me.zhanghai.android.files.util.viewModels
-import kotlin.math.pow
-import kotlin.math.roundToInt
 
 class FilePropertiesImageTabFragment : FilePropertiesTabFragment() {
     private val args by args<Args>()
@@ -59,7 +59,8 @@ class FilePropertiesImageTabFragment : FilePropertiesTabFragment() {
         addressJob = null
         bindView(stateful) { imageInfo ->
             addItemView(
-                R.string.file_properties_media_dimensions, if (imageInfo.dimensions != null) {
+                R.string.file_properties_media_dimensions,
+                if (imageInfo.dimensions != null) {
                     getString(
                         R.string.file_properties_media_dimensions_format,
                         imageInfo.dimensions.width, imageInfo.dimensions.height
@@ -78,7 +79,8 @@ class FilePropertiesImageTabFragment : FilePropertiesTabFragment() {
                 }
                 if (exifInfo.gpsCoordinates != null) {
                     addItemView(
-                        R.string.file_properties_media_coordinates, getString(
+                        R.string.file_properties_media_coordinates,
+                        getString(
                             R.string.file_properties_media_coordinates_format,
                             exifInfo.gpsCoordinates.first, exifInfo.gpsCoordinates.second
                         )
@@ -112,7 +114,8 @@ class FilePropertiesImageTabFragment : FilePropertiesTabFragment() {
                 }
                 if (exifInfo.gpsAltitude != null) {
                     addItemView(
-                        R.string.file_properties_image_gps_altitude, getString(
+                        R.string.file_properties_image_gps_altitude,
+                        getString(
                             R.string.file_properties_image_gps_altitude_format, exifInfo.gpsAltitude
                         )
                     )
@@ -123,7 +126,8 @@ class FilePropertiesImageTabFragment : FilePropertiesTabFragment() {
                 }
                 if (exifInfo.fNumber != null) {
                     addItemView(
-                        R.string.file_properties_image_f_number, getString(
+                        R.string.file_properties_image_f_number,
+                        getString(
                             R.string.file_properties_image_f_number_format, exifInfo.fNumber
                         )
                     )
@@ -136,14 +140,16 @@ class FilePropertiesImageTabFragment : FilePropertiesTabFragment() {
                 }
                 if (exifInfo.focalLength != null) {
                     addItemView(
-                        R.string.file_properties_image_focal_length, getString(
+                        R.string.file_properties_image_focal_length,
+                        getString(
                             R.string.file_properties_image_focal_length_format, exifInfo.focalLength
                         )
                     )
                 }
                 if (exifInfo.photographicSensitivity != null) {
                     addItemView(
-                        R.string.file_properties_image_photographic_sensitivity, getString(
+                        R.string.file_properties_image_photographic_sensitivity,
+                        getString(
                             R.string.file_properties_image_photographic_sensitivity_format,
                             exifInfo.photographicSensitivity
                         )

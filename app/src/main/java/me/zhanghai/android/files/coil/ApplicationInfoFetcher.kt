@@ -33,7 +33,8 @@ class ApplicationInfoFetcher(private val context: Context) : Fetcher<Application
         pool: BitmapPool,
         data: ApplicationInfo,
         size: Size,
-        options: Options): FetchResult {
+        options: Options
+    ): FetchResult {
         val icon = appIconLoader.loadIcon(data)
         // Not sampled because we only load with one fixed size.
         return DrawableResult(icon.toDrawable(context.resources), false, DataSource.DISK)

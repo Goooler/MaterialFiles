@@ -36,7 +36,8 @@ class NavigationRecyclerView : RecyclerView {
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
     constructor(context: Context, attrs: AttributeSet?, @AttrRes defStyleAttr: Int) : super(
-        context, attrs, defStyleAttr)
+        context, attrs, defStyleAttr
+    )
 
     init {
         val context = context

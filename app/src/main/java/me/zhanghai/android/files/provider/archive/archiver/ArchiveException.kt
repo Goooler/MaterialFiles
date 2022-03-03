@@ -6,9 +6,9 @@
 package me.zhanghai.android.files.provider.archive.archiver
 
 import com.github.junrar.exception.RarException
-import org.apache.commons.compress.compressors.CompressorException
 import java.io.IOException
 import org.apache.commons.compress.archivers.ArchiveException as ApacheArchiveException
+import org.apache.commons.compress.compressors.CompressorException
 
 class ArchiveException : IOException {
     constructor(cause: ApacheArchiveException) : super(cause)

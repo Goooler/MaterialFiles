@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.files.provider.linux
 
+import java.io.IOException
 import java8.nio.file.FileStore
 import java8.nio.file.FileSystem
 import java8.nio.file.Path
@@ -16,7 +17,6 @@ import me.zhanghai.android.files.provider.common.ByteStringBuilder
 import me.zhanghai.android.files.provider.common.ByteStringListPathCreator
 import me.zhanghai.android.files.provider.common.toByteString
 import me.zhanghai.android.files.util.takeIfNotEmpty
-import java.io.IOException
 
 internal class LocalLinuxFileSystem(
     private val fileSystem: LinuxFileSystem,
