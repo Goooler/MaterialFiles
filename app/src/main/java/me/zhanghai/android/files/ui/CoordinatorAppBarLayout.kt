@@ -47,8 +47,9 @@ class CoordinatorAppBarLayout : AppBarLayout {
         if (backgroundColor != null) {
             val window = context.activity!!.window
             val statusBarColor = window.statusBarColor
-            if (backgroundColor == statusBarColor
-                || backgroundColor == ColorUtils.setAlphaComponent(statusBarColor, 0xFF)) {
+            if (backgroundColor == statusBarColor ||
+                backgroundColor == ColorUtils.setAlphaComponent(statusBarColor, 0xFF)
+            ) {
                 window.statusBarColor = Color.TRANSPARENT
             }
         }
@@ -66,10 +67,12 @@ class CoordinatorAppBarLayout : AppBarLayout {
             )
         }
 
-        addOnOffsetChangedListener(OnOffsetChangedListener { _, offset ->
-            this.offset = offset
-            updateFirstChildClipBounds()
-        })
+        addOnOffsetChangedListener(
+            OnOffsetChangedListener { _, offset ->
+                this.offset = offset
+                updateFirstChildClipBounds()
+            }
+        )
     }
 
     override fun onFinishInflate() {

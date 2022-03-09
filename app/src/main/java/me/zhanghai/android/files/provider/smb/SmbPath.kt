@@ -7,6 +7,8 @@ package me.zhanghai.android.files.provider.smb
 
 import android.os.Parcel
 import android.os.Parcelable
+import java.io.File
+import java.io.IOException
 import java8.nio.file.FileSystem
 import java8.nio.file.LinkOption
 import java8.nio.file.Path
@@ -20,8 +22,6 @@ import me.zhanghai.android.files.provider.common.UriAuthority
 import me.zhanghai.android.files.provider.smb.client.Authority
 import me.zhanghai.android.files.provider.smb.client.Client
 import me.zhanghai.android.files.util.readParcelable
-import java.io.File
-import java.io.IOException
 
 internal class SmbPath : ByteStringListPath<SmbPath>, Client.Path {
     private val fileSystem: SmbFileSystem

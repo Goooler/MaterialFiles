@@ -24,7 +24,8 @@ object StorageVolumeListLiveData : LiveData<List<StorageVolume>>() {
                 override fun onReceive(context: Context, intent: Intent) {
                     loadValue()
                 }
-            }, IntentFilter().apply {
+            },
+            IntentFilter().apply {
                 // @see android.os.storage.VolumeInfo#sEnvironmentToBroadcast
                 addAction(Intent.ACTION_MEDIA_UNMOUNTED)
                 addAction(Intent.ACTION_MEDIA_CHECKING)

@@ -6,8 +6,6 @@
 package me.zhanghai.android.files.provider.archive.archiver
 
 import android.os.Build
-import org.apache.commons.compress.archivers.zip.ZipArchiveEntry
-import org.apache.commons.compress.archivers.zip.ZipFile
 import java.io.Closeable
 import java.io.File
 import java.io.IOException
@@ -18,6 +16,8 @@ import java.util.Enumeration
 import java.util.zip.ZipEntry
 import java.util.zip.ZipException
 import java.util.zip.ZipFile as JavaZipFile
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry
+import org.apache.commons.compress.archivers.zip.ZipFile
 
 internal class ZipFileCompat(file: File, encoding: String) : Closeable {
     private var zipFile: ZipFile?

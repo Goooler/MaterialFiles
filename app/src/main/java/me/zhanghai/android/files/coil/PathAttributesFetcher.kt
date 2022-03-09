@@ -43,10 +43,10 @@ import me.zhanghai.android.files.settings.Settings
 import me.zhanghai.android.files.util.getDimensionPixelSize
 import me.zhanghai.android.files.util.runWithCancellationSignal
 import me.zhanghai.android.files.util.setDataSource
+import me.zhanghai.android.files.util.setDataSource as appSetDataSource
 import me.zhanghai.android.files.util.valueCompat
 import okio.buffer
 import okio.source
-import me.zhanghai.android.files.util.setDataSource as appSetDataSource
 
 class PathAttributesFetcher(
     private val context: Context
@@ -113,9 +113,14 @@ class PathAttributesFetcher(
             }
         }
         val mimeType = AndroidFileTypeDetector.getMimeType(data.first, data.second).asMimeType()
-        if (path.isLinuxPath || (path.isDocumentPath && (!isThumbnailSize
-                || DocumentResolver.isLocal(path as DocumentResolver.Path)
-                || Settings.READ_REMOTE_FILES_FOR_THUMBNAIL.valueCompat))) {
+        if (path.isLinuxPath || (
+            path.isDocumentPath && (
+                !isThumbnailSize ||
+                    DocumentResolver.isLocal(path as DocumentResolver.Path) ||
+                    Settings.READ_REMOTE_FILES_FOR_THUMBNAIL.valueCompat
+                )
+            )
+        ) {
             if (mimeType.isMedia) {
                 val embeddedPicture = try {
                     MediaMetadataRetriever().use { retriever ->
@@ -159,9 +164,12 @@ class PathAttributesFetcher(
                 return DrawableResult(icon.toDrawable(context.resources), false, DataSource.DISK)
             }
         }
-        if ((mimeType.isImage || mimeType == MimeType.GENERIC) && (!path.isDocumentPath
-                || !isThumbnailSize || DocumentResolver.isLocal(path as DocumentResolver.Path)
-                || Settings.READ_REMOTE_FILES_FOR_THUMBNAIL.valueCompat)) {
+        if ((mimeType.isImage || mimeType == MimeType.GENERIC) && (
+            !path.isDocumentPath ||
+                !isThumbnailSize || DocumentResolver.isLocal(path as DocumentResolver.Path) ||
+                Settings.READ_REMOTE_FILES_FOR_THUMBNAIL.valueCompat
+            )
+        ) {
             val inputStream = path.newInputStream()
             return SourceResult(
                 inputStream.source().buffer(),

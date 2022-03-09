@@ -5,46 +5,44 @@
   ~ All Rights Reserved.
   -->
 
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <me.zhanghai.android.files.ftpserver.FtpServerStatePreference
-        android:key="@string/pref_key_ftp_server_state"
         android:disableDependentsState="true"
+        android:key="@string/pref_key_ftp_server_state"
         android:title="@string/ftp_server_state_title" />
 
-    <me.zhanghai.android.files.ftpserver.FtpServerUrlPreference
-        android:title="@string/ftp_server_url_title" />
+    <me.zhanghai.android.files.ftpserver.FtpServerUrlPreference android:title="@string/ftp_server_url_title" />
 
     <PreferenceCategory
-        android:title="@string/ftp_server_configuration_title"
-        android:dependency="@string/pref_key_ftp_server_state">
+        android:dependency="@string/pref_key_ftp_server_state"
+        android:title="@string/ftp_server_configuration_title">
 
         <SwitchPreferenceCompat
-            android:key="@string/pref_key_ftp_server_anonymous_login"
-            android:title="@string/ftp_server_anonymous_login_title"
             android:defaultValue="@bool/pref_default_value_ftp_server_anonymous_login"
-            android:disableDependentsState="true" />
+            android:disableDependentsState="true"
+            android:key="@string/pref_key_ftp_server_anonymous_login"
+            android:title="@string/ftp_server_anonymous_login_title" />
 
         <me.zhanghai.android.files.settings.DefaultIfEmptyEditTextPreference
-            android:key="@string/pref_key_ftp_server_username"
-            android:title="@string/ftp_server_username_title"
             android:defaultValue="@string/pref_default_value_ftp_server_username"
             android:dependency="@string/pref_key_ftp_server_anonymous_login"
+            android:key="@string/pref_key_ftp_server_username"
+            android:title="@string/ftp_server_username_title"
             app:useSimpleSummaryProvider="true" />
 
         <me.zhanghai.android.files.settings.PasswordPreference
-            android:key="@string/pref_key_ftp_server_password"
-            android:title="@string/ftp_server_password_title"
             android:dependency="@string/pref_key_ftp_server_anonymous_login"
             android:inputType="textVisiblePassword"
+            android:key="@string/pref_key_ftp_server_password"
+            android:title="@string/ftp_server_password_title"
             app:useSimpleSummaryProvider="true" />
 
         <me.zhanghai.android.files.settings.NonNegativeIntegerPreference
+            android:defaultValue="@integer/pref_default_value_ftp_server_port"
             android:key="@string/pref_key_ftp_server_port"
             android:title="@string/ftp_server_port_title"
-            android:defaultValue="@integer/pref_default_value_ftp_server_port"
             app:useSimpleSummaryProvider="true" />
 
         <me.zhanghai.android.files.ftpserver.FtpServerHomeDirectoryPreference
@@ -53,8 +51,8 @@
             app:useSimpleSummaryProvider="true" />
 
         <SwitchPreferenceCompat
+            android:defaultValue="@bool/pref_default_value_ftp_server_writable"
             android:key="@string/pref_key_ftp_server_writable"
-            android:title="@string/ftp_server_writable_title"
-            android:defaultValue="@bool/pref_default_value_ftp_server_writable" />
+            android:title="@string/ftp_server_writable_title" />
     </PreferenceCategory>
 </PreferenceScreen>

@@ -15,10 +15,6 @@ import com.hierynomus.smbj.common.SMBRuntimeException
 import com.hierynomus.smbj.io.ByteChunkProvider
 import com.hierynomus.smbj.share.File
 import com.hierynomus.smbj.share.FileAccessor
-import java8.nio.channels.SeekableByteChannel
-import me.zhanghai.android.files.provider.common.ForceableChannel
-import me.zhanghai.android.files.util.closeSafe
-import me.zhanghai.android.files.util.findCauseByClass
 import java.io.Closeable
 import java.io.IOException
 import java.io.InterruptedIOException
@@ -29,6 +25,11 @@ import java.nio.channels.ClosedChannelException
 import java.nio.channels.NonReadableChannelException
 import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
+import java8.nio.channels.SeekableByteChannel
+import me.zhanghai.android.files.provider.common.ForceableChannel
+import me.zhanghai.android.files.util.closeSafe
+import me.zhanghai.android.files.util.findCauseByClass
+
 
 class FileByteChannel(
     private val file: File,
@@ -288,7 +289,7 @@ class FileByteChannel(
             } else {
                 synchronized(pendingFutureLock) {
                     // TransportException: Received response with unknown sequence number
-                    //pendingFuture?.cancel(true)?.also { pendingFuture = null }
+                    // pendingFuture?.cancel(true)?.also { pendingFuture = null }
                     pendingFuture = null
                 }
                 buffer.limit(0)
@@ -299,7 +300,7 @@ class FileByteChannel(
         override fun close() {
             synchronized(pendingFutureLock) {
                 // TransportException: Received response with unknown sequence number
-                //pendingFuture?.cancel(true)?.also { pendingFuture = null }
+                // pendingFuture?.cancel(true)?.also { pendingFuture = null }
                 pendingFuture = null
             }
         }

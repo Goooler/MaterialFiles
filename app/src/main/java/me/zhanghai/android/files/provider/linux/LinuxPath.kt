@@ -8,6 +8,8 @@ package me.zhanghai.android.files.provider.linux
 import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
+import java.io.File
+import java.io.IOException
 import java8.nio.file.LinkOption
 import java8.nio.file.Path
 import java8.nio.file.ProviderMismatchException
@@ -23,8 +25,6 @@ import me.zhanghai.android.files.provider.root.RootablePath
 import me.zhanghai.android.files.storage.StorageVolumeListLiveData
 import me.zhanghai.android.files.util.readParcelable
 import me.zhanghai.android.files.util.valueCompat
-import java.io.File
-import java.io.IOException
 
 internal class LinuxPath : ByteStringListPath<LinuxPath>, RootablePath {
     private val fileSystem: LinuxFileSystem
@@ -92,8 +92,8 @@ internal class LinuxPath : ByteStringListPath<LinuxPath>, RootablePath {
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 fun File.startsWithAndroidDataOrObb() =
-                    startsWith(storageVolumeFile.resolve(FILE_ANDROID_DATA))
-                        || startsWith(storageVolumeFile.resolve(FILE_ANDROID_OBB))
+                    startsWith(storageVolumeFile.resolve(FILE_ANDROID_DATA)) ||
+                        startsWith(storageVolumeFile.resolve(FILE_ANDROID_OBB))
                 if (isAttributeAccess) {
                     val parentFile = file.parentFile
                     if (parentFile != null && parentFile.startsWithAndroidDataOrObb()) {

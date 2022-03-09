@@ -115,11 +115,18 @@ import me.zhanghai.android.files.util.viewModels
 import me.zhanghai.android.files.util.withChooser
 import me.zhanghai.android.files.viewer.image.ImageViewerActivity
 
-class FileListFragment : Fragment(), BreadcrumbLayout.Listener, FileListAdapter.Listener,
-    OpenApkDialogFragment.Listener, ConfirmDeleteFilesDialogFragment.Listener,
-    CreateArchiveDialogFragment.Listener, RenameFileDialogFragment.Listener,
-    CreateFileDialogFragment.Listener, CreateDirectoryDialogFragment.Listener,
-    NavigationFragment.Listener, ShowRequestAllFilesAccessRationaleDialogFragment.Listener,
+class FileListFragment :
+    Fragment(),
+    BreadcrumbLayout.Listener,
+    FileListAdapter.Listener,
+    OpenApkDialogFragment.Listener,
+    ConfirmDeleteFilesDialogFragment.Listener,
+    CreateArchiveDialogFragment.Listener,
+    RenameFileDialogFragment.Listener,
+    CreateFileDialogFragment.Listener,
+    CreateDirectoryDialogFragment.Listener,
+    NavigationFragment.Listener,
+    ShowRequestAllFilesAccessRationaleDialogFragment.Listener,
     ShowRequestStoragePermissionRationaleDialogFragment.Listener,
     ShowRequestStoragePermissionInSettingsRationaleDialogFragment.Listener {
     private val requestAllFilesAccessLauncher = registerForActivityResult(
@@ -225,7 +232,7 @@ class FileListFragment : Fragment(), BreadcrumbLayout.Listener, FileListAdapter.
                 R.id.action_create_directory -> showCreateDirectoryDialog()
             }
             // Returning false causes the speed dial to close without animation.
-            //return false;
+            // return false;
             binding.speedDialView.close()
             true
         }
@@ -561,8 +568,10 @@ class FileListFragment : Fragment(), BreadcrumbLayout.Listener, FileListAdapter.
         }
         return when {
             !directoryCountText.isNullOrEmpty() && !fileCountText.isNullOrEmpty() ->
-                (directoryCountText + getString(R.string.file_list_subtitle_separator)
-                    + fileCountText)
+                (
+                    directoryCountText + getString(R.string.file_list_subtitle_separator) +
+                        fileCountText
+                    )
             !directoryCountText.isNullOrEmpty() -> directoryCountText
             !fileCountText.isNullOrEmpty() -> fileCountText
             else -> getString(R.string.empty)
@@ -717,8 +726,10 @@ class FileListFragment : Fragment(), BreadcrumbLayout.Listener, FileListAdapter.
             }
             var flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
             if (!pickOptions.readOnly) {
-                flags = flags or (Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                    or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+                flags = flags or (
+                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                        or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
+                    )
             }
             if (pickOptions.pickDirectory) {
                 flags = flags or Intent.FLAG_GRANT_PREFIX_URI_PERMISSION
@@ -913,7 +924,8 @@ class FileListFragment : Fragment(), BreadcrumbLayout.Listener, FileListAdapter.
                     }
                 } else {
                     R.string.file_list_paste_move_title_format
-                }, files.size
+                },
+                files.size
             )
             bottomActionMode.setMenuResource(R.menu.file_list_paste)
             val isCurrentPathReadOnly = viewModel.currentPath.fileSystem.isReadOnly
@@ -1195,7 +1207,8 @@ class FileListFragment : Fragment(), BreadcrumbLayout.Listener, FileListAdapter.
             )
             .setIcon(
                 IconCompat.createWithResource(
-                    context, if (isDirectory) {
+                    context,
+                    if (isDirectory) {
                         R.mipmap.directory_shortcut_icon
                     } else {
                         R.mipmap.file_shortcut_icon
@@ -1262,10 +1275,12 @@ class FileListFragment : Fragment(), BreadcrumbLayout.Listener, FileListAdapter.
             }
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
+                != PackageManager.PERMISSION_GRANTED
+            ) {
                 if (shouldShowRequestPermissionRationale(
                         android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    )) {
+                    )
+                ) {
                     ShowRequestStoragePermissionRationaleDialogFragment.show(this)
                 } else {
                     requestStoragePermission()
@@ -1296,7 +1311,8 @@ class FileListFragment : Fragment(), BreadcrumbLayout.Listener, FileListAdapter.
             refresh()
         } else if (!shouldShowRequestPermissionRationale(
                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )) {
+            )
+        ) {
             ShowRequestStoragePermissionInSettingsRationaleDialogFragment.show(this)
         }
     }
@@ -1332,8 +1348,8 @@ class FileListFragment : Fragment(), BreadcrumbLayout.Listener, FileListAdapter.
             Environment.isExternalStorageManager()
     }
 
-    private class RequestStoragePermissionInSettingsContract
-        : ActivityResultContract<Unit, Boolean>() {
+    private class RequestStoragePermissionInSettingsContract :
+        ActivityResultContract<Unit, Boolean>() {
         override fun createIntent(context: Context, input: Unit): Intent =
             Intent(
                 android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,

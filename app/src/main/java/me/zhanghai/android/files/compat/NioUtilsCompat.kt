@@ -7,11 +7,11 @@ package me.zhanghai.android.files.compat
 
 import android.os.Build
 import android.system.OsConstants
-import me.zhanghai.android.files.hiddenapi.RestrictedHiddenApi
-import me.zhanghai.android.files.util.lazyReflectedMethod
 import java.io.Closeable
 import java.io.FileDescriptor
 import java.nio.channels.FileChannel
+import me.zhanghai.android.files.hiddenapi.RestrictedHiddenApi
+import me.zhanghai.android.files.util.lazyReflectedMethod
 
 object NioUtilsCompat {
     @RestrictedHiddenApi

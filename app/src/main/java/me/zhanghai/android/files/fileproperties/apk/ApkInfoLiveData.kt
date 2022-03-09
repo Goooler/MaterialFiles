@@ -8,6 +8,7 @@ package me.zhanghai.android.files.fileproperties.apk
 import android.content.pm.PackageManager
 import android.os.AsyncTask
 import android.os.Build
+import java.io.IOException
 import java8.nio.file.Path
 import me.zhanghai.android.files.app.packageManager
 import me.zhanghai.android.files.compat.getPackageArchiveInfoCompat
@@ -19,7 +20,6 @@ import me.zhanghai.android.files.util.Success
 import me.zhanghai.android.files.util.sha1Digest
 import me.zhanghai.android.files.util.toHexString
 import me.zhanghai.android.files.util.valueCompat
-import java.io.IOException
 
 class ApkInfoLiveData(path: Path) : PathObserverLiveData<Stateful<ApkInfo>>(path) {
     init {
@@ -36,8 +36,10 @@ class ApkInfoLiveData(path: Path) : PathObserverLiveData<Stateful<ApkInfo>>(path
                 // PackageManager.getPackageArchiveInfo() to call
                 // PackageParser.collectCertificates().
                 @Suppress("DEPRECATION")
-                var packageInfoFlags = (PackageManager.GET_PERMISSIONS
-                    or PackageManager.GET_SIGNATURES)
+                var packageInfoFlags = (
+                    PackageManager.GET_PERMISSIONS
+                        or PackageManager.GET_SIGNATURES
+                    )
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                     packageInfoFlags = packageInfoFlags or PackageManager.GET_SIGNING_CERTIFICATES
                 }

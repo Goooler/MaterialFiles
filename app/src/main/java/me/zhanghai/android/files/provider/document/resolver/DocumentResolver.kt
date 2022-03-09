@@ -15,6 +15,13 @@ import android.os.CancellationSignal
 import android.os.ParcelFileDescriptor
 import android.provider.DocumentsContract
 import androidx.annotation.RequiresApi
+import java.io.FileNotFoundException
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
+import java.util.Collections
+import java.util.WeakHashMap
+import kotlin.coroutines.resume
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.suspendCancellableCoroutine
 import me.zhanghai.android.files.app.contentResolver
@@ -28,13 +35,6 @@ import me.zhanghai.android.files.provider.content.resolver.getString
 import me.zhanghai.android.files.provider.content.resolver.moveToFirstOrThrow
 import me.zhanghai.android.files.provider.content.resolver.requireString
 import me.zhanghai.android.files.util.AbstractLocalCursor
-import java.io.FileNotFoundException
-import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
-import java.util.Collections
-import java.util.WeakHashMap
-import kotlin.coroutines.resume
 
 object DocumentResolver {
     // @see com.android.shell.BugreportStorageProvider#AUTHORITY
@@ -80,8 +80,9 @@ object DocumentResolver {
         intervalMillis: Long,
         listener: ((Long) -> Unit)?
     ): Uri {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
-            && sourcePath.hasSameAuthority(targetPath) && !sourcePath.isCopyUnsupported) {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+            sourcePath.hasSameAuthority(targetPath) && !sourcePath.isCopyUnsupported
+        ) {
             copyApi24(sourcePath, targetPath, intervalMillis, listener)
         } else {
             copyManually(sourcePath, targetPath, intervalMillis, listener)
@@ -275,8 +276,9 @@ object DocumentResolver {
         if (sourceParentPath == targetParentPath) {
             return rename(sourcePath, targetPath.displayName!!)
         }
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
-            && sourcePath.hasSameAuthority(targetPath) && !sourcePath.isMoveUnsupported) {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+            sourcePath.hasSameAuthority(targetPath) && !sourcePath.isMoveUnsupported
+        ) {
             moveApi24(sourcePath, targetPath, moveOnly, intervalMillis, listener)
         } else {
             if (moveOnly) {
@@ -522,7 +524,7 @@ object DocumentResolver {
             queryChildDocumentId(parentPath, path.displayName!!, treeUri)
         } else {
             // TODO: kotlinc: Type mismatch: inferred type is String? but String was expected
-            //DocumentsContract.getTreeDocumentId(treeUri)
+            // DocumentsContract.getTreeDocumentId(treeUri)
             DocumentsContract.getTreeDocumentId(treeUri)!!
         }
         pathDocumentIdCache[path] = documentId
@@ -536,10 +538,12 @@ object DocumentResolver {
             treeUri, parentDocumentId
         )
         query(
-            childrenUri, arrayOf(
+            childrenUri,
+            arrayOf(
                 DocumentsContract.Document.COLUMN_DOCUMENT_ID,
                 DocumentsContract.Document.COLUMN_DISPLAY_NAME
-            ), null
+            ),
+            null
         ).use { cursor ->
             while (cursor.moveToNext()) {
                 val childDocumentId = cursor.requireString(

@@ -9,6 +9,8 @@ import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.core.net.toUri
+import java.io.File
+import java.net.URI
 import java8.nio.file.FileSystem
 import java8.nio.file.LinkOption
 import java8.nio.file.Path
@@ -21,8 +23,6 @@ import me.zhanghai.android.files.provider.common.toByteString
 import me.zhanghai.android.files.provider.content.resolver.Resolver
 import me.zhanghai.android.files.provider.content.resolver.ResolverException
 import me.zhanghai.android.files.util.readParcelable
-import java.io.File
-import java.net.URI
 
 internal class ContentPath : ByteStringListPath<ContentPath> {
     private val fileSystem: ContentFileSystem
@@ -137,12 +137,14 @@ internal class ContentPath : ByteStringListPath<ContentPath> {
     companion object {
         private val Uri.displayNameOrUri: ByteString
             get() =
-                (try {
-                    Resolver.getDisplayName(this)
-                } catch (e: ResolverException) {
-                    e.printStackTrace()
-                    null
-                } ?: lastPathSegment ?: toString()).toByteString()
+                (
+                    try {
+                        Resolver.getDisplayName(this)
+                    } catch (e: ResolverException) {
+                        e.printStackTrace()
+                        null
+                    } ?: lastPathSegment ?: toString()
+                    ).toByteString()
 
         @JvmField
         val CREATOR = object : Parcelable.Creator<ContentPath> {

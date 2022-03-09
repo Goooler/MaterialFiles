@@ -5,6 +5,8 @@
 
 package me.zhanghai.android.files.provider.archive
 
+import java.io.IOException
+import java.io.InputStream
 import java8.nio.file.ClosedFileSystemException
 import java8.nio.file.FileStore
 import java8.nio.file.FileSystem
@@ -21,8 +23,6 @@ import me.zhanghai.android.files.provider.common.ByteStringBuilder
 import me.zhanghai.android.files.provider.common.ByteStringListPathCreator
 import me.zhanghai.android.files.provider.common.toByteString
 import org.apache.commons.compress.archivers.ArchiveEntry
-import java.io.IOException
-import java.io.InputStream
 
 internal class LocalArchiveFileSystem(
     private val fileSystem: ArchiveFileSystem,

@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.files.provider.sftp
 
+import java.io.IOException
 import java8.nio.file.FileAlreadyExistsException
 import java8.nio.file.FileSystemException
 import java8.nio.file.NoSuchFileException
@@ -20,7 +21,6 @@ import net.schmizz.sshj.sftp.FileAttributes
 import net.schmizz.sshj.sftp.FileMode
 import net.schmizz.sshj.sftp.OpenMode
 import org.threeten.bp.Instant
-import java.io.IOException
 
 internal object SftpCopyMove {
     @Throws(IOException::class)
@@ -161,7 +161,8 @@ internal object SftpCopyMove {
                             Client.remove(target)
                         } catch (e2: ClientException) {
                             if (e2.toFileSystemException(target.toString())
-                                    !is NoSuchFileException) {
+                                !is NoSuchFileException
+                            ) {
                                 e2.addSuppressed(exception)
                                 throw e2.toFileSystemException(target.toString())
                             }
@@ -184,12 +185,14 @@ internal object SftpCopyMove {
         if (sourceType != FileMode.Type.SYMLINK) {
             val attributes = FileAttributes.Builder()
                 .apply {
-                    if (copyOptions.copyAttributes
-                        && sourceAttributes.has(FileAttributes.Flag.UIDGID)) {
+                    if (copyOptions.copyAttributes &&
+                        sourceAttributes.has(FileAttributes.Flag.UIDGID)
+                    ) {
                         withUIDGID(sourceAttributes.uid, sourceAttributes.gid)
                     }
-                    if (sourceAttributes.type != FileMode.Type.SYMLINK
-                        && sourceAttributes.has(FileAttributes.Flag.MODE)) {
+                    if (sourceAttributes.type != FileMode.Type.SYMLINK &&
+                        sourceAttributes.has(FileAttributes.Flag.MODE)
+                    ) {
                         withPermissions(sourceAttributes.mode.mask)
                     }
                     if (sourceAttributes.has(FileAttributes.Flag.ACMODTIME)) {
@@ -200,7 +203,8 @@ internal object SftpCopyMove {
                                 // We cannot leave atime unchanged in SFTP, but since we've just
                                 // written the file, its atime is simply now.
                                 Instant.now().epochSecond
-                            }, sourceAttributes.mtime
+                            },
+                            sourceAttributes.mtime
                         )
                     }
                 }

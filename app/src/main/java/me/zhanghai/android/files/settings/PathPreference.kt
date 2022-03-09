@@ -69,7 +69,8 @@ abstract class PathPreference : Preference, PreferenceActivityResultListener {
             if (TypedArrayUtils.getBoolean(
                     it, R.styleable.EditTextPreference_useSimpleSummaryProvider,
                     R.styleable.EditTextPreference_useSimpleSummaryProvider, false
-                )) {
+                )
+            ) {
                 summaryProvider = SimpleSummaryProvider
             }
         }

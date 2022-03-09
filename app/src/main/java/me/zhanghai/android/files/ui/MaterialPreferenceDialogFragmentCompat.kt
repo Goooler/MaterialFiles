@@ -30,7 +30,8 @@ import me.zhanghai.android.files.util.toBitmapDrawable
 /**
  * @see androidx.preference.PreferenceDialogFragmentCompat
  */
-abstract class MaterialPreferenceDialogFragmentCompat : AppCompatDialogFragment(),
+abstract class MaterialPreferenceDialogFragmentCompat :
+    AppCompatDialogFragment(),
     DialogInterface.OnClickListener {
 
     open val preference: DialogPreference by lazy {

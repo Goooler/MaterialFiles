@@ -5,9 +5,7 @@
   ~ All Rights Reserved.
   -->
 
-<resources
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="ImpliedQuantity">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ImpliedQuantity">
 
     <string name="app_name">پرونده‌های متریال</string>
 

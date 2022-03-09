@@ -6,6 +6,7 @@
   -->
 
 <resources>
+
     <style name="Theme.MaterialFiles.Md3">
         <item name="colorPrimary">@color/color_primary_md3</item>
         <item name="colorSurface">@color/color_surface_md3</item>
@@ -18,6 +19,7 @@
         <item name="android:textColorTertiaryInverse">@color/tertiary_text_inverse_md3</item>
         <item name="colorLiftedAppBarSurface">@color/color_lifted_app_bar_surface_md3</item>
     </style>
+
     <style name="Theme.MaterialFiles.Translucent.Md3">
         <item name="colorPrimary">@color/color_primary_md3</item>
         <item name="colorSurface">@color/color_surface_md3</item>
@@ -30,6 +32,7 @@
         <item name="android:textColorTertiaryInverse">@color/tertiary_text_inverse_md3</item>
         <item name="colorLiftedAppBarSurface">@color/color_lifted_app_bar_surface_md3</item>
     </style>
+
     <style name="Theme.MaterialFiles.Immersive.Md3">
         <item name="colorPrimary">@color/color_primary_md3_dark</item>
         <item name="colorSurface">@color/color_surface_md3_dark</item>
@@ -41,5 +44,6 @@
         <item name="android:textColorTertiary">@color/tertiary_text_md3_dark</item>
         <item name="android:textColorTertiaryInverse">@color/tertiary_text_md3_light</item>
     </style>
+
     <style name="Theme.MaterialFiles.Md3.Black" />
 </resources>

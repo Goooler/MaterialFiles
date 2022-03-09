@@ -178,10 +178,13 @@ class FileJobActionDialogFragment : AppCompatDialogFragment() {
                 }
 
             override fun ((FileJobAction, Boolean) -> Unit).write(parcel: Parcel, flags: Int) {
-                parcel.writeParcelable(RemoteCallback {
-                    val args = it.getArgs<ListenerArgs>()
-                    this(args.action, args.isAll)
-                }, flags)
+                parcel.writeParcelable(
+                    RemoteCallback {
+                        val args = it.getArgs<ListenerArgs>()
+                        this(args.action, args.isAll)
+                    },
+                    flags
+                )
             }
 
             @Parcelize

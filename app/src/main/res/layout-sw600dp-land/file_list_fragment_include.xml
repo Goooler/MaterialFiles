@@ -9,13 +9,13 @@
 
     <me.zhanghai.android.files.ui.PersistentBarLayout
         android:id="@+id/persistentBarLayout"
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:fitsSystemWindows="true">
 
         <LinearLayout
-            android:layout_height="match_parent"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             android:orientation="vertical">
 
@@ -38,7 +38,7 @@
             </me.zhanghai.android.files.ui.PersistentDrawerLayout>
         </LinearLayout>
 
-        <include layout="@layout/file_list_fragment_bottom_bar_include"/>
+        <include layout="@layout/file_list_fragment_bottom_bar_include" />
 
         <include layout="@layout/file_list_fragment_speed_dial_include" />
     </me.zhanghai.android.files.ui.PersistentBarLayout>

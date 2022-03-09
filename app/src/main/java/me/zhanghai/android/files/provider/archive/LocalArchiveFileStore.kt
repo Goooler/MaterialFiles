@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.files.provider.archive
 
+import java.io.IOException
 import java8.nio.file.Path
 import java8.nio.file.attribute.FileAttributeView
 import me.zhanghai.android.files.file.MimeType
@@ -12,7 +13,6 @@ import me.zhanghai.android.files.file.guessFromPath
 import me.zhanghai.android.files.provider.common.PosixFileStore
 import me.zhanghai.android.files.provider.common.size
 import org.tukaani.xz.UnsupportedOptionsException
-import java.io.IOException
 
 internal class LocalArchiveFileStore(private val archiveFile: Path) : PosixFileStore() {
     override fun refresh() {}

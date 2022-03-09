@@ -5,6 +5,10 @@
 
 package me.zhanghai.android.files.provider.root
 
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
+import java.net.URI
 import java8.nio.channels.FileChannel
 import java8.nio.channels.SeekableByteChannel
 import java8.nio.file.AccessMode
@@ -22,10 +26,6 @@ import java8.nio.file.spi.FileSystemProvider
 import me.zhanghai.android.files.provider.common.PathObservable
 import me.zhanghai.android.files.provider.common.PathObservableProvider
 import me.zhanghai.android.files.provider.common.Searchable
-import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
-import java.net.URI
 
 abstract class RootableFileSystemProvider(
     localProviderCreator: (FileSystemProvider) -> FileSystemProvider,
@@ -84,7 +84,7 @@ abstract class RootableFileSystemProvider(
 
     @Throws(IOException::class)
     override fun createLink(link: Path, existing: Path) {
-        callRootable(link, existing) {createLink(link, existing) }
+        callRootable(link, existing) { createLink(link, existing) }
     }
 
     @Throws(IOException::class)
@@ -117,7 +117,7 @@ abstract class RootableFileSystemProvider(
 
     @Throws(IOException::class)
     override fun checkAccess(path: Path, vararg modes: AccessMode) {
-        callRootable(path) {checkAccess(path, *modes) }
+        callRootable(path) { checkAccess(path, *modes) }
     }
 
     override fun <V : FileAttributeView> getFileAttributeView(

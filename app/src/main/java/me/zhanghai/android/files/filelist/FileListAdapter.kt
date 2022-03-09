@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.clear
 import coil.loadAny
+import java.util.Comparator
+import java.util.Locale
 import java8.nio.file.Path
 import me.zhanghai.android.fastscroll.PopupTextProvider
 import me.zhanghai.android.files.R
@@ -27,8 +29,6 @@ import me.zhanghai.android.files.ui.AnimatedListAdapter
 import me.zhanghai.android.files.ui.CheckableItemBackground
 import me.zhanghai.android.files.util.layoutInflater
 import me.zhanghai.android.files.util.valueCompat
-import java.util.Comparator
-import java.util.Locale
 
 class FileListAdapter(
     private val listener: Listener

@@ -9,6 +9,8 @@ import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import android.provider.DocumentsContract
+import java.io.File
+import java.io.IOException
 import java8.nio.file.FileSystem
 import java8.nio.file.LinkOption
 import java8.nio.file.Path
@@ -20,8 +22,6 @@ import me.zhanghai.android.files.provider.common.ByteStringListPath
 import me.zhanghai.android.files.provider.common.toByteString
 import me.zhanghai.android.files.provider.document.resolver.DocumentResolver
 import me.zhanghai.android.files.util.readParcelable
-import java.io.File
-import java.io.IOException
 
 /** @see DocumentsContract.Path */
 internal class DocumentPath : ByteStringListPath<DocumentPath>, DocumentResolver.Path {

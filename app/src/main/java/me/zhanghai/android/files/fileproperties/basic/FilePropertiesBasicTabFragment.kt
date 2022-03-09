@@ -7,6 +7,7 @@ package me.zhanghai.android.files.fileproperties.basic
 
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
+import java.io.IOException
 import java8.nio.file.FileVisitResult
 import java8.nio.file.FileVisitor
 import java8.nio.file.Files
@@ -30,12 +31,9 @@ import me.zhanghai.android.files.fileproperties.FilePropertiesTabFragment
 import me.zhanghai.android.files.provider.archive.ArchiveFileAttributes
 import me.zhanghai.android.files.provider.archive.archiveFile
 import me.zhanghai.android.files.provider.archive.isArchivePath
-import me.zhanghai.android.files.provider.document.isDocumentPath
-import me.zhanghai.android.files.provider.linux.isLinuxPath
 import me.zhanghai.android.files.util.Stateful
 import me.zhanghai.android.files.util.getQuantityString
 import me.zhanghai.android.files.util.viewModels
-import java.io.IOException
 
 class FilePropertiesBasicTabFragment : FilePropertiesTabFragment() {
     private val viewModel by viewModels<FilePropertiesFileViewModel>({ requireParentFragment() })
@@ -95,8 +93,9 @@ class FilePropertiesBasicTabFragment : FilePropertiesTabFragment() {
     }
 
     private fun getTypeText(file: FileItem): String {
-        val typeFormatRes = if (file.attributesNoFollowLinks.isSymbolicLink
-            && !file.isSymbolicLinkBroken) {
+        val typeFormatRes = if (file.attributesNoFollowLinks.isSymbolicLink &&
+            !file.isSymbolicLinkBroken
+        ) {
             R.string.file_properties_basic_type_symbolic_link_format
         } else {
             R.string.file_properties_basic_type_format
@@ -114,61 +113,64 @@ class FilePropertiesBasicTabFragment : FilePropertiesTabFragment() {
             var size = 0L
             fun notifyListener() {
                 // kotlinc: Suspension functions can be called only within coroutine body
-                //withContext(Dispatchers.Main.immediate) {
+                // withContext(Dispatchers.Main.immediate) {
                 // We need to keep our job alive to know if it has been canceled before notifying
                 // our listener on main thread.
-                //mainExecutor.execute {
+                // mainExecutor.execute {
                 runBlocking(Dispatchers.Main.immediate) {
                     if (this@withContext.isActive) {
                         listener(count to size)
                     }
                 }
             }
-            Files.walkFileTree(directory, object : FileVisitor<Path> {
-                private var lastTimeMillis = System.currentTimeMillis()
+            Files.walkFileTree(
+                directory,
+                object : FileVisitor<Path> {
+                    private var lastTimeMillis = System.currentTimeMillis()
 
-                override fun preVisitDirectory(
-                    directory: Path,
-                    attributes: BasicFileAttributes
-                ): FileVisitResult = visit(directory, attributes, null)
+                    override fun preVisitDirectory(
+                        directory: Path,
+                        attributes: BasicFileAttributes
+                    ): FileVisitResult = visit(directory, attributes, null)
 
-                override fun visitFile(
-                    file: Path,
-                    attributes: BasicFileAttributes
-                ): FileVisitResult = visit(file, attributes, null)
+                    override fun visitFile(
+                        file: Path,
+                        attributes: BasicFileAttributes
+                    ): FileVisitResult = visit(file, attributes, null)
 
-                override fun visitFileFailed(
-                    file: Path,
-                    exception: IOException
-                ): FileVisitResult = visit(file, null, exception)
+                    override fun visitFileFailed(
+                        file: Path,
+                        exception: IOException
+                    ): FileVisitResult = visit(file, null, exception)
 
-                override fun postVisitDirectory(
-                    directory: Path,
-                    exception: IOException?
-                ): FileVisitResult = visit(null, null, exception)
+                    override fun postVisitDirectory(
+                        directory: Path,
+                        exception: IOException?
+                    ): FileVisitResult = visit(null, null, exception)
 
-                private fun visit(
-                    path: Path?,
-                    attributes: BasicFileAttributes?,
-                    exception: IOException?
-                ): FileVisitResult {
-                    if (!isActive) {
-                        return FileVisitResult.TERMINATE
-                    }
-                    if (path == directory) {
+                    private fun visit(
+                        path: Path?,
+                        attributes: BasicFileAttributes?,
+                        exception: IOException?
+                    ): FileVisitResult {
+                        if (!isActive) {
+                            return FileVisitResult.TERMINATE
+                        }
+                        if (path == directory) {
+                            return FileVisitResult.CONTINUE
+                        }
+                        path?.let { ++count }
+                        attributes?.let { size += it.size() }
+                        exception?.printStackTrace()
+                        val currentTimeMillis = System.currentTimeMillis()
+                        if (currentTimeMillis >= lastTimeMillis + intervalMillis) {
+                            notifyListener()
+                            lastTimeMillis = currentTimeMillis
+                        }
                         return FileVisitResult.CONTINUE
                     }
-                    path?.let { ++count }
-                    attributes?.let { size += it.size() }
-                    exception?.printStackTrace()
-                    val currentTimeMillis = System.currentTimeMillis()
-                    if (currentTimeMillis >= lastTimeMillis + intervalMillis) {
-                        notifyListener()
-                        lastTimeMillis = currentTimeMillis
-                    }
-                    return FileVisitResult.CONTINUE
                 }
-            })
+            )
             notifyListener()
         }
     }

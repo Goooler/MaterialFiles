@@ -5,8 +5,7 @@
   ~ All Rights Reserved.
   -->
 
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="@dimen/abc_dialog_title_divider_material">
@@ -14,8 +13,8 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="vertical"
-        android:scrollIndicators="top|bottom">
+        android:scrollIndicators="top|bottom"
+        android:scrollbars="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,16 +28,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:orientation="horizontal"
                 android:paddingStart="@dimen/dialog_padding_minus_6dp"
-                android:paddingEnd="@dimen/dialog_padding"
-                android:orientation="horizontal">
+                android:paddingEnd="@dimen/dialog_padding">
 
                 <RadioButton
                     android:id="@+id/zipRadio"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:minHeight="@dimen/dense_single_line_list_item_height"
                     android:layout_weight="1"
+                    android:minHeight="@dimen/dense_single_line_list_item_height"
                     android:text="@string/file_create_archive_type_zip"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
@@ -46,8 +45,8 @@
                     android:id="@+id/tarXzRadio"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:minHeight="@dimen/dense_single_line_list_item_height"
                     android:layout_weight="1"
+                    android:minHeight="@dimen/dense_single_line_list_item_height"
                     android:text="@string/file_create_archive_type_tar_xz"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
@@ -55,8 +54,8 @@
                     android:id="@+id/sevenZRadio"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:minHeight="@dimen/dense_single_line_list_item_height"
                     android:layout_weight="1"
+                    android:minHeight="@dimen/dense_single_line_list_item_height"
                     android:text="@string/file_create_archive_type_7z"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                     android:visibility="@integer/create_archive_type_seven_z_visibility" />

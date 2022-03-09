@@ -9,6 +9,7 @@ import com.hierynomus.msdtyp.FileTime
 import com.hierynomus.msfscc.FileAttributes
 import com.hierynomus.msfscc.fileinformation.FileBasicInformation
 import com.hierynomus.protocol.commons.EnumWithValue
+import java.io.IOException
 import java8.nio.file.FileAlreadyExistsException
 import java8.nio.file.FileSystemException
 import java8.nio.file.NoSuchFileException
@@ -19,7 +20,6 @@ import me.zhanghai.android.files.provider.smb.client.ClientException
 import me.zhanghai.android.files.provider.smb.client.FileInformation
 import me.zhanghai.android.files.util.enumSetOf
 import me.zhanghai.android.files.util.hasBits
-import java.io.IOException
 
 internal object SmbCopyMove {
     @Throws(IOException::class)
@@ -48,7 +48,8 @@ internal object SmbCopyMove {
             targetInformation as? FileInformation
                 ?: throw FileSystemException(target.toString(), null, "Cannot copy shares")
             if (SmbFileKey(source, sourceInformation.fileId)
-                == SmbFileKey(target, targetInformation.fileId)) {
+                == SmbFileKey(target, targetInformation.fileId)
+            ) {
                 copyOptions.progressListener?.invoke(sourceInformation.endOfFile)
                 return
             }
@@ -181,7 +182,8 @@ internal object SmbCopyMove {
             targetInformation as? FileInformation
                 ?: throw FileSystemException(target.toString(), null, "Cannot move shares")
             if (SmbFileKey(source, sourceInformation.fileId)
-                == SmbFileKey(target, targetInformation.fileId)) {
+                == SmbFileKey(target, targetInformation.fileId)
+            ) {
                 copyOptions.progressListener?.invoke(sourceInformation.endOfFile)
                 return
             }

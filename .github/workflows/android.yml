@@ -1,19 +1,51 @@
-name: Android CI
+name: CI
 
-on: [push]
+on:
+  push:
+    branches:
+      - trunk
+    paths-ignore:
+      - '.idea/**'
+      - '.gitattributes'
+      - '.github/**.json'
+      - '.gitignore'
+      - '.gitmodules'
+      - '**.md'
+      - 'LICENSE'
+      - 'NOTICE'
+  pull_request:
+    paths-ignore:
+      - '.idea/**'
+      - '.gitattributes'
+      - '.github/**.json'
+      - '.gitignore'
+      - '.gitmodules'
+      - '**.md'
+      - 'LICENSE'
+      - 'NOTICE'
 
 jobs:
-  build:
-
+  check:
     runs-on: ubuntu-latest
-
+    timeout-minutes: 10
     steps:
-    - name: Check out repository
-      uses: actions/checkout@v2
-    - name: Set up JDK 11
-      uses: actions/setup-java@v2
-      with:
-        distribution: 'adopt'
-        java-version: '11'
-    - name: Build with Gradle
-      run: ./gradlew assembleDebug lintVitalRelease
+      - uses: actions/checkout@v3
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1
+      - name: Check style
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: ktlintCheck
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: assembleDebug lintVitalRelease

@@ -60,7 +60,8 @@ class FilePropertiesVideoTabFragment : FilePropertiesTabFragment() {
             }
             if (videoInfo.dimensions != null) {
                 addItemView(
-                    R.string.file_properties_media_dimensions, getString(
+                    R.string.file_properties_media_dimensions,
+                    getString(
                         R.string.file_properties_media_dimensions_format,
                         videoInfo.dimensions.width, videoInfo.dimensions.height
                     )
@@ -74,7 +75,8 @@ class FilePropertiesVideoTabFragment : FilePropertiesTabFragment() {
             }
             if (videoInfo.location != null) {
                 addItemView(
-                    R.string.file_properties_media_coordinates, getString(
+                    R.string.file_properties_media_coordinates,
+                    getString(
                         R.string.file_properties_media_coordinates_format, videoInfo.location.first,
                         videoInfo.location.second
                     )
@@ -108,7 +110,8 @@ class FilePropertiesVideoTabFragment : FilePropertiesTabFragment() {
             }
             if (videoInfo.bitRate != null) {
                 addItemView(
-                    R.string.file_properties_media_bit_rate, getString(
+                    R.string.file_properties_media_bit_rate,
+                    getString(
                         R.string.file_properties_media_bit_rate_format, videoInfo.bitRate / 1000
                     )
                 )

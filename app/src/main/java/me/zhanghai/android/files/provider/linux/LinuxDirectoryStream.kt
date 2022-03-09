@@ -5,14 +5,14 @@
 
 package me.zhanghai.android.files.provider.linux
 
+import java.io.IOException
+import java.util.NoSuchElementException
 import java8.nio.file.DirectoryIteratorException
 import java8.nio.file.DirectoryStream
 import java8.nio.file.Path
 import me.zhanghai.android.files.provider.common.toByteString
 import me.zhanghai.android.files.provider.linux.syscall.SyscallException
 import me.zhanghai.android.files.provider.linux.syscall.Syscalls
-import java.io.IOException
-import java.util.NoSuchElementException
 
 internal class LinuxDirectoryStream(
     private val directory: LinuxPath,
@@ -77,33 +77,33 @@ internal class LinuxDirectoryStream(
         }
 
         private fun getNextPathLocked(): Path? {
-                while (true) {
-                    if (isClosed) {
-                        return null
-                    }
-                    val dirent = try {
-                        Syscalls.readdir(dir)
-                    } catch (e: SyscallException) {
-                        throw DirectoryIteratorException(
-                            e.toFileSystemException(directory.toString())
-                        )
-                    } ?: return null
-                    val name = dirent.d_name
-                    if (name == BYTE_STRING_DOT || name == BYTE_STRING_DOT_DOT) {
-                        continue
-                    }
-                    val path = directory.resolve(dirent.d_name)
-                    val accepted = try {
-                        filter.accept(path)
-                    } catch (e: IOException) {
-                        throw DirectoryIteratorException(e)
-                    }
-                    if (!accepted) {
-                        continue
-                    }
-                    return path
+            while (true) {
+                if (isClosed) {
+                    return null
                 }
+                val dirent = try {
+                    Syscalls.readdir(dir)
+                } catch (e: SyscallException) {
+                    throw DirectoryIteratorException(
+                        e.toFileSystemException(directory.toString())
+                    )
+                } ?: return null
+                val name = dirent.d_name
+                if (name == BYTE_STRING_DOT || name == BYTE_STRING_DOT_DOT) {
+                    continue
+                }
+                val path = directory.resolve(dirent.d_name)
+                val accepted = try {
+                    filter.accept(path)
+                } catch (e: IOException) {
+                    throw DirectoryIteratorException(e)
+                }
+                if (!accepted) {
+                    continue
+                }
+                return path
             }
+        }
 
         override fun next(): Path {
             synchronized(lock) {

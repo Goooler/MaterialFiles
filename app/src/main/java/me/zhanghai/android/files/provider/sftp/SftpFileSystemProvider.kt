@@ -5,6 +5,8 @@
 
 package me.zhanghai.android.files.provider.sftp
 
+import java.io.IOException
+import java.net.URI
 import java8.nio.channels.FileChannel
 import java8.nio.channels.SeekableByteChannel
 import java8.nio.file.AccessMode
@@ -43,8 +45,6 @@ import me.zhanghai.android.files.provider.sftp.client.SecurityProviderHelper
 import me.zhanghai.android.files.util.enumSetOf
 import net.schmizz.sshj.sftp.FileAttributes
 import net.schmizz.sshj.sftp.OpenMode
-import java.io.IOException
-import java.net.URI
 
 object SftpFileSystemProvider : FileSystemProvider(), PathObservableProvider, Searchable {
     private const val SCHEME = "sftp"
@@ -132,8 +132,10 @@ object SftpFileSystemProvider : FileSystemProvider(), PathObservableProvider, Se
         file as? SftpPath ?: throw ProviderMismatchException(file.toString())
         val openOptions = options.toOpenOptions()
         val flags = openOptions.toSftpFlags()
-        val sftpAttributes = (PosixFileMode.fromAttributes(attributes)
-            ?: PosixFileMode.CREATE_FILE_DEFAULT).toSftpAttributes()
+        val sftpAttributes = (
+            PosixFileMode.fromAttributes(attributes)
+                ?: PosixFileMode.CREATE_FILE_DEFAULT
+            ).toSftpAttributes()
         return try {
             Client.openByteChannel(file, flags, sftpAttributes)
         } catch (e: ClientException) {
@@ -159,8 +161,10 @@ object SftpFileSystemProvider : FileSystemProvider(), PathObservableProvider, Se
     @Throws(IOException::class)
     override fun createDirectory(directory: Path, vararg attributes: FileAttribute<*>) {
         directory as? SftpPath ?: throw ProviderMismatchException(directory.toString())
-        val sftpAttributes = (PosixFileMode.fromAttributes(attributes)
-            ?: PosixFileMode.CREATE_DIRECTORY_DEFAULT).toSftpAttributes()
+        val sftpAttributes = (
+            PosixFileMode.fromAttributes(attributes)
+                ?: PosixFileMode.CREATE_DIRECTORY_DEFAULT
+            ).toSftpAttributes()
         try {
             Client.mkdir(directory, sftpAttributes)
         } catch (e: ClientException) {

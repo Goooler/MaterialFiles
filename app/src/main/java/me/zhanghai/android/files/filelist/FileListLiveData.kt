@@ -6,6 +6,9 @@
 package me.zhanghai.android.files.filelist
 
 import android.os.AsyncTask
+import java.io.IOException
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Future
 import java8.nio.file.DirectoryIteratorException
 import java8.nio.file.Path
 import me.zhanghai.android.files.file.FileItem
@@ -17,9 +20,6 @@ import me.zhanghai.android.files.util.Loading
 import me.zhanghai.android.files.util.Stateful
 import me.zhanghai.android.files.util.Success
 import me.zhanghai.android.files.util.valueCompat
-import java.io.IOException
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Future
 
 class FileListLiveData(private val path: Path) : CloseableLiveData<Stateful<List<FileItem>>>() {
     private var future: Future<Unit>? = null

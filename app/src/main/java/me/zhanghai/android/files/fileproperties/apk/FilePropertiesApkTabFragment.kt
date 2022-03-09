@@ -45,7 +45,8 @@ class FilePropertiesApkTabFragment : FilePropertiesTabFragment() {
             val packageInfo = apkInfo.packageInfo
             addItemView(R.string.file_properties_apk_package_name, packageInfo.packageName)
             addItemView(
-                R.string.file_properties_apk_version, getString(
+                R.string.file_properties_apk_version,
+                getString(
                     R.string.file_properties_apk_version_format, packageInfo.versionName,
                     packageInfo.longVersionCodeCompat
                 )
@@ -73,7 +74,8 @@ class FilePropertiesApkTabFragment : FilePropertiesTabFragment() {
                         R.plurals.file_properties_apk_requested_permissions_positive_format,
                         requestedPermissionsSize, requestedPermissionsSize
                     )
-                }, if (requestedPermissionsSize == 0) {
+                },
+                if (requestedPermissionsSize == 0) {
                     null
                 } else {
                     {

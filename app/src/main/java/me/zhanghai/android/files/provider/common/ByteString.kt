@@ -6,11 +6,11 @@
 package me.zhanghai.android.files.provider.common
 
 import android.os.Parcelable
-import kotlinx.parcelize.IgnoredOnParcel
-import kotlinx.parcelize.Parcelize
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 import kotlin.math.min
+import kotlinx.parcelize.IgnoredOnParcel
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 // @see https://youtrack.jetbrains.com/issue/KT-24842

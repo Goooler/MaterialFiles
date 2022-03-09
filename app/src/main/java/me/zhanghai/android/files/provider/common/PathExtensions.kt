@@ -5,6 +5,16 @@
 
 package me.zhanghai.android.files.provider.common
 
+import java.io.BufferedReader
+import java.io.BufferedWriter
+import java.io.IOException
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.io.InterruptedIOException
+import java.io.OutputStream
+import java.io.OutputStreamWriter
+import java.nio.channels.ClosedByInterruptException
+import java.nio.charset.Charset
 import java8.nio.channels.SeekableByteChannel
 import java8.nio.file.AccessMode
 import java8.nio.file.CopyOption
@@ -21,21 +31,11 @@ import java8.nio.file.attribute.FileAttributeView
 import java8.nio.file.attribute.FileOwnerAttributeView
 import java8.nio.file.attribute.FileTime
 import java8.nio.file.attribute.GroupPrincipal
+import java8.nio.file.attribute.PosixFileAttributeView as Java8PosixFileAttributeView
 import java8.nio.file.attribute.UserPrincipal
 import java8.nio.file.spi.FileSystemProvider
-import java.io.BufferedReader
-import java.io.BufferedWriter
-import java.io.IOException
-import java.io.InputStream
-import java.io.InputStreamReader
-import java.io.InterruptedIOException
-import java.io.OutputStream
-import java.io.OutputStreamWriter
-import java.nio.channels.ClosedByInterruptException
-import java.nio.charset.Charset
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
-import java8.nio.file.attribute.PosixFileAttributeView as Java8PosixFileAttributeView
 
 @Throws(IOException::class)
 fun Path.checkAccess(vararg modes: AccessMode) {
@@ -176,10 +176,10 @@ private class InterruptedIOExceptionInputStream(
 
     @Throws(IOException::class)
     override fun skip(n: Long): Long = try {
-            inputStream.skip(n)
-        } catch (e: ClosedByInterruptException) {
-            throw e.toInterruptedIOException()
-        }
+        inputStream.skip(n)
+    } catch (e: ClosedByInterruptException) {
+        throw e.toInterruptedIOException()
+    }
 
     @Throws(IOException::class)
     override fun available(): Int =

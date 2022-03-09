@@ -5,6 +5,9 @@
 
 package me.zhanghai.android.files.provider.archive
 
+import java.io.IOException
+import java.io.InputStream
+import java.net.URI
 import java8.nio.channels.FileChannel
 import java8.nio.channels.SeekableByteChannel
 import java8.nio.file.AccessDeniedException
@@ -34,9 +37,6 @@ import me.zhanghai.android.files.provider.common.isSameFile
 import me.zhanghai.android.files.provider.common.toAccessModes
 import me.zhanghai.android.files.provider.common.toByteString
 import me.zhanghai.android.files.provider.common.toOpenOptions
-import java.io.IOException
-import java.io.InputStream
-import java.net.URI
 
 class LocalArchiveFileSystemProvider(
     private val provider: ArchiveFileSystemProvider

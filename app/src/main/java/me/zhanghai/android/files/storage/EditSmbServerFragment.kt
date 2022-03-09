@@ -132,12 +132,12 @@ class EditSmbServerFragment : Fragment() {
                 }
                 when {
                     AuthenticationContext.guest().let {
-                        authority.username == it.username && authority.domain == it.domain
-                                && server.password == it.password.concatToString()
+                        authority.username == it.username && authority.domain == it.domain &&
+                            server.password == it.password.concatToString()
                     } -> authenticationType = AuthenticationType.GUEST
                     AuthenticationContext.anonymous().let {
-                        authority.username == it.username && authority.domain == it.domain
-                                && server.password == it.password.concatToString()
+                        authority.username == it.username && authority.domain == it.domain &&
+                            server.password == it.password.concatToString()
                     } -> authenticationType = AuthenticationType.ANONYMOUS
                     else -> {
                         authenticationType = AuthenticationType.PASSWORD

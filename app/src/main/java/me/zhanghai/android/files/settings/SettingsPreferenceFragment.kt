@@ -23,10 +23,10 @@ class SettingsPreferenceFragment : PreferenceFragmentCompat() {
         // different lifecycles" if activity is finished and instantly started again. To work around
         // this, always use an instance method reference.
         // https://stackoverflow.com/a/27524543
-        //Settings.THEME_COLOR.observe(viewLifecycleOwner) { CustomThemeHelper.sync() }
-        //Settings.MATERIAL_DESIGN_3.observe(viewLifecycleOwner) { CustomThemeHelper.sync() }
-        //Settings.NIGHT_MODE.observe(viewLifecycleOwner) { NightModeHelper.sync() }
-        //Settings.BLACK_NIGHT_MODE.observe(viewLifecycleOwner) { CustomThemeHelper.sync() }
+        // Settings.THEME_COLOR.observe(viewLifecycleOwner) { CustomThemeHelper.sync() }
+        // Settings.MATERIAL_DESIGN_3.observe(viewLifecycleOwner) { CustomThemeHelper.sync() }
+        // Settings.NIGHT_MODE.observe(viewLifecycleOwner) { NightModeHelper.sync() }
+        // Settings.BLACK_NIGHT_MODE.observe(viewLifecycleOwner) { CustomThemeHelper.sync() }
         Settings.THEME_COLOR.observe(viewLifecycleOwner, this::onThemeColorChanged)
         Settings.MATERIAL_DESIGN_3.observe(viewLifecycleOwner, this::onMaterialDesign3Changed)
         Settings.NIGHT_MODE.observe(viewLifecycleOwner, this::onNightModeChanged)

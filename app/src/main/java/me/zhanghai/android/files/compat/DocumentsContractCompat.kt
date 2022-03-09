@@ -46,8 +46,8 @@ object DocumentsContractCompat {
         return when (pathSegments.size) {
             3 -> pathSegments[0] == PATH_DOCUMENT && pathSegments[2] == PATH_CHILDREN
             5 ->
-                pathSegments[0] == PATH_TREE && pathSegments[2] == PATH_DOCUMENT
-                    && pathSegments[4] == PATH_CHILDREN
+                pathSegments[0] == PATH_TREE && pathSegments[2] == PATH_DOCUMENT &&
+                    pathSegments[4] == PATH_CHILDREN
             else -> false
         }
     }

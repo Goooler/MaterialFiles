@@ -5,32 +5,31 @@
   ~ All Rights Reserved.
   -->
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="@dimen/abc_dialog_title_divider_material"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingTop="@dimen/abc_dialog_title_divider_material">
 
     <EditText
         android:id="@+id/filterEdit"
         android:layout_width="match_parent"
         android:layout_height="?listPreferredItemHeightSmall"
-        android:paddingStart="?dialogPreferredPadding"
-        android:paddingEnd="?dialogPreferredPadding"
         android:background="@null"
-        android:drawablePadding="24dp"
         android:drawableStart="@drawable/filter_icon_control_normal_24dp"
+        android:drawablePadding="24dp"
         android:hint="@string/file_properties_permissions_set_principal_filter_hint"
         android:importantForAutofill="no"
         android:inputType="text"
+        android:paddingStart="?dialogPreferredPadding"
+        android:paddingEnd="?dialogPreferredPadding"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:minHeight="?listPreferredItemHeight"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:minHeight="?listPreferredItemHeight">
 
         <ProgressBar
             android:id="@+id/progress"
@@ -71,11 +70,11 @@
         android:id="@+id/recursiveCheck"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="?listPreferredItemHeightSmall"
         android:layout_marginStart="@dimen/dialog_padding_minus_4dp"
+        android:minHeight="?listPreferredItemHeightSmall"
         android:paddingStart="@dimen/dialog_padding_minus_4dp"
-        android:paddingEnd="?dialogPreferredPadding"
         android:paddingTop="8dp"
+        android:paddingEnd="?dialogPreferredPadding"
         android:paddingBottom="8dp"
         android:text="@string/file_properties_permissions_recursive"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />

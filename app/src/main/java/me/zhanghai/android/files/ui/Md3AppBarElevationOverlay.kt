@@ -23,9 +23,10 @@ import me.zhanghai.android.files.util.getResourceIdByAttr
 fun View.maybeUseMd3AppBarElevationOverlay() {
     val background = background
     val context = context
-    if (background is MaterialShapeDrawable
-        && context.getResourceIdByAttr(R.attr.colorLiftedAppBarSurface)
-        != ResourcesCompat.ID_NULL) {
+    if (background is MaterialShapeDrawable &&
+        context.getResourceIdByAttr(R.attr.colorLiftedAppBarSurface)
+        != ResourcesCompat.ID_NULL
+    ) {
         stateListAnimator = null
         MaterialShapeDrawableAccessor.setElevationOverlayProvider(
             background, Md3AppBarElevationOverlayProvider(context)

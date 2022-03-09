@@ -7,6 +7,7 @@ package me.zhanghai.android.files.settings
 
 import android.os.Environment
 import android.text.TextUtils
+import java.io.File
 import java8.nio.file.Path
 import java8.nio.file.Paths
 import me.zhanghai.android.files.R
@@ -22,7 +23,6 @@ import me.zhanghai.android.files.storage.PrimaryStorageVolume
 import me.zhanghai.android.files.storage.Storage
 import me.zhanghai.android.files.theme.custom.ThemeColor
 import me.zhanghai.android.files.theme.night.NightMode
-import java.io.File
 
 object Settings {
     val STORAGES: SettingLiveData<List<Storage>> =
@@ -130,7 +130,8 @@ object Settings {
 
     val BOOKMARK_DIRECTORIES: SettingLiveData<List<BookmarkDirectory>> =
         ParcelValueSettingLiveData(
-            R.string.pref_key_bookmark_directories, listOf(
+            R.string.pref_key_bookmark_directories,
+            listOf(
                 BookmarkDirectory(
                     application.getString(R.string.settings_bookmark_directory_screenshots),
                     Paths.get(
@@ -138,7 +139,8 @@ object Settings {
                             @Suppress("DEPRECATION")
                             Environment.getExternalStoragePublicDirectory(
                                 Environment.DIRECTORY_PICTURES
-                            ), EnvironmentCompat2.DIRECTORY_SCREENSHOTS
+                            ),
+                            EnvironmentCompat2.DIRECTORY_SCREENSHOTS
                         ).absolutePath
                     )
                 )

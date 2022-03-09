@@ -5,6 +5,7 @@
 
 package me.zhanghai.android.files.provider.common
 
+import java.io.IOException
 import java8.nio.file.AtomicMoveNotSupportedException
 import java8.nio.file.CopyOption
 import java8.nio.file.FileAlreadyExistsException
@@ -14,7 +15,6 @@ import java8.nio.file.StandardCopyOption
 import java8.nio.file.StandardOpenOption
 import java8.nio.file.attribute.BasicFileAttributeView
 import java8.nio.file.attribute.BasicFileAttributes
-import java.io.IOException
 
 internal object ForeignCopyMove {
     @Throws(IOException::class)
@@ -29,8 +29,11 @@ internal object ForeignCopyMove {
             emptyArray()
         }
         val sourceAttributes = source.readAttributes(BasicFileAttributes::class.java, *linkOptions)
-        if (!(sourceAttributes.isRegularFile || sourceAttributes.isDirectory
-                || sourceAttributes.isSymbolicLink)) {
+        if (!(
+            sourceAttributes.isRegularFile || sourceAttributes.isDirectory ||
+                sourceAttributes.isSymbolicLink
+            )
+        ) {
             throw IOException("Cannot copy special file to foreign provider")
         }
         if (!copyOptions.replaceExisting && target.exists(LinkOption.NOFOLLOW_LINKS)) {

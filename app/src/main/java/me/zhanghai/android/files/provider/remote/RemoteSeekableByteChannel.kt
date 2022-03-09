@@ -7,11 +7,11 @@ package me.zhanghai.android.files.provider.remote
 
 import android.os.Parcel
 import android.os.Parcelable
+import java.io.IOException
+import java.nio.ByteBuffer
 import java8.nio.channels.SeekableByteChannel
 import me.zhanghai.android.files.provider.common.ForceableChannel
 import me.zhanghai.android.files.provider.common.force
-import java.io.IOException
-import java.nio.ByteBuffer
 
 class RemoteSeekableByteChannel : ForceableChannel, SeekableByteChannel, Parcelable {
     private val localChannel: SeekableByteChannel?

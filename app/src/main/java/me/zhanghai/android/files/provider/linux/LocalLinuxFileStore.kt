@@ -9,6 +9,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import android.system.OsConstants
 import android.system.StructStatVfs
+import java.io.IOException
 import java8.nio.file.attribute.FileAttributeView
 import me.zhanghai.android.files.provider.common.ByteString
 import me.zhanghai.android.files.provider.common.ByteStringBuilder
@@ -23,7 +24,6 @@ import me.zhanghai.android.files.provider.linux.syscall.Syscalls
 import me.zhanghai.android.files.util.andInv
 import me.zhanghai.android.files.util.hasBits
 import me.zhanghai.android.files.util.readParcelable
-import java.io.IOException
 
 internal class LocalLinuxFileStore : PosixFileStore, Parcelable {
     private val path: LinuxPath
@@ -230,8 +230,8 @@ internal class LocalLinuxFileStore : PosixFileStore, Parcelable {
             "verbose" to Constants.MS_VERBOSE,
             "silent" to Constants.MS_SILENT,
             "loud" to 0L,
-            //"posixacl" to Constants.MS_POSIXACL,
-            //"noposixacl" to 0L,
+            // "posixacl" to Constants.MS_POSIXACL,
+            // "noposixacl" to 0L,
             "unbindable" to Constants.MS_UNBINDABLE,
             "runbindable" to (Constants.MS_UNBINDABLE or Constants.MS_REC),
             "private" to Constants.MS_PRIVATE,
@@ -242,20 +242,20 @@ internal class LocalLinuxFileStore : PosixFileStore, Parcelable {
             "rshared" to (Constants.MS_SHARED or Constants.MS_REC),
             "relatime" to Constants.MS_RELATIME,
             "norelatime" to 0L,
-            //"kernmount" to Constants.MS_KERNMOUNT,
+            // "kernmount" to Constants.MS_KERNMOUNT,
             "iversion" to Constants.MS_I_VERSION,
             "noiversion" to 0L,
             "strictatime" to Constants.MS_STRICTATIME,
             "nostrictatime" to 0L,
             "lazytime" to Constants.MS_LAZYTIME,
             "nolazytime" to 0L,
-            //"submount" to Constants.MS_SUBMOUNT,
-            //"noremotelock" to Constants.MS_NOREMOTELOCK,
-            //"remotelock" to 0L,
-            //"nosec" to Constants.MS_NOSEC,
-            //"sec" to 0L,
-            //"born" to Constants.MS_BORN,
-            //"active" to Constants.MS_ACTIVE,
+            // "submount" to Constants.MS_SUBMOUNT,
+            // "noremotelock" to Constants.MS_NOREMOTELOCK,
+            // "remotelock" to 0L,
+            // "nosec" to Constants.MS_NOSEC,
+            // "sec" to 0L,
+            // "born" to Constants.MS_BORN,
+            // "active" to Constants.MS_ACTIVE,
             "nouser" to Constants.MS_NOUSER,
             "user" to 0L
         ).mapKeys { it.key.toByteString() }

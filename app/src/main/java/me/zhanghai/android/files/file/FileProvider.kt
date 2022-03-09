@@ -25,6 +25,12 @@ import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.system.ErrnoException
 import android.system.OsConstants
+import java.io.FileNotFoundException
+import java.io.IOException
+import java.io.InterruptedIOException
+import java.net.URI
+import java.nio.ByteBuffer
+import java.nio.channels.ClosedByInterruptException
 import java8.nio.channels.SeekableByteChannel
 import java8.nio.file.AccessDeniedException
 import java8.nio.file.FileSystemException
@@ -51,12 +57,6 @@ import me.zhanghai.android.files.provider.linux.isLinuxPath
 import me.zhanghai.android.files.provider.linux.syscall.SyscallException
 import me.zhanghai.android.files.util.hasBits
 import me.zhanghai.android.files.util.withoutPenaltyDeathOnNetwork
-import java.io.FileNotFoundException
-import java.io.IOException
-import java.io.InterruptedIOException
-import java.net.URI
-import java.nio.ByteBuffer
-import java.nio.channels.ClosedByInterruptException
 
 class FileProvider : ContentProvider() {
     private lateinit var callbackThread: HandlerThread
@@ -146,8 +146,9 @@ class FileProvider : ContentProvider() {
     }
 
     private fun getDefaultProjection(): Array<String> =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
-            && Binder.getCallingUid() == Process.SYSTEM_UID) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
+            Binder.getCallingUid() == Process.SYSTEM_UID
+        ) {
             // com.android.internal.app.ChooserActivity.queryResolver() in Q queries with a null
             // projection (meaning all columns) on main thread but only actually needs the display
             // name (and document flags). However if we do return all the columns, we may perform
@@ -229,12 +230,14 @@ class FileProvider : ContentProvider() {
             // May be "r" for read-only access, "rw" for read and write access, or "rwt" for
             // read and write access that truncates any existing file.
             require(!hasBits(ParcelFileDescriptor.MODE_APPEND)) { "mode ${this@toOpenOptions}" }
-            if (hasBits(ParcelFileDescriptor.MODE_READ_ONLY)
-                || hasBits(ParcelFileDescriptor.MODE_READ_WRITE)) {
+            if (hasBits(ParcelFileDescriptor.MODE_READ_ONLY) ||
+                hasBits(ParcelFileDescriptor.MODE_READ_WRITE)
+            ) {
                 this += StandardOpenOption.READ
             }
-            if (hasBits(ParcelFileDescriptor.MODE_WRITE_ONLY)
-                || hasBits(ParcelFileDescriptor.MODE_READ_WRITE)) {
+            if (hasBits(ParcelFileDescriptor.MODE_WRITE_ONLY) ||
+                hasBits(ParcelFileDescriptor.MODE_READ_WRITE)
+            ) {
                 this += StandardOpenOption.WRITE
             }
             if (hasBits(ParcelFileDescriptor.MODE_CREATE)) {
@@ -252,7 +255,7 @@ class FileProvider : ContentProvider() {
             FileNotFoundException(message).apply { initCause(this@toFileNotFoundException) }
         }
 
-    private class ChannelCallback (
+    private class ChannelCallback(
         private val channel: SeekableByteChannel
     ) : ProxyFileDescriptorCallbackCompat() {
         private var offset = 0L

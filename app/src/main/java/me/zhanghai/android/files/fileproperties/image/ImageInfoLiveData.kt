@@ -11,6 +11,7 @@ import android.util.Size
 import androidx.exifinterface.media.ExifInterface
 import com.caverock.androidsvg.SVG
 import java8.nio.file.Path
+import kotlin.math.roundToInt
 import me.zhanghai.android.files.file.MimeType
 import me.zhanghai.android.files.fileproperties.PathObserverLiveData
 import me.zhanghai.android.files.provider.common.getLastModifiedTime
@@ -22,7 +23,6 @@ import me.zhanghai.android.files.util.Success
 import me.zhanghai.android.files.util.valueCompat
 import okio.buffer
 import okio.source
-import kotlin.math.roundToInt
 
 class ImageInfoLiveData(
     path: Path,
@@ -42,8 +42,8 @@ class ImageInfoLiveData(
                         val svg = path.newInputStream()
                             // It seems we need Okio for SVG parser to work for files with entities.
                             // Something weird is going on with buffering and mark/reset.
-                            //.buffer()
-                            //.use { SVG.getFromInputStream(it) }
+                            // .buffer()
+                            // .use { SVG.getFromInputStream(it) }
                             .source()
                             .buffer()
                             .use { SVG.getFromInputStream(it.inputStream()) }

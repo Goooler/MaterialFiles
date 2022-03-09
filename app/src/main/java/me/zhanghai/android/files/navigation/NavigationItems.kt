@@ -237,7 +237,8 @@ private val DEFAULT_STANDARD_DIRECTORIES = listOf(
     ),
     StandardDirectory(
         R.drawable.document_icon_white_24dp, R.string.navigation_standard_directory_documents,
-        Environment.DIRECTORY_DOCUMENTS, false),
+        Environment.DIRECTORY_DOCUMENTS, false
+    ),
     StandardDirectory(
         R.drawable.download_icon_white_24dp, R.string.navigation_standard_directory_downloads,
         Environment.DIRECTORY_DOWNLOADS, true
@@ -270,17 +271,20 @@ private val DEFAULT_STANDARD_DIRECTORIES = listOf(
     StandardDirectory(
         R.drawable.qq_icon_white_24dp, R.string.navigation_standard_directory_qq,
         listOf("Android/data/com.tencent.mobileqq/Tencent/QQfile_recv", "Tencent/QQfile_recv")
-            .joinToString(relativePathSeparator), true
+            .joinToString(relativePathSeparator),
+        true
     ),
     StandardDirectory(
         R.drawable.tim_icon_white_24dp, R.string.navigation_standard_directory_tim,
         listOf("Android/data/com.tencent.tim/Tencent/TIMfile_recv", "Tencent/TIMfile_recv")
-            .joinToString(relativePathSeparator), true
+            .joinToString(relativePathSeparator),
+        true
     ),
     StandardDirectory(
         R.drawable.wechat_icon_white_24dp, R.string.navigation_standard_directory_wechat,
         listOf("Android/data/com.tencent.mm/MicroMsg/Download", "Tencent/MicroMsg/Download")
-            .joinToString(relativePathSeparator), true
+            .joinToString(relativePathSeparator),
+        true
     )
 )
 

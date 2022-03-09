@@ -7,14 +7,14 @@ package me.zhanghai.android.files.provider.archive
 
 import android.os.Parcel
 import android.os.Parcelable
+import java.io.IOException
+import java.io.InputStream
 import java8.nio.file.Path
 import me.zhanghai.android.files.provider.common.ByteString
 import me.zhanghai.android.files.provider.common.ByteStringListPathCreator
 import me.zhanghai.android.files.provider.remote.RemoteFileSystemException
 import me.zhanghai.android.files.provider.root.RootableFileSystem
 import org.apache.commons.compress.archivers.ArchiveEntry
-import java.io.IOException
-import java.io.InputStream
 
 internal class ArchiveFileSystem(
     provider: ArchiveFileSystemProvider,
@@ -22,7 +22,8 @@ internal class ArchiveFileSystem(
 ) : RootableFileSystem(
     { LocalArchiveFileSystem(it as ArchiveFileSystem, provider, archiveFile) },
     { RootArchiveFileSystem(it) }
-), ByteStringListPathCreator {
+),
+    ByteStringListPathCreator {
     override val localFileSystem: LocalArchiveFileSystem
         get() = super.localFileSystem as LocalArchiveFileSystem
 

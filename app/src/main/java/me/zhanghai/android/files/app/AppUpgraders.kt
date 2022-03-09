@@ -232,13 +232,17 @@ internal fun upgradeAppTo1_2_0() {
 
 private fun migrateStoragesSetting1_2_0() {
     val key = application.getString(R.string.pref_key_storages)
-    val storages = (listOf(FileSystemRoot(null, true), PrimaryStorageVolume(null, true))
-        + DocumentTreeUri.persistedUris.map {
-            DocumentTree(
-                null, it.storageVolume?.getDescriptionCompat(application) ?: it.displayName
-                    ?: it.value.toString(), it
-            )
-        })
+    val storages = (
+        listOf(FileSystemRoot(null, true), PrimaryStorageVolume(null, true)) +
+            DocumentTreeUri.persistedUris.map {
+                DocumentTree(
+                    null,
+                    it.storageVolume?.getDescriptionCompat(application) ?: it.displayName
+                        ?: it.value.toString(),
+                    it
+                )
+            }
+        )
     val bytes = Parcel.obtain().use { parcel ->
         parcel.writeValue(storages)
         parcel.marshall()

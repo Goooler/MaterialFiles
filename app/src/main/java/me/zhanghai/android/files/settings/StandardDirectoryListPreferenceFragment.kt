@@ -16,7 +16,8 @@ import me.zhanghai.android.files.navigation.getExternalStorageDirectory
 import me.zhanghai.android.files.util.getColorByAttr
 import me.zhanghai.android.files.util.valueCompat
 
-class StandardDirectoryListPreferenceFragment : PreferenceFragmentCompatFixIssue201(),
+class StandardDirectoryListPreferenceFragment :
+    PreferenceFragmentCompatFixIssue201(),
     Preference.OnPreferenceClickListener {
     override fun onCreatePreferencesFix(
         savedInstanceState: Bundle?,

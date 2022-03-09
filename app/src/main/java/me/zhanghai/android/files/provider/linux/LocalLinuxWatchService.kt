@@ -7,12 +7,23 @@ package me.zhanghai.android.files.provider.linux
 
 import android.system.OsConstants
 import android.system.StructPollfd
+import java.io.Closeable
+import java.io.FileDescriptor
+import java.io.IOException
+import java.io.InterruptedIOException
+import java.util.LinkedList
+import java.util.Queue
+import java.util.concurrent.atomic.AtomicInteger
 import java8.nio.file.ClosedWatchServiceException
 import java8.nio.file.LinkOption
 import java8.nio.file.Path
 import java8.nio.file.StandardWatchEventKinds
 import java8.nio.file.WatchEvent
 import java8.nio.file.attribute.BasicFileAttributes
+import kotlin.coroutines.Continuation
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 import kotlinx.coroutines.runBlocking
 import me.zhanghai.android.files.provider.FileSystemProviders
 import me.zhanghai.android.files.provider.common.AbstractWatchService
@@ -21,17 +32,6 @@ import me.zhanghai.android.files.provider.linux.syscall.Constants
 import me.zhanghai.android.files.provider.linux.syscall.SyscallException
 import me.zhanghai.android.files.provider.linux.syscall.Syscalls
 import me.zhanghai.android.files.util.hasBits
-import java.io.Closeable
-import java.io.FileDescriptor
-import java.io.IOException
-import java.io.InterruptedIOException
-import java.util.LinkedList
-import java.util.Queue
-import java.util.concurrent.atomic.AtomicInteger
-import kotlin.coroutines.Continuation
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 internal class LocalLinuxWatchService : AbstractWatchService<LocalLinuxWatchKey>() {
     private val poller = Poller(this)
@@ -329,11 +329,15 @@ internal class LocalLinuxWatchService : AbstractWatchService<LocalLinuxWatchKey>
                     StandardWatchEventKinds.ENTRY_CREATE ->
                         mask = mask or (Constants.IN_CREATE or Constants.IN_MOVED_TO)
                     StandardWatchEventKinds.ENTRY_DELETE ->
-                        mask = mask or (Constants.IN_DELETE_SELF or Constants.IN_DELETE
-                            or Constants.IN_MOVED_FROM)
+                        mask = mask or (
+                            Constants.IN_DELETE_SELF or Constants.IN_DELETE
+                                or Constants.IN_MOVED_FROM
+                            )
                     StandardWatchEventKinds.ENTRY_MODIFY ->
-                        mask = mask or (Constants.IN_MOVE_SELF or Constants.IN_MODIFY
-                            or Constants.IN_ATTRIB)
+                        mask = mask or (
+                            Constants.IN_MOVE_SELF or Constants.IN_MODIFY
+                                or Constants.IN_ATTRIB
+                            )
                 }
             }
             return mask
@@ -343,11 +347,11 @@ internal class LocalLinuxWatchService : AbstractWatchService<LocalLinuxWatchKey>
             when {
                 mask.hasBits(Constants.IN_CREATE) || mask.hasBits(Constants.IN_MOVED_TO) ->
                     StandardWatchEventKinds.ENTRY_CREATE
-                mask.hasBits(Constants.IN_DELETE_SELF) || mask.hasBits(Constants.IN_DELETE)
-                    || mask.hasBits(Constants.IN_MOVED_FROM) ->
+                mask.hasBits(Constants.IN_DELETE_SELF) || mask.hasBits(Constants.IN_DELETE) ||
+                    mask.hasBits(Constants.IN_MOVED_FROM) ->
                     StandardWatchEventKinds.ENTRY_DELETE
-                mask.hasBits(Constants.IN_MOVE_SELF) || mask.hasBits(Constants.IN_MODIFY)
-                    || mask.hasBits(Constants.IN_ATTRIB) -> StandardWatchEventKinds.ENTRY_MODIFY
+                mask.hasBits(Constants.IN_MOVE_SELF) || mask.hasBits(Constants.IN_MODIFY) ||
+                    mask.hasBits(Constants.IN_ATTRIB) -> StandardWatchEventKinds.ENTRY_MODIFY
                 else -> throw AssertionError(mask)
             }
 

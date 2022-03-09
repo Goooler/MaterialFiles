@@ -6,6 +6,7 @@
 package me.zhanghai.android.files.provider.sftp.client
 
 import android.os.Parcelable
+import java.io.IOException
 import kotlinx.parcelize.Parcelize
 import net.schmizz.sshj.DefaultConfig
 import net.schmizz.sshj.common.Factory
@@ -15,7 +16,6 @@ import net.schmizz.sshj.userauth.method.AuthMethod
 import net.schmizz.sshj.userauth.method.AuthPassword
 import net.schmizz.sshj.userauth.method.AuthPublickey
 import net.schmizz.sshj.userauth.password.PasswordUtils
-import java.io.IOException
 
 sealed class Authentication : Parcelable {
     abstract fun toAuthMethod(): AuthMethod

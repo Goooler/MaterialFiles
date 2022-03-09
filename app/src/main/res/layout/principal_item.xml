@@ -5,16 +5,15 @@
   ~ All Rights Reserved.
   -->
 
-<me.zhanghai.android.files.ui.CheckableForegroundLinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<me.zhanghai.android.files.ui.CheckableForegroundLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/itemLayout"
     android:layout_width="match_parent"
     android:layout_height="?listPreferredItemHeight"
-    android:paddingStart="?dialogPreferredPadding"
-    android:paddingEnd="?dialogPreferredPadding"
     android:foreground="?selectableItemBackground"
     android:gravity="center_vertical"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingStart="?dialogPreferredPadding"
+    android:paddingEnd="?dialogPreferredPadding">
 
     <ImageView
         android:id="@+id/iconImage"
@@ -24,10 +23,10 @@
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_weight="1"
         android:layout_height="wrap_content"
         android:layout_marginStart="?dialogPreferredPadding"
         android:layout_marginEnd="?dialogPreferredPadding"
+        android:layout_weight="1"
         android:orientation="vertical">
 
         <TextView

@@ -5,9 +5,9 @@
 
 package me.zhanghai.android.files.provider.remote
 
+import java.io.IOException
 import java8.nio.file.attribute.FileAttributeView
 import me.zhanghai.android.files.provider.common.PosixFileStore
-import java.io.IOException
 
 abstract class RemotePosixFileStore(
     private val remoteInterface: RemoteInterface<IRemotePosixFileStore>
