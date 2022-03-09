@@ -6,7 +6,6 @@
 package me.zhanghai.android.files.provider.sftp.client
 
 import java.io.IOException
-import java.io.InterruptedIOException
 import java.nio.ByteBuffer
 import java.nio.channels.AsynchronousCloseException
 import java.nio.channels.ClosedByInterruptException

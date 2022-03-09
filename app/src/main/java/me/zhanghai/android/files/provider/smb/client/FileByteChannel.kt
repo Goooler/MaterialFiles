@@ -30,7 +30,6 @@ import me.zhanghai.android.files.provider.common.ForceableChannel
 import me.zhanghai.android.files.util.closeSafe
 import me.zhanghai.android.files.util.findCauseByClass
 
-
 class FileByteChannel(
     private val file: File,
     private val isAppend: Boolean
