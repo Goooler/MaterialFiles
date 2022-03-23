@@ -15,12 +15,7 @@ class TrailLiveData : LiveData<TrailData>() {
      * @param path 该路径
      */
     fun navigateTo(lastState: Parcelable, path: Path) {
-        val oldTrailData = value
-        if (oldTrailData == null) {
-            resetTo(path)
-            return
-        }
-        value = oldTrailData.navigateTo(lastState, path)
+        value = value?.navigateTo(lastState, path) ?: TrailData.of(path)
     }
 
     /**
