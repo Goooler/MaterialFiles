@@ -41,7 +41,8 @@ class FileListViewModel : ViewModel() {
             trailLiveData.navigateUp()
         }
 
-    val currentPathLiveData = trailLiveData.map { it.currentPath }
+    val currentPathLiveData: LiveData<Path> = trailLiveData.map { it.currentPath }
+
     val currentPath: Path
         get() = currentPathLiveData.valueCompat
 
