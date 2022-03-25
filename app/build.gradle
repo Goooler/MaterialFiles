@@ -140,7 +140,7 @@ dependencies {
     // Also a dependency of jCIFS-NG and Junrar.
     implementation 'org.slf4j:slf4j-android:1.7.36'
 
-    implementation platform('com.google.firebase:firebase-bom:29.2.1')
+    implementation platform('com.google.firebase:firebase-bom:29.3.0')
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-crashlytics-ndk'
 
